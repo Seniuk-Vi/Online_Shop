@@ -12,5 +12,6 @@
 </head>
 <body>
 homepage
+${currentUser.login}
 </body>
 </html>
