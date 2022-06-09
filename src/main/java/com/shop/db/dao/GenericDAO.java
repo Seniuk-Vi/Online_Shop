@@ -60,21 +60,21 @@ public abstract class GenericDAO<T> {
     }
 
     protected void add(Connection con, String sql, T item) throws SQLException {
-        List<T> list = new ArrayList<>();
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
         try {
             pstm = con.prepareStatement(sql);
             mapFromEntity(pstm, item);
-            pstm.executeQuery();
-            while (rs.next()) {
-                list.add(mapToEntity(rs));
-            }
+            pstm.executeUpdate();
+//            while (rs.next()) {
+//                list.add(mapToEntity(rs));
+//            }
 
         } catch (SQLException ex) {
             // toDO
-            throw ex;
+            System.out.println("exception");
+            System.out.println(ex.getMessage());
         } finally {
             close(pstm, rs);
         }

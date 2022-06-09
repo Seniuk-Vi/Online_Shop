@@ -7,7 +7,8 @@
 <body>
     <a href="login.jsp">Login</a><br>
     <a href="homePage.jsp">Home Page</a><br>
-    <a href="error.jsp.jsp">Error Page</a><br>
+    <a href="error.jsp">Error Page</a><br>
+    <a href="registration.jsp">Registration Page</a><br>
 
 </body>
 </html>

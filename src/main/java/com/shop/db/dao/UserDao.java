@@ -73,6 +73,7 @@ public class UserDao extends GenericDAO<User> {
         pstmt.setInt(k++, user.getRole());
         pstmt.setString(k++, user.getPassword());
         pstmt.setString(k++, user.getLocale());
+        System.out.println(pstmt.toString());
     }
 
     @Override
@@ -87,7 +88,7 @@ public class UserDao extends GenericDAO<User> {
         user.setRole(rs.getInt("role"));
         user.setPassword(rs.getString("password"));
         user.setLocale(rs.getString("locale"));
-
+        System.out.println(user);
         return user;
     }
 }

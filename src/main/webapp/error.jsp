@@ -12,5 +12,7 @@
 </head>
 <body>
     <h1>Error</h1>
+    ${errorMessage}
+    <c:remove var="errorMessage" scope="session"/>
 </body>
 </html>
