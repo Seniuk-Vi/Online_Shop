@@ -12,13 +12,13 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="controller" method="post">
-        <input type="hidden" name = "command" value="login">
-        <input name="login">
-        <input type="password" name = "password">
-        <input type="submit" value="Login">
-    </form>
-    ${errorMessage}
-    <c:remove var="errorMessage" scope="session"/>
+<form action="controller" method="post">
+    <input type="hidden" name="command" value="login">
+    <input name="login" placeholder="password">
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" value="Login">
+</form>
+${errorMessage}
+<c:remove var="errorMessage" scope="session"/>
 </body>
 </html>

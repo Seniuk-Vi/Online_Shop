@@ -2,6 +2,7 @@ package com.shop;
 
 import com.shop.db.DbHelper;
 import com.shop.models.entity.User;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -15,9 +16,7 @@ import java.sql.SQLException;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        User u = new User();
-
-        System.out.println(Double.MAX_VALUE);
-
+        String email = "leprep@sdf.as";
+        System.out.println(EmailValidator.getInstance().isValid(email));
     }
 }

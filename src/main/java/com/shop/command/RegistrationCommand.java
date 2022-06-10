@@ -1,6 +1,7 @@
 package com.shop.command;
 
 import com.shop.Validation;
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.User;
@@ -21,19 +22,20 @@ public class RegistrationCommand implements Command {
         String address = "error.jsp";
 
         //check if user is not signed in
-        HttpSession session = req.getSession(true);
-        User user = (User) session.getAttribute("currentUser");
-        if (user!= null) {
+        HttpSession session = req.getSession();
+        User user = null;
+        user = (User) session.getAttribute("currentUser");
+        System.out.println("session user ==> " + user);
+        if (user != null) {
             // if we somehow opened /login page while being already logged in, we just do redirect to catalog (/)
-            resp.sendRedirect("homePage.jsp");
+            return "homePage.jsp";
         }
-
         // get user data
-        String login = req.getParameter("login").toLowerCase().trim();
+        String login = req.getParameter("login");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String phoneNumber = req.getParameter("phoneNumber");
-        String email = req.getParameter("email").toLowerCase().trim();
+        String email = req.getParameter("email");
         String password = req.getParameter("password");
         String locale = req.getParameter("locale");
 
@@ -44,29 +46,29 @@ public class RegistrationCommand implements Command {
         registrationAttributes.put("surname", surname);
         registrationAttributes.put("phoneNumber", phoneNumber);
         registrationAttributes.put("email", email);
-        registrationAttributes.put("password",password);
+
         registrationAttributes.put("locale", locale);
 
         System.out.println(registrationAttributes);
 
         // validate
-        if(!Validation.isPasswordValid(password)) {
+        if (!Validation.isPasswordValid(password)) {
             registrationAttributes.put("errorMessage", "password don't valid");
             System.out.println("password don't valid");
-           return passErrorToView(req, resp, registrationAttributes);
+            return passErrorToView(req, resp, registrationAttributes);
         }
-//        if(!Validation.isEmailValid(email)) {
-//            registrationAttributes.put("errorMessage", "email don't valid");
-//            System.out.println("email don't valid");
-//            return  passErrorToView(req, resp, registrationAttributes);
-//
-//        }
-        if(name == null || name.isBlank()) {
+        if (!Validation.isEmailValid(email)) {
+            registrationAttributes.put("errorMessage", "email don't valid");
+            System.out.println("email don't valid");
+            return passErrorToView(req, resp, registrationAttributes);
+
+        }
+        if (name == null || name.isBlank()) {
             registrationAttributes.put("errorMessage", "name is required");
             System.out.println("name is required");
-            return  passErrorToView(req, resp, registrationAttributes);
+            return passErrorToView(req, resp, registrationAttributes);
         }
-        if(phoneNumber != null && !Validation.isPhoneValid(phoneNumber)) {
+        if (phoneNumber != null && !Validation.isPhoneValid(phoneNumber)) {
             registrationAttributes.put("errorMessage", "Password don't valid");
             System.out.println("Password don't valid");
             return passErrorToView(req, resp, registrationAttributes);
@@ -76,9 +78,9 @@ public class RegistrationCommand implements Command {
         Connection con = DbHelper.getInstance().getConnection();
         UserDao userDao = new UserDao();
         try {
-            if(userDao.findByLogin(con,login) != null) {
+            if (userDao.findByLogin(con, login) != null) {
                 registrationAttributes.put("errorMessage", "User already exist");
-              return  "error.jsp";
+                return passErrorToView(req, resp, registrationAttributes);
 
             }
         } catch (SQLException e) {
@@ -96,17 +98,17 @@ public class RegistrationCommand implements Command {
             newUser.setPassword(password);
             newUser.setLocale(locale);
             newUser.setRole(2);
-            userDao.add(con,newUser);
+            userDao.add(con, newUser);
             System.out.println("user was added");
-        } catch (Exception e) {
+        } catch (DbException e) {
             registrationAttributes.put("errorMessage", "can't add user");
             System.out.println("can't add user");
-           return passErrorToView(req, resp, registrationAttributes);
+            return passErrorToView(req, resp, registrationAttributes);
         }
 
         // put user into session
         try {
-            user = userDao.findByLogin(con,login);
+            user = userDao.findByLogin(con, login);
         } catch (SQLException e) {
             System.out.println("user was added, but can't found him");
         }
@@ -117,9 +119,10 @@ public class RegistrationCommand implements Command {
 
 
     }
+
     private String passErrorToView(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
-        for(Map.Entry<String, String> entry : viewAttributes.entrySet())
+        for (Map.Entry<String, String> entry : viewAttributes.entrySet())
             request.getSession().setAttribute(entry.getKey(), entry.getValue());
-       return "registration.jsp";
+        return "registration.jsp";
     }
 }

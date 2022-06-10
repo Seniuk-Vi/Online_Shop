@@ -11,7 +11,7 @@ public class Product implements Serializable {
     private String imageUrl;
     private int modelYear;
     private int inStock;
-    private Category category;
+    private String category;
     private String condition;
 
     public long getId() {
@@ -70,11 +70,11 @@ public class Product implements Serializable {
         this.inStock = inStock;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

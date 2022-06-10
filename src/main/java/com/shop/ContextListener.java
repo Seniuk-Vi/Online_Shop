@@ -4,9 +4,10 @@ import com.shop.db.DbHelper;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.sql.Connection;
 import java.sql.SQLException;
-
+@WebListener
 public class ContextListener implements ServletContextListener {
 
     @Override

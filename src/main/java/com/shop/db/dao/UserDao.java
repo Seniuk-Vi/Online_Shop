@@ -1,5 +1,6 @@
 package com.shop.db.dao;
 
+import com.shop.db.DbException;
 import com.shop.models.entity.User;
 
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public class UserDao extends GenericDAO<User> {
     }
 
 
-    public void add(Connection con, User user) throws SQLException {
+    public void add(Connection con, User user) throws DbException {
         add(con, SQL_ADD_USER, user);
 
 
@@ -54,7 +55,7 @@ public class UserDao extends GenericDAO<User> {
 
 
     public void update(Connection con, User user, User newUser) throws SQLException {
-        updateByField(con,SQL_UPDATE_USER,user,9,user.getId());
+        updateByField(con,SQL_UPDATE_USER,newUser,9,user.getId());
     }
 
 

@@ -12,6 +12,9 @@ public class CommandContainer {
 
         commands.put("login",new LoginCommand());
         commands.put("registration",new RegistrationCommand());
+        commands.put("addProduct",new AddProductCommand());
+        commands.put("addCategory",new AddCategoryCommand());
+        commands.put("showProducts",new DisplayTableCommand());
        // commands.put("")
     }
     public static Command getCommand(String commandName) {

@@ -13,15 +13,15 @@
 </head>
 <body>
 <form action="controller" method="post">
-    <input type="hidden" name = "command" value="registration">
-    <input name="login">
-    <input name="name">
-    <input name="surname">
-    <input type="number" name="phoneNumber">
-    <input  name="email">
-    <input type="password" name = "password">
-    <input name = "locale">
-    <input type="submit" value="Login">
+    <input type="hidden" name = "command" value="registration"><br>
+    <input name="login"><br>
+    <input name="name"><br>
+    <input name="surname"><br>
+    <input type="number" name="phoneNumber"><br>
+    <input  name="email"><br>
+    <input type="password" name = "password"><br>
+    <input name = "locale"><br>
+    <input type="submit" value="Login"><br>
 </form>
 ${errorMessage}
 <c:remove var="errorMessage" scope="session"/>

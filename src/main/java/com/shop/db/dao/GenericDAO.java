@@ -1,5 +1,6 @@
 package com.shop.db.dao;
 
+import com.shop.db.DbException;
 import com.shop.models.entity.User;
 
 import java.sql.Connection;
@@ -59,7 +60,7 @@ public abstract class GenericDAO<T> {
 
     }
 
-    protected void add(Connection con, String sql, T item) throws SQLException {
+    protected void add(Connection con, String sql, T item) throws DbException {
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
@@ -67,14 +68,11 @@ public abstract class GenericDAO<T> {
             pstm = con.prepareStatement(sql);
             mapFromEntity(pstm, item);
             pstm.executeUpdate();
-//            while (rs.next()) {
-//                list.add(mapToEntity(rs));
-//            }
-
         } catch (SQLException ex) {
             // toDO
             System.out.println("exception");
             System.out.println(ex.getMessage());
+            throw new DbException("Cant add"+item.getClass().getSimpleName().toString(),ex);
         } finally {
             close(pstm, rs);
         }
@@ -96,7 +94,7 @@ public abstract class GenericDAO<T> {
                     pstm.setInt(parameterIndex, (Integer) value);
                     break;
                 default:
-                    throw new IllegalArgumentException("Can't find by field");
+                    throw new IllegalArgumentException("Can't find by field ==> "+value);
             }
             if (pstm.executeUpdate() == 0) {
                 System.out.println("Not updated");
