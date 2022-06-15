@@ -22,7 +22,7 @@ public class Controller extends HttpServlet {
 
         // get command name
         String commandName = req.getParameter("command");
-
+        System.out.println(commandName);
         // get command
         Command command = CommandContainer.getCommand(commandName);
 

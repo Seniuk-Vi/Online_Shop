@@ -1,46 +1,28 @@
 <%@include file="/jspf/header.jspf" %>
 
-<html>
+<html lang="en">
 <head>
-    <title>Main page</title>
+    <title>Main</title>
     <%@include file="/jspf/head.jspf" %>
 
 </head>
+<body class="menu">
 
-<body>
-
-</body>
-
-</html>
+<%@include file="/jspf/navbar.jspf" %>
 
 
-<%--    <a href="login.jsp">Login</a><br>--%>
-<%--    <a href="homePage.jsp">Home Page</a><br>--%>
-<%--    <a href="error.jsp">Error Page</a><br>--%>
-<%--    <a href="registration.jsp">Registration Page</a><br>--%>
-<%--    <a href="addProduct.jsp">Add Product Page</a><br>--%>
-<%--    <a href="addCategory.jsp">Add Category Page</a><br>--%>
-<%--    <form action="controller" method="post">--%>
-<%--        <input type="hidden" name="command" value="showProducts"><br>--%>
-<%--        <input type="submit" value="Show tables">--%>
-<%--    </form>--%>
-<%--    <hr>--%>
-<%--    <form action="controller" method="post">--%>
-<%--        <input type="hidden" name="command" value="addToCart"><br>--%>
-<%--        <input name="product_id" placeholder="product_id"><br>--%>
-<%--        <input type="number" name="quantity" placeholder="quantity"><br>--%>
-<%--        <input type="submit" value="add to cart">--%>
-<%--    </form>--%>
-<%--    <hr>--%>
-<%--    <form action="controller" method="post">--%>
-<%--        <input type="hidden" name="command" value="makeOrder"><br>--%>
-<%--        <input name="status" placeholder="status"><br>--%>
-<%--        <input name="order_date" placeholder="order_date"><br>--%>
-<%--        <input type="submit" value="make order">--%>
-<%--    </form>--%>
+
+<div class="intro">
+    <div class="container">
+        <div class="intro_inner">
+            <h1 class="intro_title">Let's see cats!</h1>
+            <a class="intro_btn" href="controller?command=showHomePage"><span class="flip">go home page</span></a>
+        </div>
+    </div>
+</div>
+
+
 
 
 </body>
 </html>
-
-

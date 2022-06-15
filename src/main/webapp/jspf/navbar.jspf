@@ -1,68 +1,25 @@
-<nav class="navbar navbar-expand-lg">
+<header class="header">
     <div class="container">
-        <a class="navbar-brand" href="#">Shop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav me-auto my-2 my-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categories</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Lang
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                        <li><a class="dropdown-item" href="#">ua</a></li>
-                        <li><a class="dropdown-item" href="#">eng</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <c:choose>
-                    <c:when test="${sessionScope.currentUser == null}">
-                        <div>
-                            <li class="nav-item">
-                                <a class="nav-link" href="login.jsp">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="registration.jsp">registration</a>
-                            </li>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="flex-shrink-0 dropdown dropstart">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">${currentUser.name}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="logout.jsp">sign out</a>
-                            </li>
-                            <c:choose>
-                                <c:when test="${sessionScope.currentUser != null && sessionScope.currentUser.role==1}">
-                                    <li class="nav-item"><a class="nav-link"  href="addProduct.jsp">addProduct</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="addCategory.jsp">addCategory</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                </c:when>
-                            </c:choose>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+        <div class="header_inner">
+            <div class="logo">Main</div>
+
+            <nav>
+                <a class="nav_link_hold" href="#">Main</a>
+
+                <a class="nav_link" href="main.html">Cats</a>
+                <a class="nav_link" href="rate.html">Rate Cats</a>
+                <a class="nav_link" href="info.html">Info</a>
+                <a href="displayCart.jsp" class="nav_link">
+                    <c:if test="${cart.size() > 0}">
+                    <p>Cart:   <c:out value="${cart.size()}"/><p>
+                    </c:if>
+                    <c:if test="${empty cart.size() }">
+                    <p>Cart:   <c:out value="0"/><p>
+                    </c:if>
+                </a>
+
+
+            </nav>
         </div>
     </div>
-</nav>
+</header>

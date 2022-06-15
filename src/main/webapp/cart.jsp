@@ -10,7 +10,7 @@
 <body class="main">
 
 <%@include file="/jspf/navbar.jspf" %><br>
-<%@include file="/jspf/products.jspf" %>
+<%@include file="/jspf/carts.jspf" %>
 
 </body>
 </html>

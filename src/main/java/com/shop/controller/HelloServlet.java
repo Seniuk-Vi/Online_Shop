@@ -14,7 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(value = "")
+
 public class HelloServlet extends HttpServlet {
 
 

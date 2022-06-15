@@ -2,6 +2,7 @@ package com.shop.db.dao;
 
 import com.shop.db.DbException;
 import com.shop.models.entity.Product;
+import com.shop.models.entity.User;
 
 
 import java.sql.Connection;
@@ -14,6 +15,7 @@ public class ProductDao extends GenericDAO<Product> {
 
 
     public String SQL_GET_ALL_PRODUCTS = "SELECT * FROM product";
+    public String SQL_FIND_BY_ID = "SELECT * FROM product where id=?";
 
     public static final String SQL_ADD_PRODUCT = "INSERT INTO product (title,description,price,image_url,model_year,in_stock,category,state) "
             + "VALUES" + "(?,?,?,?,?,?,?,?)";
@@ -27,7 +29,13 @@ public class ProductDao extends GenericDAO<Product> {
         list = findAll(con, SQL_GET_ALL_PRODUCTS);
         return list;
     }
-
+    public Product findById(Connection con, long id) throws SQLException {
+        List<Product> list = findByField(con, SQL_FIND_BY_ID, id);
+        if (list.isEmpty()) {
+            throw new SQLException("Can't find by id");
+        }
+        return list.get(0);
+    }
     public void add(Connection con, Product product) throws DbException {
         add(con, SQL_ADD_PRODUCT, product);
 

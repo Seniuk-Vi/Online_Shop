@@ -4,8 +4,11 @@ import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.CategoryDao;
 import com.shop.db.dao.OrderItemDao;
+import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Category;
+import com.shop.models.entity.Order;
 import com.shop.models.entity.OrderItem;
+import com.shop.models.entity.Product;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,35 +16,43 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class AddToCartCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String address = "displayCart.jsp";
+        String address = "homePage.jsp";
 
         OrderItemDao orderItemDao = new OrderItemDao();
         OrderItem orderItem = new OrderItem();
 
+        ProductDao productDao = new ProductDao();
+        Product product = new Product();
+
+        Connection con = DbHelper.getInstance().getConnection();
         // int orderId = Integer.parseInt(req.getParameter("order_id"));
         int productId = Integer.parseInt(req.getParameter("product_id"));
-        int quantity = Integer.parseInt(req.getParameter("quantity"));
+
 
         // todo check if param is valid
 
         //
 
         orderItem.setProductId(productId);
-        orderItem.setQuantity(quantity);
+        orderItem.setQuantity(1);
 
-        ArrayList<OrderItem> orderItems = null;
+        Map<Product,OrderItem> orderItems = null;
+
         try {
-            orderItems = (ArrayList<OrderItem>) req.getSession().getAttribute("cart");
+            orderItems = (Map<Product, OrderItem>) req.getSession().getAttribute("cart");
             if(orderItems==null){
-                orderItems= new ArrayList<>();
+                orderItems= new HashMap<Product, OrderItem>();
             }
-            orderItems.add(orderItem);
+            product = productDao.findById(con,productId);
+            orderItems.put(product,orderItem);
+            con.close();
             req.getSession().setAttribute("cart", orderItems);
         } catch (Exception ex) {
             System.out.println("Can't add to cart ==> " + orderItem);
@@ -49,7 +60,8 @@ public class AddToCartCommand implements Command {
             req.getSession().setAttribute("errorMessage", "Can't add to cart!!");
         }
         System.out.println("orderItems ==> "+orderItems.toString());
-
+        ShowHomePageCommand s = new ShowHomePageCommand();
+        address = s.execute(req, resp);
         return address;
 
     }

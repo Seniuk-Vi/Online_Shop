@@ -1,18 +1,18 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<%@include file="/jspf/header.jspf" %>
+
+<html lang="en">
 <head>
-    <title>Cart</title>
+  <title>Home page</title>
+  <%@include file="/jspf/head.jspf" %>
+
 </head>
-<body>
-<table>
-  <c:forEach items="${cart}" var="row">
-    <tr>
-      <td>${row.orderId}</td>
-      <td>${row.productId}</td>
-      <td>${row.quantity}</td>
-    </tr>
-  </c:forEach>
-</table>
+
+<body class="main">
+
+<%@include file="/jspf/navbar.jspf" %><br>
+<%@include file="/jspf/carts.jspf" %>
+
 </body>
 </html>
+
+
