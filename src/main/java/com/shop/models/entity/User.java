@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private long id;
+    private int id;
     private String login;
     private String name;
     private String surname;
@@ -34,11 +34,11 @@ public class User implements Serializable {
 //        this.locale = locale;
 //    }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

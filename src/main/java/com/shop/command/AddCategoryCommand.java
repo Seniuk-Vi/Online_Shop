@@ -7,10 +7,13 @@ import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Category;
 import com.shop.models.entity.Product;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 
 public class AddCategoryCommand implements Command {
 
@@ -45,5 +48,9 @@ public class AddCategoryCommand implements Command {
         return address;
 
     }
-
+    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
+        for (Map.Entry<String, String> entry : viewAttributes.entrySet())
+            request.getSession().setAttribute(entry.getKey(), entry.getValue());
+        return "registration.jsp";
+    }
 }

@@ -2,6 +2,8 @@ package com.shop.models.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Order implements Serializable {
@@ -40,8 +42,16 @@ public class Order implements Serializable {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setOrderDate(String orderDate) {
+        String sDate1="31/12/1998";
+        Date date1= null;
+        try {
+            date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+        } catch (ParseException e) {
+            System.out.println("Exception: can't parse String to Date");
+        }
+        System.out.println(sDate1+"\t"+date1);
+        this.orderDate = date1;
     }
 
 

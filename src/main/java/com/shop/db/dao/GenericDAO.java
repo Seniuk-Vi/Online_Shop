@@ -1,7 +1,6 @@
 package com.shop.db.dao;
 
 import com.shop.db.DbException;
-import com.shop.models.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -130,10 +129,36 @@ public abstract class GenericDAO<T> {
         } finally {
             close(pstm, rs);
         }
-
-
     }
+    protected <V> void deleteByMultFields(Connection con, String sql, V ...value) throws SQLException {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        V[] values = value;
+        try {
+            pstm = con.prepareStatement(sql);
+            switch (value.getClass().getSimpleName()) {
+                case "String":
+                    for (int i = 0; i < values.length; i++) {
+                        pstm.setString(i+1, (String) values[i]);
+                    }
 
+                    break;
+                case "Integer":
+                    for (int i = 0; i < values.length; i++) {
+                        pstm.setInt(i+1, (Integer) values[i]);
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("Can't find by field");
+            }
+            if (pstm.executeUpdate() == 0) {
+                System.out.println("Not deleted");
+            }
+
+        } finally {
+            close(pstm, rs);
+        }
+    }
     private void close(PreparedStatement pstm, ResultSet rs) {
         if (pstm != null) {
             try {

@@ -67,6 +67,10 @@ public class AddProductCommand implements Command {
         return address;
 
     }
-
+    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
+        for (Map.Entry<String, String> entry : viewAttributes.entrySet())
+            request.getSession().setAttribute(entry.getKey(), entry.getValue());
+        return "registration.jsp";
+    }
 
 }

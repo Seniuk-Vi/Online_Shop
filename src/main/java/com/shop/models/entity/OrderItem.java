@@ -1,20 +1,30 @@
 package com.shop.models.entity;
 
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable {
 
         private int orderId;
 
         private int productId;
         private int quantity;
-        private double price;
 
-        public int getProduct() {
-            return productId;
-        }
+    public int getOrderId() {
+        return orderId;
+    }
 
-        public void setProduct(int productId) {
-            this.productId = productId;
-        }
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
 
         public int getQuantity() {
             return quantity;
@@ -24,13 +34,6 @@ public class OrderItem {
             this.quantity = quantity;
         }
 
-        public double getPrice() {
-            return price;
-        }
-
-        public void setPrice(double price) {
-            this.price = price;
-        }
 
 
 }

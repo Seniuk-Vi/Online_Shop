@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrationCommand implements Command {
     @Override
@@ -27,7 +27,7 @@ public class RegistrationCommand implements Command {
         user = (User) session.getAttribute("currentUser");
         System.out.println("session user ==> " + user);
         if (user != null) {
-            // if we somehow opened /login page while being already logged in, we just do redirect to catalog (/)
+            // if we want signup, but you already are logged in, we just redirect to home page
             return "homePage.jsp";
         }
         // get user data
@@ -40,7 +40,7 @@ public class RegistrationCommand implements Command {
         String locale = req.getParameter("locale");
 
         // filling map with parameters which will be passed to the view
-        Map<String, String> registrationAttributes = new HashMap<>();
+        Map<String, String> registrationAttributes = new ConcurrentHashMap<>();
         registrationAttributes.put("login", login);
         registrationAttributes.put("name", name);
         registrationAttributes.put("surname", surname);
@@ -55,23 +55,23 @@ public class RegistrationCommand implements Command {
         if (!Validation.isPasswordValid(password)) {
             registrationAttributes.put("errorMessage", "password don't valid");
             System.out.println("password don't valid");
-            return passErrorToView(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         }
         if (!Validation.isEmailValid(email)) {
             registrationAttributes.put("errorMessage", "email don't valid");
             System.out.println("email don't valid");
-            return passErrorToView(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
 
         }
         if (name == null || name.isBlank()) {
             registrationAttributes.put("errorMessage", "name is required");
             System.out.println("name is required");
-            return passErrorToView(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         }
         if (phoneNumber != null && !Validation.isPhoneValid(phoneNumber)) {
             registrationAttributes.put("errorMessage", "Password don't valid");
             System.out.println("Password don't valid");
-            return passErrorToView(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         }
 
         // all request parameters are valid
@@ -80,7 +80,7 @@ public class RegistrationCommand implements Command {
         try {
             if (userDao.findByLogin(con, login) != null) {
                 registrationAttributes.put("errorMessage", "User already exist");
-                return passErrorToView(req, resp, registrationAttributes);
+                return passAttributesToSession(req, resp, registrationAttributes);
 
             }
         } catch (SQLException e) {
@@ -103,7 +103,7 @@ public class RegistrationCommand implements Command {
         } catch (DbException e) {
             registrationAttributes.put("errorMessage", "can't add user");
             System.out.println("can't add user");
-            return passErrorToView(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         }
 
         // put user into session
@@ -115,12 +115,14 @@ public class RegistrationCommand implements Command {
         con.close();
         session = req.getSession(true);
         session.setAttribute("currentUser", user);
-        return "homePage.jsp";
+        ShowHomePageCommand s = new ShowHomePageCommand();
+        address = s.execute(req,resp);
+        return address;
 
 
     }
 
-    private String passErrorToView(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
+    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
         for (Map.Entry<String, String> entry : viewAttributes.entrySet())
             request.getSession().setAttribute(entry.getKey(), entry.getValue());
         return "registration.jsp";

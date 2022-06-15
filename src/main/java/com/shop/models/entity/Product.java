@@ -85,4 +85,19 @@ public class Product implements Serializable {
     public void setCondition(String condition) {
         this.condition = condition;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", modelYear=" + modelYear +
+                ", inStock=" + inStock +
+                ", category='" + category + '\'' +
+                ", condition='" + condition + '\'' +
+                '}';
+    }
 }
