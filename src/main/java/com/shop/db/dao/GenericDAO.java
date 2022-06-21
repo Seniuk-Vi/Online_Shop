@@ -2,10 +2,7 @@ package com.shop.db.dao;
 
 import com.shop.db.DbException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +38,11 @@ public abstract class GenericDAO<T> {
                 case "String":
                     pstm.setString(1, (String) value);
                     break;
-                case "Long":
-                    pstm.setLong(1, (Long) value);
+                case "Integer":
+                    pstm.setInt(1, (Integer) value);
                     break;
                 default:
-                    throw new IllegalArgumentException("Can't find by field");
+                    throw new IllegalArgumentException("Can't find by field ==> "+value.getClass().getSimpleName() +sql);
             }
             rs = pstm.executeQuery();
             while (rs.next()) {
@@ -59,23 +56,40 @@ public abstract class GenericDAO<T> {
 
     }
 
-    protected void add(Connection con, String sql, T item) throws DbException {
+    protected int add(Connection con, String sql, T item) throws DbException {
         PreparedStatement pstm = null;
         ResultSet rs = null;
+        int id = -1;
 
         try {
-            pstm = con.prepareStatement(sql);
+            // add item
+            pstm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             mapFromEntity(pstm, item);
-            pstm.executeUpdate();
+            int affectedRows = pstm.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            // get id
+            try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1);
+                }
+            } catch (SQLException e) {
+                System.out.println("Can't get generated keys");
+
+            }
         } catch (SQLException ex) {
             // toDO
-            System.out.println("exception");
+            System.out.println("Cant add" + item.getClass().getSimpleName().toString());
             System.out.println(ex.getMessage());
-            throw new DbException("Cant add"+item.getClass().getSimpleName().toString(),ex);
+            throw new DbException("Cant add" + item.getClass().getSimpleName().toString(), ex);
         } finally {
             close(pstm, rs);
         }
 
+
+        return id;
     }
 
     protected <V> void updateByField(Connection con, String sql, T item, int parameterIndex, V value) throws SQLException {
@@ -93,7 +107,7 @@ public abstract class GenericDAO<T> {
                     pstm.setInt(parameterIndex, (Integer) value);
                     break;
                 default:
-                    throw new IllegalArgumentException("Can't find by field ==> "+value);
+                    throw new IllegalArgumentException("Can't find by field ==> " + value);
             }
             if (pstm.executeUpdate() == 0) {
                 System.out.println("Not updated");
@@ -130,7 +144,8 @@ public abstract class GenericDAO<T> {
             close(pstm, rs);
         }
     }
-    protected <V> void deleteByMultFields(Connection con, String sql, V ...value) throws SQLException {
+
+    protected <V> void deleteByMultFields(Connection con, String sql, V... value) throws SQLException {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         V[] values = value;
@@ -139,13 +154,13 @@ public abstract class GenericDAO<T> {
             switch (value.getClass().getSimpleName()) {
                 case "String":
                     for (int i = 0; i < values.length; i++) {
-                        pstm.setString(i+1, (String) values[i]);
+                        pstm.setString(i + 1, (String) values[i]);
                     }
 
                     break;
                 case "Integer":
                     for (int i = 0; i < values.length; i++) {
-                        pstm.setInt(i+1, (Integer) values[i]);
+                        pstm.setInt(i + 1, (Integer) values[i]);
                     }
                     break;
                 default:
@@ -159,6 +174,7 @@ public abstract class GenericDAO<T> {
             close(pstm, rs);
         }
     }
+
     private void close(PreparedStatement pstm, ResultSet rs) {
         if (pstm != null) {
             try {

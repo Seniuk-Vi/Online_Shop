@@ -1,6 +1,7 @@
 package com.shop.models.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class OrderItem implements Serializable {
 
@@ -34,6 +35,25 @@ public class OrderItem implements Serializable {
             this.quantity = quantity;
         }
 
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderId=" + orderId +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderItem)) return false;
+        OrderItem orderItem = (OrderItem) o;
+        return getOrderId() == orderItem.getOrderId() && getProductId() == orderItem.getProductId() && getQuantity() == orderItem.getQuantity();
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOrderId(), getProductId(), getQuantity());
+    }
 }

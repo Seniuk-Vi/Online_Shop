@@ -97,7 +97,7 @@ public class RegistrationCommand implements Command {
             newUser.setEmail(email);
             newUser.setPassword(password);
             newUser.setLocale(locale);
-            newUser.setRole(2);
+            newUser.setRole(0);
             userDao.add(con, newUser);
             System.out.println("user was added");
         } catch (DbException e) {
@@ -115,8 +115,7 @@ public class RegistrationCommand implements Command {
         con.close();
         session = req.getSession(true);
         session.setAttribute("currentUser", user);
-        ShowHomePageCommand s = new ShowHomePageCommand();
-        address = s.execute(req,resp);
+
         return address;
 
 

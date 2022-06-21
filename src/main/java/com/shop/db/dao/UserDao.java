@@ -27,7 +27,7 @@ public class UserDao extends GenericDAO<User> {
     public List<User> findAll(Connection con) throws SQLException {
         List<User> list;
         list = findAll(con, SQL_GET_ALL_USERS);
-        return null;
+        return list;
     }
 
     public User findByLogin(Connection con, String login) throws SQLException {
@@ -38,7 +38,7 @@ public class UserDao extends GenericDAO<User> {
         return list.get(0);
     }
 
-    public User findById(Connection con, long id) throws SQLException {
+    public User findById(Connection con, int id) throws SQLException {
         List<User> list = findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find by id");

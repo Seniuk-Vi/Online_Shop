@@ -8,60 +8,61 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao extends GenericDAO<Order> {
 
 
-    public String SQL_GET_ALL_ORDERS = "SELECT * FROM order";
+    public String SQL_GET_ALL_ORDERS = "SELECT * FROM ordercol";
 
-    public static final String SQL_ADD_ORDER = "INSERT INTO order (user_id,status,order_date)"
+    public static final String SQL_ADD_ORDER = "INSERT INTO ordercol (user_id,status,order_date)"
             + "VALUES" + "(?,?,?)";
 
-    public static final String SQL_FIND_BY_USER= "SELECT * FROM order WHERE user_id = ?";
-    public static final String SQL_FIND_BY_ID = "SELECT * FROM order WHERE id = ?";
+    public static final String SQL_FIND_BY_ID = "SELECT * FROM ordercol WHERE id= ?";
+    public static final String SQL_FIND_BY_USER_ID = "SELECT * FROM ordercol WHERE user_id= ?";
     public static final String SQL_UPDATE_ORDER = "UPDATE order SET" +
-            "user_id=?, status =?,order_date=?"+"WHERE id = ?";
+            "user_id=?, status =?,order_date=?" + "WHERE id = ?";
     public static final String SQL_DELETE_BY_ID = "DELETE * FROM order WHERE id = ?";
 
 
     public List<Order> findAll(Connection con) throws SQLException {
         List<Order> list;
         list = findAll(con, SQL_GET_ALL_ORDERS);
-        return null;
+        return list;
     }
 
-    public Order findByUser(Connection con, String login) throws SQLException {
-        List<Order> list = findByField(con, SQL_FIND_BY_USER, login);
-        if (list.isEmpty()) {
-            throw new SQLException("Can't find by login");
-        }
-        return list.get(0);
-    }
 
-    public Order findById(Connection con, long id) throws SQLException {
+    public Order findById(Connection con, int id) throws SQLException {
         List<Order> list = findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
-            throw new SQLException("Can't find by id");
+            throw new SQLException("Can't find order by id");
         }
         return list.get(0);
     }
+    public List<Order> findByUserId(Connection con, int id) throws SQLException {
+        System.out.println("User id = " +id);
+        List<Order> list = findByField(con, SQL_FIND_BY_USER_ID, id);
+        if (list.isEmpty()) {
+            throw new SQLException("Can't find order by user id");
+        }
+        return list;
+    }
 
-
-    public void add(Connection con, Order order) throws DbException {
-        add(con, SQL_ADD_ORDER, order);
+    public int add(Connection con, Order order) throws DbException {
+        return add(con, SQL_ADD_ORDER, order);
 
 
     }
 
 
     public void update(Connection con, Order order, Order newOrder) throws SQLException {
-        updateByField(con,SQL_UPDATE_ORDER,newOrder,4,order.getId());
+        updateByField(con, SQL_UPDATE_ORDER, newOrder, 4, order.getId());
     }
 
 
     public void delete(Connection con, Order order) throws SQLException {
-        deleteByField(con,SQL_DELETE_BY_ID,order.getId());
+        deleteByField(con, SQL_DELETE_BY_ID, order.getId());
     }
 
 
@@ -79,6 +80,7 @@ public class OrderDao extends GenericDAO<Order> {
         Order order = new Order();
         order.setId(rs.getInt("id"));
         order.setUserId(rs.getInt("user_id"));
+        order.setStatus(rs.getString("status"));
         order.setOrderDate(rs.getString("order_date"));
         System.out.println(order);
         return order;

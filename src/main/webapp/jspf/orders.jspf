@@ -1,0 +1,33 @@
+<div class="container">
+    <script src="${pageContext.request.contextPath}/js/script.js"></script>
+
+    <table id="myTable" class="show_prod">
+        <tr>
+            <th>Order id</th>
+            <th>status</th>
+            <th>Product</th>
+            <th>quantity</th>
+            <th>In stock</th>
+        </tr>
+
+
+        <c:forEach items="${orders}" var="row">
+            <tr>
+                <td>${row.key.id}</td>
+                <td>${row.key.status}</td>
+            </tr>
+            <c:forEach items="${row.value}" var="it">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>${it.value.title}</td>
+                    <td>${it.key.quantity}</td>
+                    <td>${it.value.inStock}</td>
+                </tr>
+            </c:forEach>
+        </c:forEach>
+
+    </table>
+
+
+</div>

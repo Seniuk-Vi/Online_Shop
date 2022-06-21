@@ -38,9 +38,14 @@ public class DbHelper {
         return c;
     }
 
-    // CRUD
+   public void close(Connection con){
+       try {
+           con.close();
+       } catch (SQLException e) {
+           throw new RuntimeException(e);
+       }
 
-
+   }
 
 
 

@@ -12,10 +12,19 @@
     <title>Login</title>
 </head>
 <body>
+
+    <form action="controller" method="post" onsubmit="return validate()">
+        <h1>Login</h1>
+        <input type="hidden" name="command" value="login">
+        <input id="login" type="text" placeholder="Enter Login" value="login" name="login" required>
+        <input id="password" type="password" placeholder="Enter Password"  value="loginlogin" name="password" required>
+        <button type="submit" class="btn">Login</button>
+    </form>
+
 <form action="controller" method="post">
     <input type="hidden" name="command" value="login">
-    <input name="login" placeholder="password">
-    <input type="password" name="password" placeholder="password">
+    <input name="login" placeholder="password" value="login">
+    <input type="password" name="password" placeholder="password" value="loginlogin">
     <input type="submit" value="Login">
 </form>
 ${errorMessage}

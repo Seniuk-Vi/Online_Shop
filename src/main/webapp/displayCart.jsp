@@ -8,7 +8,10 @@
 </head>
 
 <body class="main">
-
+  <c:if test="${empty currentUser}">
+    <c:redirect url="login.jsp">
+    </c:redirect>
+  </c:if>
 <%@include file="/jspf/navbar.jspf" %><br>
 <%@include file="/jspf/carts.jspf" %>
 

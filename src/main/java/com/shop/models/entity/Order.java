@@ -54,6 +54,13 @@ public class Order implements Serializable {
         this.orderDate = date1;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", status='" + status + '\'' +
+                ", orderDate=" + orderDate +
+                '}';
+    }
 }

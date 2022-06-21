@@ -1,0 +1,36 @@
+<div class="container">
+    <script src="${pageContext.request.contextPath}/js/script.js"></script>
+    <table id="myTable" class="show_prod">
+        <tr>
+            <th onclick="sortTable(0)">Login</th>
+            <th onclick="sortTable(1)">Status</th>
+        </tr>
+        <c:forEach items="${users}" var="row">
+            <tr>
+                <td>${row.login}</td>
+                <c:if test="${row.role == 2}">
+                    <td>blocked</td>
+                    <td>
+                        <form method="post" action="controller">
+                            <input type="hidden" name="command" value="unblockUser"/>
+                            <input type="hidden" name="product_id" value="${row.id}"/>
+                            <a onclick="this.parentNode.submit();">unblock user</a>
+                        </form>
+                    </td>
+                </c:if>
+                <c:if test="${row.role != 2}">
+                    <td>not blocked</td>
+                    <td>
+                        <form method="post" action="controller">
+                            <input type="hidden" name="command" value="blockUser"/>
+                            <input type="hidden" name="product_id" value="${row.id}"/>
+                            <a onclick="this.parentNode.submit();">block user</a>
+                        </form>
+                    </td>
+                </c:if>
+            </tr>
+        </c:forEach>
+    </table>
+
+
+</div>

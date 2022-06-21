@@ -1,10 +1,11 @@
 package com.shop.models.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Product implements Serializable {
 
-    private long id;
+    private int id;
     private String title;
     private String description;
     private double price;
@@ -14,11 +15,11 @@ public class Product implements Serializable {
     private String category;
     private String condition;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -99,5 +100,18 @@ public class Product implements Serializable {
                 ", category='" + category + '\'' +
                 ", condition='" + condition + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return getId() == product.getId() && Double.compare(product.getPrice(), getPrice()) == 0 && getModelYear() == product.getModelYear() && getInStock() == product.getInStock() && getTitle().equals(product.getTitle()) && getDescription().equals(product.getDescription()) && getImageUrl().equals(product.getImageUrl()) && getCategory().equals(product.getCategory()) && getCondition().equals(product.getCondition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getImageUrl(), getModelYear(), getInStock(), getCategory(), getCondition());
     }
 }

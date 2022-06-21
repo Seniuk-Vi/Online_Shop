@@ -22,8 +22,7 @@ public class LogoutCommand implements Command {
         if (user != null) {
            req.getSession().removeAttribute("currentUser");
         }
-        ShowHomePageCommand s = new ShowHomePageCommand();
-        address = s.execute(req, resp);
+
         return address;
     }
 }

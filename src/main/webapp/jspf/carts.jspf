@@ -17,13 +17,13 @@
                 <td>${row.key.title}</td>
                 <td>${row.key.price}</td>
                 <td>${row.key.inStock}</td>
-                <td>  <input type="number" name="row.key.title"  value="row.value.quantity" ></td>
+                <td>  <input type="number" name="${row.key.id}"  value="${row.value.quantity}" ></td>
                 <td>${row.key.price*row.value.quantity}</td>
 
             </tr>
         </c:forEach>
-            <input type="submit" value="make Order">
 
+            <input type="submit" value="make Order">
         </form>
     </table>
 </div>

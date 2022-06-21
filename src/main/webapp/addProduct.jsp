@@ -5,12 +5,12 @@
     <title>Login</title>
 </head>
 <body>
-<form action="controller" method="post">
+<form action="controller" method="post" enctype="multipart/form-data">
         <input type="hidden" name = "command" value="addProduct"><br>
         <input name="title" placeholder="title"><br>
         <input name = "description" placeholder="description"><br>
         <input type="number" name = "price" placeholder="price"><br>
-        <input  name = "image_url" placeholder="image"><br>
+        <input type="file" name = "image_url" placeholder="image" accept=".jpg, .jpeg, .png"><br>
         <input type="number"  name = "model_year" placeholder="model year"><br>
         <input type="number"  name = "in_stock" placeholder="in stock"><br>
         <input name = "category" placeholder="category"><br>

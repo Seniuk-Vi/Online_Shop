@@ -14,13 +14,13 @@
 <body>
 <form action="controller" method="post">
     <input type="hidden" name = "command" value="registration"><br>
-    <input name="login"><br>
-    <input name="name"><br>
-    <input name="surname"><br>
-    <input type="number" name="phoneNumber"><br>
-    <input  name="email"><br>
-    <input type="password" name = "password"><br>
-    <input name = "locale"><br>
+    <input name="login" placeholder="login"><br>
+    <input name="name" placeholder="name"><br>
+    <input name="surname" placeholder="surname"><br>
+    <input type="number" name="phoneNumber" placeholder="phoneNumber"><br>
+    <input  name="email" placeholder="email"><br>
+    <input type="password" name = "password" placeholder="password"><br>
+    <input name = "locale" placeholder="locale"><br>
     <input type="submit" value="Login"><br>
 </form>
 ${errorMessage}

@@ -16,7 +16,7 @@
     <div class="container">
         <div class="intro_inner">
             <h1 class="intro_title">Let's see cats!</h1>
-            <a class="intro_btn" href="controller?command=showHomePage"><span class="flip">go home page</span></a>
+            <a class="intro_btn" href="homePage.jsp"><span class="flip">go home page</span></a>
         </div>
     </div>
 </div>

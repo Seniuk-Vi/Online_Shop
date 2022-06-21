@@ -29,10 +29,10 @@ public class ProductDao extends GenericDAO<Product> {
         list = findAll(con, SQL_GET_ALL_PRODUCTS);
         return list;
     }
-    public Product findById(Connection con, long id) throws SQLException {
+    public Product findById(Connection con, int id) throws SQLException {
         List<Product> list = findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
-            throw new SQLException("Can't find by id");
+            throw new SQLException("Can't find product by id");
         }
         return list.get(0);
     }

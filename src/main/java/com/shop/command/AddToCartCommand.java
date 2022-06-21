@@ -22,7 +22,9 @@ import java.util.Map;
 public class AddToCartCommand implements Command {
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp)  {
+        req.getSession().removeAttribute("errorMessageCart");
+
         String address = "homePage.jsp";
 
         OrderItemDao orderItemDao = new OrderItemDao();
@@ -43,6 +45,7 @@ public class AddToCartCommand implements Command {
         orderItem.setProductId(productId);
         orderItem.setQuantity(1);
 
+        System.out.println("OrderItem ==> "+orderItem);
         Map<Product,OrderItem> orderItems = null;
 
         try {
@@ -51,17 +54,23 @@ public class AddToCartCommand implements Command {
                 orderItems= new HashMap<Product, OrderItem>();
             }
             product = productDao.findById(con,productId);
-            orderItems.put(product,orderItem);
+
+            // don't add if this product already exists in cart
+            if(orderItems.get(product)==null){
+                orderItems.put(product,orderItem);
+            }else {
+                req.getSession().setAttribute("errorMessageCart", "This product is already in your cart");
+            }
+
             con.close();
+            req.getSession().removeAttribute("cart");
             req.getSession().setAttribute("cart", orderItems);
         } catch (Exception ex) {
             System.out.println("Can't add to cart ==> " + orderItem);
             address = "/";
-            req.getSession().setAttribute("errorMessage", "Can't add to cart!!");
+            req.getSession().setAttribute("errorMessageCart", "Can't add to cart!!");
         }
         System.out.println("orderItems ==> "+orderItems.toString());
-        ShowHomePageCommand s = new ShowHomePageCommand();
-        address = s.execute(req, resp);
         return address;
 
     }
