@@ -21,9 +21,9 @@ public class OrderDao extends GenericDAO<Order> {
 
     public static final String SQL_FIND_BY_ID = "SELECT * FROM ordercol WHERE id= ?";
     public static final String SQL_FIND_BY_USER_ID = "SELECT * FROM ordercol WHERE user_id= ?";
-    public static final String SQL_UPDATE_ORDER = "UPDATE order SET" +
-            "user_id=?, status =?,order_date=?" + "WHERE id = ?";
-    public static final String SQL_DELETE_BY_ID = "DELETE * FROM order WHERE id = ?";
+    public static final String SQL_UPDATE_ORDER = "UPDATE ordercol SET " +
+            "user_id=?, status =?, order_date=?" + " WHERE id = ?";
+    public static final String SQL_DELETE_BY_ID = "DELETE * FROM ordercol WHERE id = ?";
 
 
     public List<Order> findAll(Connection con) throws SQLException {
@@ -72,7 +72,7 @@ public class OrderDao extends GenericDAO<Order> {
         pstmt.setString(k++, order.getStatus());
         pstmt.setString(k++, order.getOrderDate().toString());
 
-        System.out.println(pstmt.toString());
+        System.out.println(pstmt);
     }
 
     @Override

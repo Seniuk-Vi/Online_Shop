@@ -13,7 +13,7 @@
                     <td>
                         <form method="post" action="controller">
                             <input type="hidden" name="command" value="unblockUser"/>
-                            <input type="hidden" name="product_id" value="${row.id}"/>
+                            <input type="hidden" name="user_id" value="${row.id}"/>
                             <a onclick="this.parentNode.submit();">unblock user</a>
                         </form>
                     </td>
@@ -23,7 +23,7 @@
                     <td>
                         <form method="post" action="controller">
                             <input type="hidden" name="command" value="blockUser"/>
-                            <input type="hidden" name="product_id" value="${row.id}"/>
+                            <input type="hidden" name="user_id" value="${row.id}"/>
                             <a onclick="this.parentNode.submit();">block user</a>
                         </form>
                     </td>

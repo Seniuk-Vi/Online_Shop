@@ -1,5 +1,6 @@
-package com.shop.command;
+package com.shop.command.admin;
 
+import com.shop.command.Command;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.db.dao.UserDao;

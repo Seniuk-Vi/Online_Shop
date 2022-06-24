@@ -19,8 +19,8 @@ public class UserDao extends GenericDAO<User> {
 
     public static final String SQL_FIND_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
     public static final String SQL_FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
-    public static final String SQL_UPDATE_USER = "UPDATE user SET login=?, name=?, surname=?, phone_number=?, email=?, role=?," +
-            "password=?,locale=?"+"WHERE login = ?";
+    public static final String SQL_UPDATE_USER = "UPDATE user SET login=?, name=?, surname=?, phone_number=?, email=?, role=?, " +
+            "password=?, locale=?"+" WHERE id = ?";
     public static final String SQL_DELETE_BY_ID = "DELETE * FROM user WHERE id = ?";
 
 
@@ -49,11 +49,7 @@ public class UserDao extends GenericDAO<User> {
 
     public void add(Connection con, User user) throws DbException {
         add(con, SQL_ADD_USER, user);
-
-
     }
-
-
     public void update(Connection con, User user, User newUser) throws SQLException {
         updateByField(con,SQL_UPDATE_USER,newUser,9,user.getId());
     }

@@ -84,7 +84,7 @@ public class RegistrationCommand implements Command {
 
             }
         } catch (SQLException e) {
-
+        e.printStackTrace();
         }
 
         // lets create user in DB and make him logged in

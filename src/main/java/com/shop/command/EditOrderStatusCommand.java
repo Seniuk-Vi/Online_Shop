@@ -16,7 +16,7 @@ public class EditOrderStatusCommand implements Command {
 
         @Override
         public String execute(HttpServletRequest req, HttpServletResponse resp) {
-            String address = "orders.jsp";
+            String address = "controller?command=showOrders";
 
             req.getSession().removeAttribute("errorMessage");
             // move to homaPage if not in
@@ -31,10 +31,12 @@ public class EditOrderStatusCommand implements Command {
                 return address;
             }
 
-            // get data
+            // get orderId and status
             int orderId;
-            if(req.getParameter("order_id")!=null){
+            String status;
+            if(req.getParameter("order_id")!=null&&req.getParameter("status")!=null){
                 orderId= Integer.parseInt(req.getParameter("order_id"));
+                status= req.getParameter("status");
             }else {
                 req.getSession().setAttribute("errorMessage", "This order doesn't exist");
                 return address;
@@ -42,6 +44,7 @@ public class EditOrderStatusCommand implements Command {
 
             // todo check data
             System.out.println("OrderId ==> " + orderId);
+            System.out.println("New status ==> " +status);
 
 
             // get User
@@ -51,13 +54,24 @@ public class EditOrderStatusCommand implements Command {
 
             try {
                 order = orderDao.findById(con,orderId);
+                order.setStatus(status);
+                System.out.println("1");
+                orderDao.update(con,order,order);
+                System.out.println("2");
+
             } catch (SQLException ex) {
-                System.out.println("Can't obtain order from DB");
-                req.getSession().setAttribute("errorMessage", "Can't get order");
-                return "error.jsp";
+                System.out.println("Can't change status");
+                System.out.println(ex.getMessage());
+                req.getSession().setAttribute("errorMessage", "Can't change status");
+                address =  "error.jsp";
+            }finally {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            req.getSession().setAttribute("order",order);
-            address = "editOrder.jsp";
+
             return address;
 
         }

@@ -1,5 +1,10 @@
 package com.shop.command;
 
+import com.shop.command.admin.BlockUserCommand;
+import com.shop.command.admin.EditProductCommand;
+import com.shop.command.admin.UnblockUserCommand;
+import com.shop.command.admin.UpdateUserDataCommand;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +25,13 @@ public class CommandContainer {
         commands.put("editOrderStatus", new EditOrderStatusCommand());
         commands.put("showHomePage", new ShowHomePageCommand());
         commands.put("showUserOrders", new ShowUserOrdersCommand());
+        commands.put("deleteProductFromCart", new DeleteProductFromCartCommand());
+        commands.put("increaseQuantity", new IncreaseQuantityCommand());
+        commands.put("decreaseQuantity", new DecreaseQuantityCommand());
         commands.put("showUser", new ShowUserCommand());
+        commands.put("blockUser", new BlockUserCommand());
+        commands.put("unblockUser", new UnblockUserCommand());
+        commands.put("updateUserData", new UpdateUserDataCommand());
         commands.put("showUsers", new ShowUsersCommand());
         commands.put("showOrders", new ShowOrdersCommand());
         commands.put("logout", new LogoutCommand());

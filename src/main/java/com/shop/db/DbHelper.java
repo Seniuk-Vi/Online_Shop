@@ -8,10 +8,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DbHelper {
+        DataSource ds;
 
     private static DbHelper INSTANCE;
 
-    public DbHelper() {
+    private DbHelper() {
 
     }
     public static synchronized DbHelper getInstance() {

@@ -1,28 +1,16 @@
+
 <div class="container">
-    <script src="${pageContext.request.contextPath}/js/script.js"></script>
-
-    <table id="myTable" class="show_prod">
-        <tr>
-            <th onclick="sortTable(0)">Title</th>
-            <th onclick="sortTable(1)">Price</th>
-            <th>In stock</th>
-        </tr>
+    <c:if test="${currentUser.role == 1}">
+        <a href="addProduct.jsp">add product</a>
+    </c:if>
+    <div class="row">
         <c:forEach items="${products}" var="row">
-            <tr>
-                <td>${row.title}</td>
-                <td>${row.price}</td>
-                <td>${row.inStock}</td>
-
-                    <td><form method="post" action="controller">
-                        <input type="hidden" name="command" value="addToCart" />
-                        <input type="hidden" name="product_id" value="${row.id}" />
-                        <a onclick="this.parentNode.submit();">add to cart</a>
-                    </form></td>
-
-
-            </tr>
+            <%@include file="/jspf/product.jspf" %>
+            <br>
         </c:forEach>
-    </table>
+
+
+    </div>
 
 
 </div>

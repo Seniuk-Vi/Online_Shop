@@ -109,6 +109,7 @@ public abstract class GenericDAO<T> {
                 default:
                     throw new IllegalArgumentException("Can't find by field ==> " + value);
             }
+            System.out.println(pstm);
             if (pstm.executeUpdate() == 0) {
                 System.out.println("Not updated");
             }

@@ -8,22 +8,39 @@
             <th>quantity</th>
             <th>price</th>
         </tr>
-        <form action="controller" method="post">
-            <input type="hidden" name="command" value="addOrder">
 
-        <c:forEach items="${cart}" var="row">
+
+            <c:forEach items="${cart}" var="row">
             <tr>
 
                 <td>${row.key.title}</td>
                 <td>${row.key.price}</td>
                 <td>${row.key.inStock}</td>
-                <td>  <input type="number" name="${row.key.id}"  value="${row.value.quantity}" ></td>
-                <td>${row.key.price*row.value.quantity}</td>
-
-            </tr>
+                <td>
+                    <form action="controller" method="post">
+                        <input type="hidden" name="command" value="increaseQuantity">
+                        <input type="hidden" name="product_id" value="${row.key.id}">
+                        <input type="submit" value="increase">
+                    </form>
+                    ${row.value.quantity}
+                    <form action="controller" method="post">
+                        <input type="hidden" name="command" value="decreaseQuantity">
+                        <input type="hidden" name="product_id" value="${row.key.id}">
+                        <input type="submit" value="decrease">
+                    </form>
+                </td>
+                <td> ${row.key.price*row.value.quantity}</td>
+                <td> <form action="controller" method="post">
+                    <input type="hidden" name="command" value="deleteProductFromCart">
+                    <input type="hidden" name="product_id" value="${row.key.id}">
+                    <input type="submit" value="delete">
+                </form></td>
+        </tr>
         </c:forEach>
 
-            <input type="submit" value="make Order">
-        </form>
     </table>
+    <form action="controller" method="post">
+        <input type="hidden" name="command" value="addOrder">
+        <input type="submit" value="make Order">
+    </form>
 </div>

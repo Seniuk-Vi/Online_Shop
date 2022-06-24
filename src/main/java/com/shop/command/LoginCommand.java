@@ -67,6 +67,8 @@ public class LoginCommand implements Command {
             System.out.println("Illegal login or password!");
             req.getSession().setAttribute("errorMessage", "Illegal login or password!");
             return address;
+        }finally {
+            con.close();
         }
 
 

@@ -60,9 +60,10 @@ public class Controller extends HttpServlet {
         command = CommandContainer.getCommand(commandName);
         System.out.println("command ==> "+command);
         // do action
+       // System.out.println("RealPath ==> "+getServletContext().getRealPath("images"));
 
-        //
-//        if(commandName.equals("addProduct")){
+        if(commandName.equals("addProduct")){
+            req.getSession().setAttribute("path",getServletContext().getRealPath("images/"));
 //            Part filePart = req.getPart("image_url");
 //            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 //            InputStream fileContent = filePart.getInputStream();
@@ -70,12 +71,12 @@ public class Controller extends HttpServlet {
 //            String stream = new BufferedReader(
 //                    new InputStreamReader(fileContent, StandardCharsets.UTF_8))
 //                    .lines()
-//                    .collect(Collectors.joining("\n"));
+//                    .collect(Collectors.joining(""));
 //            String imageAddress = System.getProperty("user.home");
 //            req.getSession().setAttribute("imageStream",stream);
 //            req.getSession().setAttribute("imageAddress",imageAddress);
 //            req.getSession().setAttribute("imageName",fileName);
-//        }
+        }
         try {
             address = command.execute(req, resp);
         } catch (Exception e) {

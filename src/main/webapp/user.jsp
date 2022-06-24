@@ -1,3 +1,4 @@
+
 <%@include file="/jspf/header.jspf" %>
 
 <html lang="en">
@@ -13,31 +14,30 @@
 
 <%@include file="/jspf/navbar.jspf" %>
 <br>
-
-
+<div class="container">
 <%--todo--%>
-<div> Your login: ${currentUser.login} </div>
-<br>
+<form action="controller" method="post">
+    <input type="hidden" name = "command" value="updateUserData"><br>
+    <input name="login" placeholder="login" value="${currentUser.login}"><br>
+    <input name="name" placeholder="name" value="${currentUser.name}"><br>
+    <input name="surname" placeholder="surname" value="${currentUser.surname}"><br>
+    <input  name="email" placeholder="email" value="${currentUser.email}"><br>
+    <select name="locale" >
+        <option selected value="${currentUser.locale}">${currentUser.locale}</option>
+        <option value="en">en</option>
+        <option value="uk">uk</option>
+    </select>
+    <input type="submit" value="change user data"><br>
+</form>
 
-<div> Your name: ${currentUser.name} </div>
-<div><a href="changeField.jsp">Change name ></a></div>
-<br>
-<div> Your surname: ${currentUser.surname} </div>
-<div><a href="changeField.jsp">Change surname ></a></div>
-<br>
-<div> Your password: ${currentUser.password} </div>
-<div><a href="changeField.jsp">Change password ></a></div>
-<br>
-<div> Your email: ${currentUser.email} </div>
-<div><a href="changeField.jsp">Change email ></a></div>
-<br>
-<div> Your phone number: ${currentUser.phoneNumber} </div>
-<div><a href="changeField.jsp">Change phoneNumber ></a></div>
-<br>
+
+
+
 <a href="userOrders.jsp">Your Orders</a><br>
 <a href="controller?command=logout">Logout</a>
 ${errorMessage}
 <c:remove var="errorMessage" scope="session"/>
+</div>
 </body>
 </html>
 

@@ -49,23 +49,14 @@ public class AddProductCommand implements Command {
         String condition = req.getParameter("state");
 
         // image downloading
-        String fileName = (String) req.getSession().getAttribute("imageName");
-//        System.out.println("fileName ==> " + fileName);
-//
-//        InputStream fileContent = new ByteArrayInputStream(req.getSession().getAttribute("imageStream").toString()
-//                .getBytes(StandardCharsets.UTF_8));
-//
-//        String imageAddress = (String) req.getSession().getAttribute("imageAddress");
-//        imageAddress = imageAddress.concat("\\shopImageFiles");
-//        System.out.println("imageAddress ==> " + imageAddress);
-//
-//        File directory = new File(imageAddress);
-//        if (! directory.exists()){
-//            directory.mkdir();
-//        }
-//        imageAddress = imageAddress.concat("\\"+fileName);
-//        Files.copy(fileContent, Paths.get(imageAddress), StandardCopyOption.REPLACE_EXISTING);
-//
+        Part filePart = req.getPart("image_url");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        System.out.println(fileName);
+        InputStream fileContent = filePart.getInputStream();
+        String imageAddress = (String) req.getSession().getAttribute("path");
+        imageAddress+=fileName;
+        System.out.println("address ==> " + imageAddress);
+        Files.copy(fileContent, Paths.get(imageAddress), StandardCopyOption.REPLACE_EXISTING);
 
         String imageUrl = fileName;
         // todo check if param is valid
