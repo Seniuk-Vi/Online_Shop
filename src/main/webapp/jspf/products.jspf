@@ -1,4 +1,3 @@
-
 <div class="container">
     <c:if test="${currentUser.role == 1}">
         <a href="addProduct.jsp">add product</a>
@@ -8,9 +7,6 @@
             <%@include file="/jspf/product.jspf" %>
             <br>
         </c:forEach>
-
-
     </div>
-
 
 </div>

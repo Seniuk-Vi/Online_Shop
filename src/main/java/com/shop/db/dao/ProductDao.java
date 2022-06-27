@@ -9,26 +9,60 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao extends GenericDAO<Product> {
 
 
     public String SQL_GET_ALL_PRODUCTS = "SELECT * FROM product";
+    public String SQL_GET_PRODUCTS_PAG = "SELECT * FROM product LIMIT ? OFFSET ?";
+    public String SQL_GET_NUMBER_OF_ROWS = "SELECT COUNT(*) FROM product";
     public String SQL_FIND_BY_ID = "SELECT * FROM product where id=?";
 
     public static final String SQL_ADD_PRODUCT = "INSERT INTO product (title,description,price,image_url,model_year,in_stock,category,state) "
             + "VALUES" + "(?,?,?,?,?,?,?,?)";
     public static final String SQL_UPDATE_PRODUCT = "UPDATE product SET title=?, description=?, price=?, image_url=?, model_year=?, in_stock=?," +
             "category=?,state=?" + "WHERE id = ?";
-    public static final String SQL_DELETE_BY_ID = "DELETE * FROM product WHERE id = ?";
+    public static final String SQL_DELETE_BY_ID = "DELETE FROM product WHERE id = ?";
 
+
+    public int getRowsCount(Connection con) {
+
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        int count=0;
+        try {
+            pstm = con.prepareStatement(SQL_GET_NUMBER_OF_ROWS);
+            rs = pstm.executeQuery();
+
+            if(rs.next()){
+                count = rs.getInt(1);
+            }
+
+            pstm.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return count;
+
+    }
 
     public List<Product> findAll(Connection con) throws SQLException {
         List<Product> list;
         list = findAll(con, SQL_GET_ALL_PRODUCTS);
         return list;
     }
+
+    public List<Product> findAllPagination(Connection con, int limit, int offset) throws SQLException {
+        List<Product> list;
+        list = findAllPagination(con, SQL_GET_PRODUCTS_PAG, limit, offset);
+        return list;
+    }
+
     public Product findById(Connection con, int id) throws SQLException {
         List<Product> list = findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
@@ -36,6 +70,7 @@ public class ProductDao extends GenericDAO<Product> {
         }
         return list.get(0);
     }
+
     public void add(Connection con, Product product) throws DbException {
         add(con, SQL_ADD_PRODUCT, product);
 
@@ -48,8 +83,8 @@ public class ProductDao extends GenericDAO<Product> {
     }
 
 
-    public void delete(Connection con, Product product) throws SQLException {
-        deleteByField(con, SQL_DELETE_BY_ID, product.getId());
+    public void deleteById(Connection con, int product) throws SQLException {
+        deleteByField(con, SQL_DELETE_BY_ID, product);
     }
 
 

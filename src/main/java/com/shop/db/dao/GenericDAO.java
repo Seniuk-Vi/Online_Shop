@@ -19,12 +19,29 @@ public abstract class GenericDAO<T> {
             while (rs.next()) {
                 list.add(mapToEntity(rs));
             }
-
         } finally {
             close(pstm, rs);
         }
         return list;
+    }
+    protected List<T> findAllPagination(Connection con, String sql, int limit, int offset) throws SQLException {
+        List<T> list = new ArrayList<>();
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
 
+        try {
+            pstm = con.prepareStatement(sql);
+            pstm.setInt(1,limit);
+            pstm.setInt(2,offset);
+            System.out.println(pstm);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                list.add(mapToEntity(rs));
+            }
+        } finally {
+            close(pstm, rs);
+        }
+        return list;
     }
 
     protected <V> List<T> findByField(Connection con, String sql, V value) throws SQLException {

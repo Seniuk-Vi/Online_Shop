@@ -17,7 +17,8 @@
 
 <%--todo--%>
 <form action="controller" method="post" enctype="multipart/form-data">
-    <input type="hidden" name = "command" value="EditProduct" ><br>
+    <input type="hidden" name = "command" value="editProduct" ><br>
+    <input type="hidden" name = "product_id" value="${product.id}" ><br>
     title:
     <input name="title" placeholder="title" value="${product.title}" ><br>
     description:

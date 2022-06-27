@@ -359,3 +359,30 @@ a
     grid-template-areas:
     ". .";
 }
+
+
+/*pagination*/
+.center {
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination li {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    max-height: 16px;
+    margin: 6px;
+}
+.pagination li form {
+    max-height: 13px;
+
+}
+
+
