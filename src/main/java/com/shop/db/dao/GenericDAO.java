@@ -1,6 +1,7 @@
 package com.shop.db.dao;
 
 import com.shop.db.DbException;
+import com.shop.models.entity.Product;
 
 import java.sql.*;
 import java.util.ArrayList;

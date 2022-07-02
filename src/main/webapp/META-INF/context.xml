@@ -14,9 +14,6 @@
               defaultTransactionIsolation = "READ_COMMITTED"
 
               maxTotal="100"
-              maxActive="15"
-              maxIdle="3"
-              MaxWaitMillis = "100000"
 
     />
 

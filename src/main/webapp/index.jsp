@@ -6,9 +6,16 @@
     <%@include file="/jspf/head.jspf" %>
 
 </head>
-<body class="menu">
+<body class="main">
+<div class="container">
+    <c:if test="${currentUser.role == 1}">
+        <%@include file="/jspf/adminNavbar.jspf" %>
 
-<%@include file="/jspf/navbar.jspf" %>
+    </c:if>
+
+    <c:if test="${currentUser.role != 1}">
+        <%@include file="/jspf/navbar.jspf" %>
+    </c:if>
 
 
 
@@ -16,12 +23,14 @@
     <div class="container">
         <div class="intro_inner">
             <h1 class="intro_title">Let's see cats!</h1>
-            <a class="intro_btn" href="homePage.jsp"><span class="flip">go home page</span></a>
+            <a class="intro_btn" href="controller?command=showHomePage"><span class="flip">go home page</span></a>
         </div>
     </div>
 </div>
 
 
+
+</div>
 
 
 </body>

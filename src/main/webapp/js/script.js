@@ -78,3 +78,4 @@ function deleteProduct(s){
 
 // order item
 
+// price slider

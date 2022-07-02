@@ -30,7 +30,12 @@
     in stock:
     <input type="number"  name = "in_stock" placeholder="in stock" value="${product.inStock}"><br>
     category:
-    <input name = "category" placeholder="category" value="${product.category}"><br>
+    <select name="category">
+        <option selected value="${product.category}">${product.category}</option>
+        <c:forEach items="${categories}" var="row">
+            <option value="${row.category}">${row.category}</option>
+        </c:forEach>
+    </select>
     state:
     <input  name = "state" placeholder="state" value="3"><br>
     <input type="submit" value="change"><br>

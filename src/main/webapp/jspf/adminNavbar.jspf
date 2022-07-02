@@ -39,7 +39,16 @@
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
-                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/displayCart.jsp'}">
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/orders.jsp'}">
+                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
+                    <a class="nav_link" href="controller?command=showUsers">Users</a>
+                    <a class="nav_link_hold" href="controller?command=showOrders">Orders</a>
+                    <c:if test="${not empty currentUser}">
+                        <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
+                    </c:if>
+                </c:if>
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/userOrders.jsp'}">
                     <a class="nav_link" href="">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <a class="nav_link" href="controller?command=showUsers">Users</a>
@@ -48,13 +57,12 @@
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
-
                 <c:if test="${empty currentUser}">
                     <a class="nav_link" href="login.jsp">Login</a>
                     <a class="nav_link" href="registration.jsp">Sign Up</a>
                 </c:if>
 
-                <c:if test="${currentUser.role!=1}">
+
                     <a href="displayCart.jsp" class="nav_link">Cart:
                         <c:if test="${cart.size() > 0}">
                             <c:out value="${cart.size()}"/>
@@ -64,7 +72,6 @@
                         </c:if>
 
                     </a>
-                </c:if>
 
 
             </nav>

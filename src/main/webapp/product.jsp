@@ -1,3 +1,25 @@
+<%@include file="/jspf/header.jspf" %>
+
+<html>
+<head>
+    <title>Home page</title>
+    <%@include file="/jspf/head.jspf" %>
+    <c:if test="${empty products}">
+        <c:redirect url="controller?command=showHomePage"></c:redirect>
+    </c:if>
+
+</head>
+
+<body class="main">
+<script src="${pageContext.request.contextPath}/js/script.js"></script>
+
+<c:if test="${currentUser.role == 1}">
+    <%@include file="/jspf/adminNavbar.jspf" %>
+</c:if>
+<c:if test="${currentUser.role != 1}">
+    <%@include file="/jspf/navbar.jspf" %>
+</c:if>
+
 <div class="column">
     <div class="product-card">
         <div class="product-tumb">
@@ -14,16 +36,10 @@
                         <form method="post" action="controller">
                             <input type="hidden" name="command" value="addToCart"/>
                             <input type="hidden" name="product_id" value="${row.id}"/>
-                            <a onclick="this.parentNode.submit();">buy</a>
+                            <a onclick="this.parentNode.submit();">add to cart</a>
                         </form>
                     </c:if>
                     <c:if test="${currentUser.role == 1}">
-                        <form method="post" action="controller">
-                            <input type="hidden" name="command" value="addToCart"/>
-                            <input type="hidden" name="product_id" value="${row.id}"/>
-                            <a onclick="this.parentNode.submit();">buy</a>
-                        </form>
-                        <span>|</span>
                         <form method="post" action="controller">
                             <input type="hidden" name="command" value="editProductShow"/>
                             <input type="hidden" name="product_id" value="${row.id}"/>
@@ -42,3 +58,10 @@
         </div>
     </div>
 </div>
+
+
+
+</body>
+</html>
+
+

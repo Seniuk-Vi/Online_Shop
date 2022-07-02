@@ -21,6 +21,10 @@ public class LogoutCommand implements Command {
         User user = (User) req.getSession().getAttribute("currentUser");
         if (user != null) {
            req.getSession().removeAttribute("currentUser");
+           req.getSession().removeAttribute("cart");
+           req.getSession().removeAttribute("orders");
+           req.getSession().removeAttribute("products");
+           req.getSession().removeAttribute("errorMessage");
         }
 
         return address;

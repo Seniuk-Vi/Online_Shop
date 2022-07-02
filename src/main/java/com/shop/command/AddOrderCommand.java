@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class AddOrderCommand implements Command {
@@ -29,11 +30,12 @@ public class AddOrderCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp)   {
-        String address = "error.jsp";
+        String address = "displayCart.jsp";
 
 
         OrderDao orderDao = new OrderDao();
         OrderItemDao orderItemDao = new OrderItemDao();
+        ProductDao productDao = new ProductDao();
         Order order = new Order();
 
         User currentUser = (User) req.getSession().getAttribute("currentUser");
@@ -57,8 +59,8 @@ public class AddOrderCommand implements Command {
         Map<Product, OrderItem> orderItems = null;
         orderItems = (Map<Product, OrderItem>) req.getSession().getAttribute("cart");
 
-        if (orderItems == null) {
-            address = "error.jsp";
+        if (orderItems.isEmpty()) {
+            req.getSession().setAttribute("errorMessage","Your cart is empty!");
             return address;
         }
         Connection con;
@@ -80,12 +82,20 @@ public class AddOrderCommand implements Command {
                 orderItem.setOrderId(orderId);
                 orderItem.setQuantity(entry.getValue().getQuantity());
                 orderItem.setProductId(entry.getKey().getId());
-
+                Product product = new Product();
+                product = productDao.findById(con,entry.getKey().getId());
+                product.setInStock(product.getInStock()-entry.getValue().getQuantity());
+                if(product.getInStock()<0){
+                    throw new IllegalArgumentException("No available product in stock: "+product.getTitle()+", In stock = "+product.getInStock());
+                }
+                productDao.update(con,product,product);
                 System.out.println("trying add orderItem ==> " + orderItem);
                 orderItemDao.add(con, orderItem);
             }
             // clear cart
+            Map<Product, OrderItem> cart = new HashMap<>();
             req.getSession().removeAttribute("cart");
+            req.getSession().setAttribute("cart",cart);
             con.commit();
             address = "homePage.jsp";
         } catch (Exception ex) {
@@ -97,7 +107,7 @@ public class AddOrderCommand implements Command {
             }
             System.out.println("Can't add order ==> " + order);
             System.out.println(ex);
-            req.getSession().setAttribute("errorMessage", "Can't add order!!");
+            req.getSession().setAttribute("errorMessage", "Can't add order!! "+ex.getMessage());
             address = "displayCart.jsp";
         }
 

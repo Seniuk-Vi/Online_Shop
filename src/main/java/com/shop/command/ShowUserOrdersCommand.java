@@ -71,6 +71,9 @@ public class ShowUserOrdersCommand implements Command {
             orderItems.put(o, maapp);
         });
         System.out.println("ORDERS ==> " + orderItems);
+        if(orderItems.isEmpty()){
+            req.getSession().setAttribute("errorMessage", "No orders yet");
+        }
         req.getSession().setAttribute("orders", orderItems);
         address = "userOrders.jsp";
         return address;

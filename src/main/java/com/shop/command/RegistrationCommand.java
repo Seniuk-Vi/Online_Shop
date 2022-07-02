@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrationCommand implements Command {
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String address = "error.jsp";
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+        String address = "controller?command=showHomePage";
 
         //check if user is not signed in
         HttpSession session = req.getSession();
@@ -44,6 +44,7 @@ public class RegistrationCommand implements Command {
         registrationAttributes.put("login", login);
         registrationAttributes.put("name", name);
         registrationAttributes.put("surname", surname);
+        registrationAttributes.put("password", password);
         registrationAttributes.put("phoneNumber", phoneNumber);
         registrationAttributes.put("email", email);
 
@@ -112,7 +113,11 @@ public class RegistrationCommand implements Command {
         } catch (SQLException e) {
             System.out.println("user was added, but can't found him");
         }
-        con.close();
+        try {
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         session = req.getSession(true);
         session.setAttribute("currentUser", user);
 
@@ -121,7 +126,7 @@ public class RegistrationCommand implements Command {
 
     }
 
-    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
+    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes){
         for (Map.Entry<String, String> entry : viewAttributes.entrySet())
             request.getSession().setAttribute(entry.getKey(), entry.getValue());
         return "registration.jsp";

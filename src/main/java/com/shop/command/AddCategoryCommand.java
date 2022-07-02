@@ -19,7 +19,7 @@ public class AddCategoryCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String address = "homePage.jsp";
+        String address = "controller?command=showHomePage";
 
         CategoryDao categoryDao = new CategoryDao();
         Category category = new Category();

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDao extends GenericDAO<Category>{
@@ -25,10 +26,14 @@ public class CategoryDao extends GenericDAO<Category>{
     public static final String SQL_DELETE_CATEGORY = "DELETE * FROM category WHERE category = ?";
 
 
-    public List<Category> findAll(Connection con) throws SQLException {
-        List<Category> list;
-        list = findAll(con, SQL_GET_ALL_CATEGORIES);
-        return null;
+    public List<Category> findAll(Connection con) {
+        List<Category> list = new ArrayList<>();
+        try {
+            list = findAll(con, SQL_GET_ALL_CATEGORIES);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public void add(Connection con, Category category) throws DbException {

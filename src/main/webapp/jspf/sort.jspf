@@ -1,0 +1,38 @@
+<div class="sorting">
+    <form action="controller" method="post">
+        <input type="hidden" name="command" value="showHomePage">
+        <span>Sort: </span>
+        <select name="sort">
+            <option selected value=${sort}>${sort}</option>
+            <option value="price(asc)">price(asc)</option>
+            <option value="price(desc)">price(desc)</option>
+            <option value="newest">newest</option>
+            <option value="oldest">oldest</option>
+            <option value="a-z">a-z</option>
+            <option value="z-a">z-a</option>
+        </select>
+        <br>
+        <span>Category: </span>
+        <select name="category">
+            <option disabled selected value="${category}">${category}</option>
+            <option value="all">all</option>
+            <c:forEach items="${categories}" var="row">
+                <option value="${row.category}">${row.category}</option>
+            </c:forEach>
+        </select>
+        <br>
+        <input type="hidden" name="tPage" value="1">
+        <span>Price: </span>
+        <input type="number" name="priceMin" min="${priceMin}" max="${priceMax}" placeholder="From"
+               value="${priceMinS}">
+        <span>-</span>
+        <input type="number" name="priceMax" min="${priceMin}" max="${priceMax}" placeholder="To" value="${priceMaxS}">
+        <br>
+        <span>Search: </span>
+        <input type="search" name="search" placeholder="search" value="${search}">
+        <input type="submit" value="Ok">
+
+    </form>
+
+
+</div>
