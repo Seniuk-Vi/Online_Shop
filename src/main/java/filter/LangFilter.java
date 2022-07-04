@@ -23,20 +23,17 @@ public class LangFilter implements Filter {
     public static final String LANG_COOKIE_NAME = "lang";
     public static final String ENCODING = "UTF-8";
 
-    public LangFilter() {
-    }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         HttpServletRequest req = (HttpServletRequest)request;
         String lang = this.getCookieValue(req);
-        if (lang == null || !lang.equals("en") && !lang.equals("uk")) {
-            request.setAttribute("lang", "uk");
+        if (lang == null || !lang.equals(EN_LANG) && !lang.equals(UK_LANG)) {
+            request.setAttribute(LANG_COOKIE_NAME, UK_LANG);
         } else {
-            request.setAttribute("lang", lang);
+            request.setAttribute(LANG_COOKIE_NAME, lang);
         }
-
         chain.doFilter(request, response);
     }
 
@@ -44,18 +41,16 @@ public class LangFilter implements Filter {
         if (request != null) {
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
-                Cookie[] var3 = cookies;
-                int var4 = cookies.length;
-
-                for(int var5 = 0; var5 < var4; ++var5) {
-                    Cookie cookie = var3[var5];
-                    if ("lang".equalsIgnoreCase(cookie.getName())) {
+                Cookie[] cookies1 = cookies;
+                int length = cookies.length;
+                for(int i = 0; i < length; ++i) {
+                    Cookie cookie = cookies1[i];
+                    if (LANG_COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
                         return cookie.getValue();
                     }
                 }
             }
         }
-
         return null;
     }
 

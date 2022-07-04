@@ -1,7 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
 
 package com.shop.command;
 
@@ -20,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class RegistrationCommand implements Command {
-    public RegistrationCommand() {
-    }
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "controller?command=showHomePage";

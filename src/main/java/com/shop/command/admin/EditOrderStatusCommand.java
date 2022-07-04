@@ -51,10 +51,10 @@ public class EditOrderStatusCommand implements Command {
                 order.setStatus(status);
                 if (status.equals("canceled")) {
                     List<OrderItem> orderItemList = orderItemDao.findByOrderId(con, orderId);
-                    Iterator var13 = orderItemList.iterator();
+                    Iterator it = orderItemList.iterator();
 
-                    while(var13.hasNext()) {
-                        OrderItem orderItem = (OrderItem)var13.next();
+                    while(it.hasNext()) {
+                        OrderItem orderItem = (OrderItem)it.next();
                         Product product = productDao.findById(con, orderItem.getProductId());
                         product.setInStock(product.getInStock() + orderItem.getQuantity());
                         System.out.println("product updated ==> " + product);
@@ -64,22 +64,22 @@ public class EditOrderStatusCommand implements Command {
 
                 orderDao.update(con, order, order);
                 con.commit();
-            } catch (SQLException var26) {
+            } catch (SQLException ex) {
                 try {
                     con.rollback();
-                } catch (SQLException var25) {
-                    var25.printStackTrace();
+                } catch (SQLException exx) {
+                    exx.printStackTrace();
                 }
 
                 System.out.println("Can't change status");
-                System.out.println(var26.getMessage());
+                System.out.println(ex.getMessage());
                 req.getSession().setAttribute("errorMessage", "Can't change status");
                 address = "error.jsp";
             } finally {
                 try {
                     con.close();
-                } catch (SQLException var24) {
-                    throw new RuntimeException(var24);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
 

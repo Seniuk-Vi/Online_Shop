@@ -30,7 +30,7 @@ public class OrderDao extends GenericDAO<Order> {
     }
 
     public Order findById(Connection con, int id) throws SQLException {
-        List<Order> list = this.findByField(con, "SELECT * FROM ordercol WHERE id= ?", id);
+        List<Order> list = this.findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find order by id");
         } else {
@@ -40,7 +40,7 @@ public class OrderDao extends GenericDAO<Order> {
 
     public List<Order> findByUserId(Connection con, int id) throws SQLException {
         System.out.println("User id = " + id);
-        List<Order> list = this.findByField(con, "SELECT * FROM ordercol WHERE user_id= ?", id);
+        List<Order> list = this.findByField(con, SQL_FIND_BY_USER_ID, id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find order by user id");
         } else {
@@ -49,15 +49,15 @@ public class OrderDao extends GenericDAO<Order> {
     }
 
     public int add(Connection con, Order order) throws DbException {
-        return this.add(con, "INSERT INTO ordercol (user_id,status,order_date)VALUES(?,?,?)", order);
+        return this.add(con, SQL_ADD_ORDER, order);
     }
 
     public void update(Connection con, Order order, Order newOrder) throws SQLException {
-        this.updateByField(con, "UPDATE ordercol SET user_id=?, status =?, order_date=? WHERE id = ?", newOrder, 4, order.getId());
+        this.updateByField(con, SQL_UPDATE_ORDER, newOrder, 4, order.getId());
     }
 
     public void delete(Connection con, Order order) throws SQLException {
-        this.deleteByField(con, "DELETE * FROM ordercol WHERE id = ?", order.getId());
+        this.deleteByField(con, SQL_DELETE_BY_ID, order.getId());
     }
 
     protected void mapFromEntity(PreparedStatement pstmt, Order order) throws SQLException {

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command;
 
 import com.shop.db.DbHelper;
@@ -47,7 +42,7 @@ public class AddToCartCommand implements Command {
             con.close();
             req.getSession().removeAttribute("cart");
             req.getSession().setAttribute("cart", orderItems);
-        } catch (Exception var11) {
+        } catch (Exception ex) {
             System.out.println("Can't add to cart ==> " + orderItem);
             address = "/";
             req.getSession().setAttribute("errorMessageCart", "Can't add to cart!!");

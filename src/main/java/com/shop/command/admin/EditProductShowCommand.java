@@ -33,8 +33,8 @@ public class EditProductShowCommand implements Command {
         try {
             categories = categoryDao.findAll(con);
             product = productDao.findById(con, Integer.parseInt(productId));
-        } catch (SQLException var12) {
-            var12.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
         try {

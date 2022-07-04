@@ -29,20 +29,19 @@ public class OrderItemDao extends GenericDAO<OrderItem> {
     }
 
     public List<OrderItem> findByOrderId(Connection con, int id) throws SQLException {
-        List<OrderItem> list = this.findByField(con, "SELECT * FROM order_items WHERE order_id= ?", id);
+        List<OrderItem> list = this.findByField(con, SQL_FIND_BY_ORDER_ID, id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find order by id" + id);
-        } else {
-            return list;
         }
+        return list;
     }
 
     public void add(Connection con, OrderItem orderItem) throws DbException {
-        this.add(con, "INSERT INTO order_items (order_id,product_id,quantity) VALUES(?,?,?)", orderItem);
+        this.add(con, SQL_ADD_ITEM, orderItem);
     }
 
     public void delete(Connection con, OrderItem orderItem) throws SQLException {
-        this.deleteByMultFields(con, "DELETE * FROM order_items WHERE order_id = ? AND product_id=?", new Integer[]{orderItem.getOrderId(), orderItem.getProductId()});
+        this.deleteByMultFields(con, SQL_DELETE_ITEM, orderItem.getOrderId(), orderItem.getProductId());
     }
 
     protected void mapFromEntity(PreparedStatement pstmt, OrderItem orderItem) throws SQLException {
@@ -50,7 +49,7 @@ public class OrderItemDao extends GenericDAO<OrderItem> {
         pstmt.setInt(k++, orderItem.getOrderId());
         pstmt.setInt(k++, orderItem.getProductId());
         pstmt.setInt(k++, orderItem.getQuantity());
-        System.out.println("mapFromEntity category ==> " + pstmt.toString());
+        System.out.println("mapFromEntity category ==> " + pstmt);
     }
 
     protected OrderItem mapToEntity(ResultSet rs) throws SQLException {

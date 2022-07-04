@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command;
 
 import com.shop.db.DbHelper;
@@ -37,7 +32,7 @@ public class ShowOrdersCommand implements Command {
             List<Order> orders;
             try {
                 orders = orderDao.findAll(con);
-            } catch (SQLException var11) {
+            } catch (SQLException ex) {
                 System.out.println("Orders are empty");
                 req.getSession().setAttribute("errorMessage", "Orders are empty");
                 return address;
@@ -61,13 +56,13 @@ public class ShowOrdersCommand implements Command {
                             try {
                                 Product product = productDao.findById(con, l.getProductId());
                                 maapp.put(l, product);
-                            } catch (SQLException var5) {
-                                throw new RuntimeException(var5);
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
                             }
                         });
-                    } catch (SQLException var8) {
+                    } catch (SQLException ex) {
                         DbHelper.getInstance().close(con);
-                        throw new RuntimeException(var8);
+                        throw new RuntimeException(ex);
                     }
 
                     orderItems.put(o, maapp);

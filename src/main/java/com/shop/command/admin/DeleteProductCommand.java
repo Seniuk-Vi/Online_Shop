@@ -25,8 +25,8 @@ public class DeleteProductCommand implements Command {
 
         try {
             productDao.deleteById(con, Integer.parseInt(productId));
-        } catch (SQLException var8) {
-            var8.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
         req.getSession().setAttribute("info", "product was deleted");

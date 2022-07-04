@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command;
 
 import com.shop.db.DbHelper;
@@ -22,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowUserOrdersCommand implements Command {
-    public ShowUserOrdersCommand() {
-    }
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "user.jsp";
@@ -36,11 +29,11 @@ public class ShowUserOrdersCommand implements Command {
             OrderDao orderDao = new OrderDao();
             OrderItemDao orderItemDao = new OrderItemDao();
             ProductDao productDao = new ProductDao();
-            List<Order> orders = null;
+            List<Order> orders;
 
             try {
                 orders = orderDao.findByUserId(con, user.getId());
-            } catch (SQLException var11) {
+            } catch (SQLException ex) {
                 System.out.println("You don't have any orders");
                 req.getSession().setAttribute("errorMessage", "You don't have any orders");
                 return address;
@@ -49,7 +42,7 @@ public class ShowUserOrdersCommand implements Command {
             System.out.println("Orders ==> " + orders);
             Map<Order, Map<OrderItem, Product>> orderItems = new HashMap();
             orders.forEach((o) -> {
-                List<OrderItem> orderItemList = null;
+                List<OrderItem> orderItemList;
                 Map<OrderItem, Product> maapp = new HashMap();
 
                 try {
@@ -59,13 +52,13 @@ public class ShowUserOrdersCommand implements Command {
                         try {
                             Product product = productDao.findById(con, l.getProductId());
                             maapp.put(l, product);
-                        } catch (SQLException var5) {
-                            throw new RuntimeException(var5);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
                         }
                     });
-                } catch (SQLException var8) {
+                } catch (SQLException ex) {
                     DbHelper.getInstance().close(con);
-                    throw new RuntimeException(var8);
+                    throw new RuntimeException(ex);
                 }
 
                 orderItems.put(o, maapp);

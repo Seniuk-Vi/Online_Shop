@@ -10,6 +10,7 @@ import com.shop.command.Command;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Product;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,62 +34,62 @@ public class EditProductCommand implements Command {
             req.getSession().setAttribute("titleMessage", "2-10 length, title only letters");
             System.out.println("2-10 length, title only letters");
             return address;
-        } else if (!Validation.isDescValid(description)) {
+        }
+        if (!Validation.isDescValid(description)) {
             req.getSession().setAttribute("descriptionMessage", "60-500 length");
             System.out.println("description don't valid");
             return address;
-        } else if (!Validation.isPriceValid(Integer.parseInt(price))) {
+        }
+        if (!Validation.isPriceValid(Integer.parseInt(price))) {
             req.getSession().setAttribute("priceMessage", "1-10000 price");
             System.out.println("email don't valid");
             return address;
-        } else if (!Validation.isYearValid(String.valueOf(modelYear))) {
+        }
+        if (!Validation.isYearValid(String.valueOf(modelYear))) {
             req.getSession().setAttribute("modelYearMessage", "only 4 digits");
             System.out.println("model_year don't valid");
             return address;
-        } else if (!Validation.isStockValid(Integer.parseInt(inStock))) {
+        }
+        if (!Validation.isStockValid(Integer.parseInt(inStock))) {
             req.getSession().setAttribute("inStockMessage", "min 0 in stock");
             System.out.println("inStock don't valid");
             return address;
-        } else if (!Validation.isStateValid(Integer.parseInt(state))) {
+        }
+        if (!Validation.isStateValid(Integer.parseInt(state))) {
             req.getSession().setAttribute("stateMessage", "1-10 condition");
             System.out.println("condition don't valid");
             return address;
-        } else {
-            Connection con = DbHelper.getInstance().getConnection();
-            ProductDao productDao = new ProductDao();
-            Product product = new Product();
-
-            try {
-                product = productDao.findById(con, Integer.parseInt(productId));
-            } catch (SQLException var27) {
-                var27.printStackTrace();
-            }
-
-            product.setTitle(title);
-            product.setDescription(description);
-            product.setPrice(Double.parseDouble(price));
-            product.setModelYear(Integer.parseInt(modelYear));
-            product.setInStock(Integer.parseInt(inStock));
-            product.setCategory(category);
-            product.setCondition(state);
-
-            try {
-                productDao.update(con, product, product);
-                req.getSession().setAttribute("info", "product has changed");
-            } catch (SQLException var25) {
-                req.getSession().setAttribute("info", "product has not changed");
-                System.out.println("Can't update product ==> " + product);
-                var25.printStackTrace();
-            } finally {
-                try {
-                    con.close();
-                } catch (SQLException var24) {
-                }
-
-            }
-
-            req.getSession().setAttribute("product", product);
-            return address;
         }
+        Connection con = DbHelper.getInstance().getConnection();
+        ProductDao productDao = new ProductDao();
+        Product product = new Product();
+        try {
+            product = productDao.findById(con, Integer.parseInt(productId));
+        } catch (SQLException var27) {
+            var27.printStackTrace();
+        }
+        product.setTitle(title);
+        product.setDescription(description);
+        product.setPrice(Double.parseDouble(price));
+        product.setModelYear(Integer.parseInt(modelYear));
+        product.setInStock(Integer.parseInt(inStock));
+        product.setCategory(category);
+        product.setCondition(state);
+        try {
+            productDao.update(con, product, product);
+            req.getSession().setAttribute("info", "product has changed");
+        } catch (SQLException var25) {
+            req.getSession().setAttribute("info", "product has not changed");
+            System.out.println("Can't update product ==> " + product);
+            var25.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException var24) {
+            }
+        }
+        req.getSession().setAttribute("product", product);
+        return address;
+
     }
 }

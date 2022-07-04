@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.db;
 
 import java.sql.Connection;
@@ -35,20 +30,19 @@ public class DbHelper {
             Context initCtx = (Context)ctx.lookup("java:/comp/env");
             DataSource ds = (DataSource)initCtx.lookup("jdbc/shop");
             c = ds.getConnection();
-        } catch (NamingException var5) {
-            var5.printStackTrace();
-        } catch (SQLException var6) {
-            var6.printStackTrace();
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-
         return c;
     }
 
     public void close(Connection con) {
         try {
             con.close();
-        } catch (SQLException var3) {
-            throw new RuntimeException(var3);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

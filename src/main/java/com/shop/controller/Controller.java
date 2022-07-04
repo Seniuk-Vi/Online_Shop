@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.controller;
 
 import com.shop.command.Command;
@@ -18,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 @MultipartConfig
 @WebServlet({"/controller"})
 public class Controller extends HttpServlet {
-    public Controller() {
-    }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doPost(req, resp);
@@ -35,13 +28,11 @@ public class Controller extends HttpServlet {
         if (commandName.equals("addProduct")) {
             req.getSession().setAttribute("path", this.getServletContext().getRealPath("images/"));
         }
-
         try {
             address = command.execute(req, resp);
-        } catch (Exception var7) {
-            req.getSession().setAttribute("errorMessage", var7.getMessage());
+        } catch (Exception ex) {
+            req.getSession().setAttribute("errorMessage", ex.getMessage());
         }
-
         System.out.println("address ==> " + address);
         resp.sendRedirect(address);
     }

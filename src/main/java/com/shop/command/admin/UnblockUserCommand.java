@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command.admin;
 
 import com.shop.command.Command;
@@ -18,7 +13,7 @@ public class UnblockUserCommand implements Command {
     public UnblockUserCommand() {
     }
 
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "error.jsp";
         UserDao userDao = new UserDao();
         int userId = Integer.parseInt(req.getParameter("user_id"));
@@ -29,8 +24,8 @@ public class UnblockUserCommand implements Command {
             user.setRole(1);
             userDao.update(con, user, user);
             address = "controller?command=showUsers";
-        } catch (SQLException var9) {
-            var9.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
         return address;

@@ -1,14 +1,10 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command;
 
 import com.shop.Validation;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.User;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,7 +21,7 @@ public class UpdateUserDataCommand implements Command {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "user.jsp";
         HttpSession session = req.getSession();
-        User user = (User)session.getAttribute("currentUser");
+        User user = (User) session.getAttribute("currentUser");
         System.out.println("session user ==> " + user);
         String login = req.getParameter("login");
         String name = req.getParameter("name");
@@ -49,47 +45,30 @@ public class UpdateUserDataCommand implements Command {
             registrationAttributes.put("emailMessage", "email don't valid");
             System.out.println("email don't valid");
             return this.passAttributesToSession(req, resp, registrationAttributes);
-        } else {
-            user.setLogin(login);
-            user.setName(name);
-            user.setSurname(surname);
-            user.setEmail(email);
-            user.setLocale(locale);
-            Connection con = DbHelper.getInstance().getConnection();
-            UserDao userDao = new UserDao();
-
-            label89: {
-                String var15;
-                try {
-                    userDao.update(con, user, user);
-                    break label89;
-                } catch (SQLException var25) {
-                    registrationAttributes.put("loginMessage", "this login isn't available");
-                    var15 = this.passAttributesToSession(req, resp, registrationAttributes);
-                } finally {
-                    try {
-                        con.close();
-                    } catch (SQLException var24) {
-                    }
-
-                }
-
-                return var15;
-            }
-
-            req.getSession().setAttribute("currentUser", user);
-            return address;
         }
+        user.setLogin(login);
+        user.setName(name);
+        user.setSurname(surname);
+        user.setEmail(email);
+        user.setLocale(locale);
+        try (Connection con = DbHelper.getInstance().getConnection()) {
+            UserDao userDao = new UserDao();
+            userDao.update(con, user, user);
+        } catch (SQLException ex) {
+            registrationAttributes.put("loginMessage", "this login isn't available");
+            return passAttributesToSession(req, resp, registrationAttributes);
+        }
+        req.getSession().setAttribute("currentUser", user);
+        return address;
     }
 
+
     private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) {
-        Iterator var4 = viewAttributes.entrySet().iterator();
-
-        while(var4.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry)var4.next();
-            request.getSession().setAttribute((String)entry.getKey(), entry.getValue());
+        Iterator iterator = viewAttributes.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry) iterator.next();
+            request.getSession().setAttribute((String) entry.getKey(), entry.getValue());
         }
-
         return "user.jsp";
     }
 }

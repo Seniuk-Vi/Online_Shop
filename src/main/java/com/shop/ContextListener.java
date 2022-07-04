@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop;
 
 import com.shop.db.DbHelper;
@@ -22,7 +17,7 @@ public class ContextListener implements ServletContextListener {
 
         try {
             DbHelper.getInstance().getConnection().close();
-        } catch (SQLException var4) {
+        } catch (SQLException ex) {
             throw new IllegalStateException("Cannot obtain connection from DB");
         }
     }

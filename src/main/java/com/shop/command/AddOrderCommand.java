@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command;
 
 import com.shop.db.DbException;
@@ -59,10 +54,10 @@ public class AddOrderCommand implements Command {
 
                 order.setId(orderId);
                 System.out.println(orderItems);
-                Iterator var17 = orderItems.entrySet().iterator();
+                Iterator iterator = orderItems.entrySet().iterator();
 
-                while(var17.hasNext()) {
-                    Map.Entry<Product, OrderItem> entry = (Map.Entry)var17.next();
+                while(iterator.hasNext()) {
+                    Map.Entry<Product, OrderItem> entry = (Map.Entry)iterator.next();
                     OrderItem orderItem = new OrderItem();
                     orderItem.setOrderId(orderId);
                     orderItem.setQuantity(((OrderItem)entry.getValue()).getQuantity());
@@ -70,8 +65,8 @@ public class AddOrderCommand implements Command {
                     Product product = productDao.findById(con, ((Product)entry.getKey()).getId());
                     product.setInStock(product.getInStock() - ((OrderItem)entry.getValue()).getQuantity());
                     if (product.getInStock() < 0) {
-                        String var10002 = product.getTitle();
-                        throw new IllegalArgumentException("No available product in stock: " + var10002 + ", In stock = " + product.getInStock() + ((OrderItem)entry.getValue()).getQuantity());
+                        String title = product.getTitle();
+                        throw new IllegalArgumentException("No available product in stock: " + title + ", In stock = " + product.getInStock() + ((OrderItem)entry.getValue()).getQuantity());
                     }
 
                     productDao.update(con, product, product);
@@ -84,17 +79,17 @@ public class AddOrderCommand implements Command {
                 req.getSession().removeAttribute("cart");
                 req.getSession().setAttribute("cart", cart);
                 address = "homePage.jsp";
-            } catch (Exception var22) {
+            } catch (Exception ex) {
                 try {
                     con.rollback();
                     con.close();
-                } catch (SQLException var21) {
-                    throw new RuntimeException(var21);
+                } catch (SQLException exx) {
+                    throw new RuntimeException(exx);
                 }
 
                 System.out.println("Can't add order ==> " + order);
-                System.out.println(var22.getMessage());
-                req.getSession().setAttribute("errorMessage", "Can't add order!! " + var22.getMessage());
+                System.out.println(ex.getMessage());
+                req.getSession().setAttribute("errorMessage", "Can't add order!! " + ex.getMessage());
                 address = "displayCart.jsp";
             }
 

@@ -1,7 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
 
 package com.shop.command;
 
@@ -10,6 +6,8 @@ import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Product;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -19,6 +17,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -27,7 +26,7 @@ public class AddProductCommand implements Command {
     public AddProductCommand() {
     }
 
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp)  {
         req.getSession().removeAttribute("errorMessage");
         String address = "controller?command=showHomePage";
         ProductDao productDao = new ProductDao();
@@ -39,14 +38,30 @@ public class AddProductCommand implements Command {
         int inStock = Integer.parseInt(req.getParameter("in_stock"));
         String categoryId = req.getParameter("productCategory");
         String condition = req.getParameter("state");
-        Part filePart = req.getPart("image_url");
+        Part filePart = null;
+        try {
+            filePart = req.getPart("image_url");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        }
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         System.out.println(fileName);
-        InputStream fileContent = filePart.getInputStream();
+        InputStream fileContent = null;
+        try {
+            fileContent = filePart.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         String imageAddress = (String)req.getSession().getAttribute("path");
         imageAddress = imageAddress + fileName;
         System.out.println("address ==> " + imageAddress);
-        Files.copy(fileContent, Paths.get(imageAddress), new CopyOption[]{StandardCopyOption.REPLACE_EXISTING});
+        try {
+            Files.copy(fileContent, Paths.get(imageAddress), new CopyOption[]{StandardCopyOption.REPLACE_EXISTING});
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Map<String, String> registrationAttributes = new HashMap();
         registrationAttributes.put("title", title);
         registrationAttributes.put("description", description);
@@ -92,7 +107,7 @@ public class AddProductCommand implements Command {
 
             try {
                 productDao.add(con, product);
-            } catch (DbException var21) {
+            } catch (DbException ex) {
                 System.out.println("Can't add product ==> " + product);
                 req.getSession().setAttribute("errorMessage", "Can't add product!!");
                 address = "addProduct.jsp";
@@ -103,13 +118,12 @@ public class AddProductCommand implements Command {
     }
 
     private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) {
-        Iterator var4 = viewAttributes.entrySet().iterator();
+        Iterator iterator = viewAttributes.entrySet().iterator();
 
-        while(var4.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry)var4.next();
-            request.getSession().setAttribute((String)entry.getKey(), entry.getValue());
+        while(iterator.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry)iterator.next();
+            request.getSession().setAttribute(entry.getKey(), entry.getValue());
         }
-
         return "addProduct.jsp";
     }
 }

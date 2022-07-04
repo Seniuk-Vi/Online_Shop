@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class BlockUserCommand implements Command {
-    public BlockUserCommand() {
-    }
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "error.jsp";
@@ -29,8 +27,8 @@ public class BlockUserCommand implements Command {
             user.setRole(2);
             userDao.update(con, user, user);
             address = "controller?command=showUsers";
-        } catch (SQLException var9) {
-            var9.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
         return address;

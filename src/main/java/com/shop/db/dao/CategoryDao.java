@@ -17,34 +17,29 @@ import java.util.List;
 public class CategoryDao extends GenericDAO<Category> {
     public String SQL_GET_ALL_CATEGORIES = "SELECT * FROM category";
     public static final String SQL_ADD_CATEGORY = "INSERT INTO category (category) VALUES(?)";
-    public static final String SQL_UPDATE_CATEGORY = "UPDATE category SETcategory=?WHERE category = ?";
+    public static final String SQL_UPDATE_CATEGORY = "UPDATE category SET category=? WHERE category = ?";
     public static final String SQL_DELETE_CATEGORY = "DELETE * FROM category WHERE category = ?";
-
-    public CategoryDao() {
-    }
 
     public List<Category> findAll(Connection con) {
         List<Category> list = new ArrayList();
-
         try {
             list = this.findAll(con, this.SQL_GET_ALL_CATEGORIES);
-        } catch (SQLException var4) {
-            var4.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-
-        return (List)list;
+        return list;
     }
 
     public void add(Connection con, Category category) throws DbException {
-        this.add(con, "INSERT INTO category (category) VALUES(?)", category);
+        this.add(con, SQL_ADD_CATEGORY, category);
     }
 
     public void update(Connection con, Category category, Category newCategory) throws SQLException {
-        this.updateByField(con, "UPDATE category SETcategory=?WHERE category = ?", newCategory, 2, category.getCategory());
+        this.updateByField(con, SQL_UPDATE_CATEGORY, newCategory, 2, category.getCategory());
     }
 
     public void delete(Connection con, Category category) throws SQLException {
-        this.deleteByField(con, "DELETE * FROM category WHERE category = ?", category.getCategory());
+        this.deleteByField(con, SQL_DELETE_CATEGORY, category.getCategory());
     }
 
     protected void mapFromEntity(PreparedStatement pstmt, Category category) throws SQLException {

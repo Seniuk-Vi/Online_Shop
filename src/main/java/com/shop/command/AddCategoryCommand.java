@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.shop.command;
 
 import com.shop.Validation;
@@ -33,7 +28,7 @@ public class AddCategoryCommand implements Command {
 
             try {
                 categoryDao.add(con, category);
-            } catch (DbException var9) {
+            } catch (DbException ex) {
                 System.out.println("Can't add category ==> " + category);
                 address = "addCategory.jsp";
                 req.getSession().setAttribute("categoryMessage", "Category already exist!!!");

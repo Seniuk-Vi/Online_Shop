@@ -35,7 +35,7 @@ public class ProductDao extends GenericDAO<Product> {
         int min = 0;
 
         try {
-            pstm = con.prepareStatement(this.SQL_GET_MIN_PRICE);
+            pstm = con.prepareStatement(SQL_GET_MIN_PRICE);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 min = rs.getInt(1);
@@ -56,7 +56,7 @@ public class ProductDao extends GenericDAO<Product> {
         int max = 0;
 
         try {
-            pstm = con.prepareStatement(this.SQL_GET_MAX_PRICE);
+            pstm = con.prepareStatement(SQL_GET_MAX_PRICE);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 max = rs.getInt(1);
@@ -72,12 +72,12 @@ public class ProductDao extends GenericDAO<Product> {
     }
 
     public List<Product> findAll(Connection con) throws SQLException {
-        List<Product> list = this.findAll(con, this.SQL_GET_ALL_PRODUCTS);
+        List<Product> list = this.findAll(con, SQL_GET_ALL_PRODUCTS);
         return list;
     }
 
     public List<Product> findAllPagination(Connection con, int limit, int offset) throws SQLException {
-        List<Product> list = this.findAllPagination(con, this.SQL_GET_PRODUCTS_PAG, limit, offset);
+        List<Product> list = this.findAllPagination(con, SQL_GET_PRODUCTS_PAG, limit, offset);
         return list;
     }
 
@@ -87,7 +87,7 @@ public class ProductDao extends GenericDAO<Product> {
         int count = 0;
 
         try {
-            pstm = con.prepareStatement(this.SQL_GET_NUMBER_OF_ROWS);
+            pstm = con.prepareStatement(SQL_GET_NUMBER_OF_ROWS);
             String searchT = "%" + search + "%";
             int k = 1;
             pstm.setString(k++, category);
@@ -114,7 +114,7 @@ public class ProductDao extends GenericDAO<Product> {
         ResultSet rs = null;
 
         try {
-            String SQL = this.SQL_GET_PRODUCTS;
+            String SQL = SQL_GET_PRODUCTS;
             SQL = SQL.replace("CHANGE", order);
             SQL = SQL.replace("CHAANGE", way);
             String searchT = "%" + search + "%";
@@ -132,14 +132,14 @@ public class ProductDao extends GenericDAO<Product> {
             while(rs.next()) {
                 list.add(this.mapToEntity(rs));
             }
-        } catch (SQLException var28) {
-            System.out.println(var28.getMessage());
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             System.out.println("error in getting products");
         } finally {
             if (pstm != null) {
                 try {
                     pstm.close();
-                } catch (SQLException var27) {
+                } catch (SQLException ex) {
                     System.out.println("Cant close!!!");
                 }
             }
@@ -147,7 +147,7 @@ public class ProductDao extends GenericDAO<Product> {
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException var26) {
+                } catch (SQLException ex) {
                     System.out.println("Cant close!!!");
                 }
             }
@@ -158,7 +158,7 @@ public class ProductDao extends GenericDAO<Product> {
     }
 
     public Product findById(Connection con, int id) throws SQLException {
-        List<Product> list = this.findByField(con, this.SQL_FIND_BY_ID, id);
+        List<Product> list = this.findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find product by id");
         } else {
@@ -167,15 +167,15 @@ public class ProductDao extends GenericDAO<Product> {
     }
 
     public void add(Connection con, Product product) throws DbException {
-        this.add(con, "INSERT INTO product (title,description,price,image_url,model_year,in_stock,category,state) VALUES(?,?,?,?,?,?,?,?)", product);
+        this.add(con, SQL_ADD_PRODUCT, product);
     }
 
     public void update(Connection con, Product product, Product newProduct) throws SQLException {
-        this.updateByField(con, "UPDATE product SET title=?, description=?, price=?, image_url=?, model_year=?, in_stock=?,category=?,state=?WHERE id = ?", newProduct, 9, product.getId());
+        this.updateByField(con, SQL_UPDATE_PRODUCT, newProduct, 9, product.getId());
     }
 
     public void deleteById(Connection con, int product) throws SQLException {
-        this.deleteByField(con, "DELETE FROM product WHERE id = ?", product);
+        this.deleteByField(con, SQL_DELETE_BY_ID, product);
     }
 
     protected void mapFromEntity(PreparedStatement pstmt, Product product) throws SQLException {
@@ -188,7 +188,7 @@ public class ProductDao extends GenericDAO<Product> {
         pstmt.setInt(k++, product.getInStock());
         pstmt.setString(k++, product.getCategory());
         pstmt.setString(k++, product.getCondition());
-        System.out.println("mapFromEntity product ==> " + pstmt.toString());
+        System.out.println("mapFromEntity product ==> " + pstmt);
     }
 
     protected Product mapToEntity(ResultSet rs) throws SQLException {
