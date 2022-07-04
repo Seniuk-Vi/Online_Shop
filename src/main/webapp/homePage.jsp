@@ -1,26 +1,18 @@
 <%@include file="/jspf/header.jspf" %>
-
 <html>
 <head>
     <title>Home page</title>
     <%@include file="/jspf/head.jspf" %>
-
 </head>
-
 <body class="main">
 <div class="container">
-
-    <script src="${pageContext.request.contextPath}/js/script.js"></script>
-
     <c:if test="${currentUser.role == 1}">
         <%@include file="/jspf/adminNavbar.jspf" %>
-
         <br>
         <%@include file="/jspf/sort.jspf" %>
         <br>
         <%@include file="/jspf/products.jspf" %>
     </c:if>
-
     <c:if test="${currentUser.role != 1}">
         <%@include file="/jspf/navbar.jspf" %>
         <br>
@@ -29,7 +21,6 @@
         <br>
         <%@include file="/jspf/products.jspf" %>
     </c:if>
-
     <nav class="center" aria-label="Navigation for countries">
         <ul class="pagination">
             <c:if test="${currentPage != 1}">
@@ -78,7 +69,6 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-
             <c:if test="${currentPage lt noOfPages}">
                 <li class="page-item">
                     <form action="controller" method="post">
@@ -95,8 +85,8 @@
             </c:if>
         </ul>
     </nav>
-
 </div>
+<script src="${pageContext.request.contextPath}/js/script.js"></script>
 </body>
 </html>
 

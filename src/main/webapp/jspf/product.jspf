@@ -6,7 +6,7 @@
         <div class="product-details">
             <span class="product-catagory">${row.category}</span>
             <h4><a href="">${row.title}</a></h4>
-            <p>${row.description}</p>
+            <p id="desc">${row.description}</p>
             <div class="product-bottom-details">
                 <div class="product-price">${row.price}</div>
                 <div class="product-links">

@@ -299,17 +299,25 @@ a {
     color: #363636;
     text-decoration: none;
     transition: 0.3s;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-details h4 a:hover {
     color: #fbb72c;
 }
 
-.product-details p {
+#desc {
     font-size: 15px;
     line-height: 22px;
     margin-bottom: 18px;
     color: #999;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-bottom-details {

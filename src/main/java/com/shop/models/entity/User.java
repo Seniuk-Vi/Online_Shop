@@ -1,41 +1,28 @@
-package com.shop.models.entity;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
 
+package com.shop.models.entity;
 
 import java.io.Serializable;
 
-/**
- * Describes User's entity
- */
-
 public class User implements Serializable {
-
     private int id;
     private String login;
     private String name;
     private String surname;
     private int phoneNumber;
     private String email;
-    private int role=2;
+    private int role = 2;
     private String password;
     private String locale;
 
     public User() {
     }
 
-//    public User(long id, String login, String name, String surname, int phoneNumber, String email, Role role, String password, String locale) {
-//        this.id = id;
-//        this.login = login;
-//        this.name = name;
-//        this.surname = surname;
-//        this.phoneNumber = phoneNumber;
-//        this.email = email;
-//        this.role = role;
-//        this.password = password;
-//        this.locale = locale;
-//    }
-
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -43,7 +30,7 @@ public class User implements Serializable {
     }
 
     public String getLogin() {
-        return login;
+        return this.login;
     }
 
     public void setLogin(String login) {
@@ -51,7 +38,7 @@ public class User implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -59,7 +46,7 @@ public class User implements Serializable {
     }
 
     public String getSurname() {
-        return surname;
+        return this.surname;
     }
 
     public void setSurname(String surname) {
@@ -67,7 +54,7 @@ public class User implements Serializable {
     }
 
     public int getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 
     public void setPhoneNumber(int phoneNumber) {
@@ -75,7 +62,7 @@ public class User implements Serializable {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -83,7 +70,7 @@ public class User implements Serializable {
     }
 
     public int getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(int role) {
@@ -91,7 +78,7 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -99,43 +86,14 @@ public class User implements Serializable {
     }
 
     public String getLocale() {
-        return locale;
+        return this.locale;
     }
 
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
-//    public enum Role {
-//        ADMIN, USER;
-//
-//        public boolean isUser() {
-//            return this == USER;
-//        }
-//
-//        public boolean isAdmin() {
-//            return this == ADMIN;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return super.toString().toLowerCase();
-//        }
-//    }
-
-
-    @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", password='" + password + '\'' +
-                ", locale='" + locale + '\'' +
-                '}';
+        return "User{id=" + this.id + ", login='" + this.login + "', name='" + this.name + "', surname='" + this.surname + "', phoneNumber=" + this.phoneNumber + ", email='" + this.email + "', role=" + this.role + ", password='" + this.password + "', locale='" + this.locale + "'}";
     }
 }

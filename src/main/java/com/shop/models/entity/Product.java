@@ -1,10 +1,14 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.models.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class Product implements Serializable {
-
     private int id;
     private String title;
     private String description;
@@ -15,8 +19,11 @@ public class Product implements Serializable {
     private String category;
     private String condition;
 
+    public Product() {
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -24,7 +31,7 @@ public class Product implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -32,7 +39,7 @@ public class Product implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -40,7 +47,7 @@ public class Product implements Serializable {
     }
 
     public double getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(double price) {
@@ -48,7 +55,7 @@ public class Product implements Serializable {
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return this.imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
@@ -56,7 +63,7 @@ public class Product implements Serializable {
     }
 
     public int getModelYear() {
-        return modelYear;
+        return this.modelYear;
     }
 
     public void setModelYear(int modelYear) {
@@ -64,7 +71,7 @@ public class Product implements Serializable {
     }
 
     public int getInStock() {
-        return inStock;
+        return this.inStock;
     }
 
     public void setInStock(int inStock) {
@@ -72,7 +79,7 @@ public class Product implements Serializable {
     }
 
     public String getCategory() {
-        return category;
+        return this.category;
     }
 
     public void setCategory(String category) {
@@ -80,38 +87,29 @@ public class Product implements Serializable {
     }
 
     public String getCondition() {
-        return condition;
+        return this.condition;
     }
 
     public void setCondition(String condition) {
         this.condition = condition;
     }
 
-    @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", modelYear=" + modelYear +
-                ", inStock=" + inStock +
-                ", category='" + category + '\'' +
-                ", condition='" + condition + '\'' +
-                '}';
+        return "Product{id=" + this.id + ", title='" + this.title + "', description='" + this.description + "', price=" + this.price + ", imageUrl='" + this.imageUrl + "', modelYear=" + this.modelYear + ", inStock=" + this.inStock + ", category='" + this.category + "', condition='" + this.condition + "'}";
     }
 
-    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-        Product product = (Product) o;
-        return getId() == product.getId() && Double.compare(product.getPrice(), getPrice()) == 0 && getModelYear() == product.getModelYear() && getInStock() == product.getInStock() && getTitle().equals(product.getTitle()) && getDescription().equals(product.getDescription()) && getImageUrl().equals(product.getImageUrl()) && getCategory().equals(product.getCategory()) && getCondition().equals(product.getCondition());
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof Product)) {
+            return false;
+        } else {
+            Product product = (Product)o;
+            return this.getId() == product.getId() && Double.compare(product.getPrice(), this.getPrice()) == 0 && this.getModelYear() == product.getModelYear() && this.getInStock() == product.getInStock() && this.getTitle().equals(product.getTitle()) && this.getDescription().equals(product.getDescription()) && this.getImageUrl().equals(product.getImageUrl()) && this.getCategory().equals(product.getCategory()) && this.getCondition().equals(product.getCondition());
+        }
     }
 
-    @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getDescription(), getPrice(), getImageUrl(), getModelYear(), getInStock(), getCategory(), getCondition());
+        return Objects.hash(new Object[]{this.getId(), this.getTitle(), this.getDescription(), this.getPrice(), this.getImageUrl(), this.getModelYear(), this.getInStock(), this.getCategory(), this.getCondition()});
     }
 }

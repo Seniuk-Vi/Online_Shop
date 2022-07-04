@@ -1,15 +1,11 @@
 <%@include file="/jspf/header.jspf" %>
-
 <html>
 <head>
   <title>Home page</title>
   <%@include file="/jspf/head.jspf" %>
-
 </head>
-
 <body class="main">
 <div class="container">
-
   <c:if test="${empty orders}">
     <c:if test="${errorMessage != 'No orders yet'}">
       <c:redirect url="controller?command=showOrders"></c:redirect>
@@ -29,6 +25,7 @@
   </c:if>
   <br>
   <%@include file="/jspf/allOrders.jspf" %>
+  <br>
   <c:remove var="errorMessage"></c:remove>
 </div>
 </body>

@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.command.admin;
 
 import com.shop.command.Command;
@@ -9,95 +14,79 @@ import com.shop.models.entity.Order;
 import com.shop.models.entity.OrderItem;
 import com.shop.models.entity.Product;
 import com.shop.models.entity.User;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class EditOrderStatusCommand implements Command {
+    public EditOrderStatusCommand() {
+    }
 
-    @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "controller?command=showOrders";
-
         ProductDao productDao = new ProductDao();
-
         req.getSession().removeAttribute("errorMessage");
-        // move to homaPage if not in
-        User admin;
-        admin = (User) req.getSession().getAttribute("currentUser");
+        User admin = (User)req.getSession().getAttribute("currentUser");
         if (admin == null) {
             req.getSession().setAttribute("errorMessage", "You must firstly login");
             return "login.jsp";
-        }
-        if (admin.getRole() != 1) {
+        } else if (admin.getRole() != 1) {
             req.getSession().setAttribute("errorMessage", "You aren't admin");
             return address;
-        }
+        } else if (req.getParameter("order_id") != null && req.getParameter("status") != null) {
+            int orderId = Integer.parseInt(req.getParameter("order_id"));
+            String status = req.getParameter("status");
+            System.out.println("OrderId ==> " + orderId);
+            System.out.println("New status ==> " + status);
+            OrderDao orderDao = new OrderDao();
+            OrderItemDao orderItemDao = new OrderItemDao();
+            Connection con = DbHelper.getInstance().getConnection();
 
-        // get orderId and status
-        int orderId;
-        String status;
-        if (req.getParameter("order_id") != null && req.getParameter("status") != null) {
-            orderId = Integer.parseInt(req.getParameter("order_id"));
-            status = req.getParameter("status");
+            try {
+                con.setAutoCommit(false);
+                Order order = orderDao.findById(con, orderId);
+                order.setStatus(status);
+                if (status.equals("canceled")) {
+                    List<OrderItem> orderItemList = orderItemDao.findByOrderId(con, orderId);
+                    Iterator var13 = orderItemList.iterator();
+
+                    while(var13.hasNext()) {
+                        OrderItem orderItem = (OrderItem)var13.next();
+                        Product product = productDao.findById(con, orderItem.getProductId());
+                        product.setInStock(product.getInStock() + orderItem.getQuantity());
+                        System.out.println("product updated ==> " + product);
+                        productDao.update(con, product, product);
+                    }
+                }
+
+                orderDao.update(con, order, order);
+                con.commit();
+            } catch (SQLException var26) {
+                try {
+                    con.rollback();
+                } catch (SQLException var25) {
+                    var25.printStackTrace();
+                }
+
+                System.out.println("Can't change status");
+                System.out.println(var26.getMessage());
+                req.getSession().setAttribute("errorMessage", "Can't change status");
+                address = "error.jsp";
+            } finally {
+                try {
+                    con.close();
+                } catch (SQLException var24) {
+                    throw new RuntimeException(var24);
+                }
+            }
+
+            return address;
         } else {
             req.getSession().setAttribute("errorMessage", "This order doesn't exist");
             return address;
         }
-
-        // todo check data
-        System.out.println("OrderId ==> " + orderId);
-        System.out.println("New status ==> " + status);
-
-
-        // get User
-        OrderDao orderDao = new OrderDao();
-        OrderItemDao orderItemDao = new OrderItemDao();
-        List<OrderItem> orderItemList;
-        Order order;
-        Connection con = DbHelper.getInstance().getConnection();
-
-        try {
-            con.setAutoCommit(false);
-            order = orderDao.findById(con, orderId);
-            order.setStatus(status);
-            if (status.equals("canceled")) {
-
-                orderItemList = orderItemDao.findByOrderId(con, orderId);
-                for (OrderItem orderItem : orderItemList) {
-                    Product product;
-                    product = productDao.findById(con,orderItem.getProductId());
-                    product.setInStock(product.getInStock()+orderItem.getQuantity());
-                    System.out.println("product updated ==> "+product);
-                    productDao.update(con,product,product);
-                }
-            }
-            orderDao.update(con, order, order);
-            con.commit();
-        } catch (SQLException ex) {
-            try {
-                con.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Can't change status");
-            System.out.println(ex.getMessage());
-            req.getSession().setAttribute("errorMessage", "Can't change status");
-            address = "error.jsp";
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return address;
-
     }
-
-
 }

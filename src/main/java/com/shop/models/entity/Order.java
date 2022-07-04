@@ -1,21 +1,26 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.models.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Order implements Serializable {
-
     private int id;
     private int userId;
     private String status;
     private Date orderDate;
 
+    public Order() {
+    }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -23,7 +28,7 @@ public class Order implements Serializable {
     }
 
     public int getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(int userId) {
@@ -31,7 +36,7 @@ public class Order implements Serializable {
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(String status) {
@@ -39,28 +44,24 @@ public class Order implements Serializable {
     }
 
     public Date getOrderDate() {
-        return orderDate;
+        return this.orderDate;
     }
 
     public void setOrderDate(String orderDate) {
-        String sDate1="31/12/1998";
-        Date date1= null;
+        String sDate1 = orderDate;
+        Date date1 = null;
+
         try {
-            date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-        } catch (ParseException e) {
+            date1 = (new SimpleDateFormat("dd/MM/yyyy")).parse(sDate1);
+        } catch (ParseException var5) {
             System.out.println("Exception: can't parse String to Date");
         }
-        System.out.println(sDate1+"\t"+date1);
+
+        System.out.println(sDate1 + "\t" + date1);
         this.orderDate = date1;
     }
 
-    @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", status='" + status + '\'' +
-                ", orderDate=" + orderDate +
-                '}';
+        return "Order{id=" + this.id + ", userId=" + this.userId + ", status='" + this.status + "', orderDate=" + this.orderDate + "}";
     }
 }

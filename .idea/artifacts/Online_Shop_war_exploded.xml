@@ -26,7 +26,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/Online_Shop-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="Online_Shop/web/Web" />
     </root>

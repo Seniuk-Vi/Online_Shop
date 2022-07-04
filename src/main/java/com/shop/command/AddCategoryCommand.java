@@ -1,56 +1,45 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.command;
 
+import com.shop.Validation;
 import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.CategoryDao;
-import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Category;
-import com.shop.models.entity.Product;
-
-import javax.servlet.ServletException;
+import java.sql.Connection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Map;
 
 public class AddCategoryCommand implements Command {
+    public AddCategoryCommand() {
+    }
 
-    @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "controller?command=showHomePage";
-
         CategoryDao categoryDao = new CategoryDao();
         Category category = new Category();
-
         String categoryName = req.getParameter("category");
+        if (!Validation.isTitleValid(categoryName)) {
+            req.getSession().setAttribute("categoryMessage", "2-10 length, only characters");
+            System.out.println("surname must contain only characters (2-10)");
+            return "addCategory.jsp";
+        } else {
+            category.setCategory(categoryName);
+            Connection con = DbHelper.getInstance().getConnection();
 
-        // todo check if param is valid
+            try {
+                categoryDao.add(con, category);
+            } catch (DbException var9) {
+                System.out.println("Can't add category ==> " + category);
+                address = "addCategory.jsp";
+                req.getSession().setAttribute("categoryMessage", "Category already exist!!!");
+            }
 
-        //
-
-        category.setCategory(categoryName);
-
-        Connection con;
-
-        con = DbHelper.getInstance().getConnection();
-
-        try {
-            categoryDao.add(con, category);
-
-        } catch (DbException ex) {
-            System.out.println("Can't add category ==> " + category);
-            address="addCategory.jsp";
-            req.getSession().setAttribute("errorMessage","Category already exist!!!");
+            return address;
         }
-
-        return address;
-
-    }
-    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
-        for (Map.Entry<String, String> entry : viewAttributes.entrySet())
-            request.getSession().setAttribute(entry.getKey(), entry.getValue());
-        return "registration.jsp";
     }
 }

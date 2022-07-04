@@ -1,74 +1,73 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop;
 
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.validator.routines.EmailValidator;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.SecureRandom;
-import java.util.regex.Pattern;
+
 public class Validation {
+    static final String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,25}$";
+    static final String phoneRegex = "^[0-9]{8,10}$";
+    static final String priceRegex = "^[0-9]{1,5}$";
+    static final String loginRegex = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d]{2,20}$";
+    static final String titleRegex = "^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d]{2,20}$";
+    static final String textRegex = "[a-zA-Za-ö-w-я]{60,500}$";
+    static final String nameRegex = "[a-zA-Za-ö-w-я]{2,10}$";
 
-    // Hashing parameters
-    private static final int ITERATIONS = 200000;
-    private static final int KEY_LENGTH = 512; // in bits
-    private static final int SALT_LENGTH = 128; // in bits
-
-    /**
-     * Hashing password using Password-Based Key Derivation Function (PBKDF)
-     *
-     * @param password Password string to hash
-     * @return Hexed password hash following by hexed salt
-     * @throws Exception when password cant be hashed by algorithm
-     */
-    public static String hashPassword(final String password) throws Exception {
-        byte[] salt = new byte[SALT_LENGTH / 8];
-        (new SecureRandom()).nextBytes(salt);
-        byte[] hashedBytes = hashPassword(password.toCharArray(), salt);
-        return Hex.encodeHexString(hashedBytes) + Hex.encodeHexString(salt);
-    }
-    /**
-     * Hashing password using Password-Based Key Derivation Function (PBKDF)
-     *
-     * @return Hexed password as chars array
-     * @throws Exception when password cant be hashed by algorithm
-     */
-    private static byte[] hashPassword(final char[] password, final byte[] salt) throws Exception {
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-        PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
-        SecretKey key = skf.generateSecret(spec);
-        return key.getEncoded();
-    }
-    /**
-     * Checks if given password being hashed equals to given hexed password string
-     */
-    public static boolean isPasswordCorrect(final String password, final String passwordSaltHexed) throws Exception {
-        if (password == null || passwordSaltHexed == null)
-            return false;
-        String passwordHexed = passwordSaltHexed.substring(0, KEY_LENGTH / 8 * 2);
-        byte[] salt = Hex.decodeHex(passwordSaltHexed.substring(KEY_LENGTH / 8 * 2).toCharArray());
-        byte[] hashedBytes = hashPassword(password.toCharArray(), salt);
-        return Hex.encodeHexString(hashedBytes).equals(passwordHexed);
+    public Validation() {
     }
 
-    /**
-     * Email validation
-     */
-    public static boolean isEmailValid(final String email)  {
+    public static boolean isPasswordCorrect(String password) {
+        return password == null ? false : password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,25}$");
+    }
+
+    public static boolean isEmailValid(String email) {
         return email != null && EmailValidator.getInstance().isValid(email);
     }
 
-    /**
-     * Password validation
-     */
-    public static boolean isPasswordValid(final String password)  {
-        return password != null && password.length() >= 8 && password.length() <= 64;
+    public static boolean isLoginValid(String login) {
+        return login != null && login.matches("^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d]{2,20}$");
     }
 
-    /**
-     * Primitive phone number validation
-     */
+    public static boolean isNameValid(String name) {
+        return name != null && name.matches("[a-zA-Za-ö-w-я]{2,10}$");
+    }
+
+    public static boolean isSurnameValid(String surname) {
+        return surname != null && surname.matches("[a-zA-Za-ö-w-я]{2,10}$");
+    }
+
+    public static boolean isTextValid(String title) {
+        return title != null && title.matches("^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\\d]{2,20}$");
+    }
+
     public static boolean isPhoneValid(String phoneNumber) {
-        return phoneNumber != null && !phoneNumber.isBlank();
+        return phoneNumber == null ? false : phoneNumber.matches("^[0-9]{8,10}$");
+    }
+
+    public static boolean isTitleValid(String name) {
+        return name != null && name.matches("[a-zA-Za-ö-w-я]{2,10}$");
+    }
+
+    public static boolean isPriceValid(int price) {
+        return price > 0 && price < 99999;
+    }
+
+    public static boolean isDescValid(String desc) {
+        return desc != null && desc.length() >= 60 && desc.length() <= 500;
+    }
+
+    public static boolean isYearValid(String year) {
+        return year != null && year.length() == 4;
+    }
+
+    public static boolean isStockValid(int stock) {
+        return stock >= 0;
+    }
+
+    public static boolean isStateValid(int state) {
+        return state > 0 && state < 11;
     }
 }

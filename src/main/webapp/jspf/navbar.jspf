@@ -19,14 +19,14 @@
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL =='http://localhost:8080/Online_Shop/user.jsp'}">
-                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/displayCart.jsp'}">
-                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
@@ -34,7 +34,7 @@
                 </c:if>
 
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/userOrders.jsp'}">
-                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>

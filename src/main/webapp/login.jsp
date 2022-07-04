@@ -22,7 +22,7 @@
 
     <form action="controller" method="post">
         <input type="hidden" name="command" value="login">
-        <input name="login" placeholder="password" value="loginlogin">
+        <input name="login" placeholder="password" value="loginlogin" >
         <input type="password" name="password" placeholder="password" value="loginlogin">
         <input type="submit" value="Login">
     </form>

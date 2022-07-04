@@ -1,17 +1,23 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.models.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class OrderItem implements Serializable {
+    private int orderId;
+    private int productId;
+    private int quantity;
 
-        private int orderId;
-
-        private int productId;
-        private int quantity;
+    public OrderItem() {
+    }
 
     public int getOrderId() {
-        return orderId;
+        return this.orderId;
     }
 
     public void setOrderId(int orderId) {
@@ -19,41 +25,37 @@ public class OrderItem implements Serializable {
     }
 
     public int getProductId() {
-        return productId;
+        return this.productId;
     }
 
     public void setProductId(int productId) {
         this.productId = productId;
     }
 
+    public int getQuantity() {
+        return this.quantity;
+    }
 
-        public int getQuantity() {
-            return quantity;
-        }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
-
-    @Override
     public String toString() {
-        return "OrderItem{" +
-                "orderId=" + orderId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                '}';
+        return "OrderItem{orderId=" + this.orderId + ", productId=" + this.productId + ", quantity=" + this.quantity + "}";
     }
 
-    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof OrderItem)) return false;
-        OrderItem orderItem = (OrderItem) o;
-        return getOrderId() == orderItem.getOrderId() && getProductId() == orderItem.getProductId() && getQuantity() == orderItem.getQuantity();
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof OrderItem)) {
+            return false;
+        } else {
+            OrderItem orderItem = (OrderItem)o;
+            return this.getOrderId() == orderItem.getOrderId() && this.getProductId() == orderItem.getProductId() && this.getQuantity() == orderItem.getQuantity();
+        }
     }
 
-    @Override
     public int hashCode() {
-        return Objects.hash(getOrderId(), getProductId(), getQuantity());
+        return Objects.hash(new Object[]{this.getOrderId(), this.getProductId(), this.getQuantity()});
     }
 }

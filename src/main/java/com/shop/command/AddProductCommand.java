@@ -1,98 +1,115 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.command;
 
-import com.mysql.cj.Session;
 import com.shop.Validation;
 import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
-import com.shop.db.dao.UserDao;
 import com.shop.models.entity.Product;
-import com.shop.models.entity.User;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 public class AddProductCommand implements Command {
+    public AddProductCommand() {
+    }
 
-
-    @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         req.getSession().removeAttribute("errorMessage");
         String address = "controller?command=showHomePage";
-
         ProductDao productDao = new ProductDao();
         Product product = new Product();
-
         String title = req.getParameter("title");
         String description = req.getParameter("description");
         int price = Integer.parseInt(req.getParameter("price"));
-//        String imageUrl = req.getParameter("image_url");
         int model_year = Integer.parseInt(req.getParameter("model_year"));
         int inStock = Integer.parseInt(req.getParameter("in_stock"));
-        String categotyId = req.getParameter("category");
+        String categoryId = req.getParameter("productCategory");
         String condition = req.getParameter("state");
-
-        // image downloading
         Part filePart = req.getPart("image_url");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         System.out.println(fileName);
         InputStream fileContent = filePart.getInputStream();
-        String imageAddress = (String) req.getSession().getAttribute("path");
-        imageAddress+=fileName;
+        String imageAddress = (String)req.getSession().getAttribute("path");
+        imageAddress = imageAddress + fileName;
         System.out.println("address ==> " + imageAddress);
-        Files.copy(fileContent, Paths.get(imageAddress), StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(fileContent, Paths.get(imageAddress), new CopyOption[]{StandardCopyOption.REPLACE_EXISTING});
+        Map<String, String> registrationAttributes = new HashMap();
+        registrationAttributes.put("title", title);
+        registrationAttributes.put("description", description);
+        registrationAttributes.put("price", String.valueOf(price));
+        registrationAttributes.put("model_year", String.valueOf(model_year));
+        registrationAttributes.put("in_stock", String.valueOf(inStock));
+        registrationAttributes.put("category", categoryId);
+        registrationAttributes.put("state", condition);
+        if (!Validation.isTitleValid(title)) {
+            registrationAttributes.put("titleMessage", "2-10 length, title only letters");
+            System.out.println("2-10 length, title only letters");
+            return this.passAttributesToSession(req, resp, registrationAttributes);
+        } else if (!Validation.isDescValid(description)) {
+            registrationAttributes.put("descriptionMessage", "60-500 length");
+            System.out.println("description don't valid");
+            return this.passAttributesToSession(req, resp, registrationAttributes);
+        } else if (!Validation.isPriceValid(price)) {
+            registrationAttributes.put("priceMessage", "1-10000 price");
+            System.out.println("price don't valid");
+            return this.passAttributesToSession(req, resp, registrationAttributes);
+        } else if (!Validation.isYearValid(String.valueOf(model_year))) {
+            registrationAttributes.put("modelYearMessage", "only 4 digits");
+            System.out.println("model_year don't valid");
+            return this.passAttributesToSession(req, resp, registrationAttributes);
+        } else if (!Validation.isStockValid(inStock)) {
+            registrationAttributes.put("inStockMessage", "min 0 in stock");
+            System.out.println("inStock don't valid");
+            return this.passAttributesToSession(req, resp, registrationAttributes);
+        } else if (!Validation.isStateValid(Integer.parseInt(condition))) {
+            registrationAttributes.put("conditionMessage", "1-10 condition");
+            System.out.println("condition don't valid");
+            return this.passAttributesToSession(req, resp, registrationAttributes);
+        } else {
+            product.setTitle(title);
+            product.setDescription(description);
+            product.setPrice((double)price);
+            product.setImageUrl(fileName);
+            product.setModelYear(model_year);
+            product.setInStock(inStock);
+            product.setCategory(categoryId);
+            product.setCondition(condition);
+            Connection con = DbHelper.getInstance().getConnection();
 
-        String imageUrl = fileName;
-        // todo check if param is valid
+            try {
+                productDao.add(con, product);
+            } catch (DbException var21) {
+                System.out.println("Can't add product ==> " + product);
+                req.getSession().setAttribute("errorMessage", "Can't add product!!");
+                address = "addProduct.jsp";
+            }
 
-        //
+            return address;
+        }
+    }
 
-        product.setTitle(title);
-        product.setDescription(description);
-        product.setPrice(price);
-        product.setImageUrl(imageUrl);
-        product.setModelYear(model_year);
-        product.setInStock(inStock);
-        product.setCategory(categotyId);
-        product.setCondition(condition);
+    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) {
+        Iterator var4 = viewAttributes.entrySet().iterator();
 
-        Connection con;
-
-        con = DbHelper.getInstance().getConnection();
-
-        try {
-            productDao.add(con, product);
-
-        } catch (DbException ex) {
-            System.out.println("Can't add product ==> " + product);
-            req.getSession().setAttribute("errorMessage", "Can't add product!!");
-            address = "addProduct.jsp";
+        while(var4.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry)var4.next();
+            request.getSession().setAttribute((String)entry.getKey(), entry.getValue());
         }
 
-        return address;
-
+        return "addProduct.jsp";
     }
-
-    private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) throws ServletException, IOException {
-        for (Map.Entry<String, String> entry : viewAttributes.entrySet())
-            request.getSession().setAttribute(entry.getKey(), entry.getValue());
-        return "registration.jsp";
-    }
-
 }

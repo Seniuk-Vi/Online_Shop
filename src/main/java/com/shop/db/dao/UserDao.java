@@ -1,8 +1,12 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.db.dao;
 
 import com.shop.db.DbException;
 import com.shop.models.entity.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,55 +14,60 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserDao extends GenericDAO<User> {
-
-
     public String SQL_GET_ALL_USERS = "SELECT * FROM user";
-
-    public static final String SQL_ADD_USER = "INSERT INTO user (login,name,surname,phone_number,email,role,password,locale)"
-            + "VALUES" + "(?,?,?,?,?,?,?,?)";
-
+    public static final String SQL_ADD_USER = "INSERT INTO user (login,name,surname,phone_number,email,role,password,locale)VALUES(?,?,?,?,?,?,?,?)";
     public static final String SQL_FIND_BY_LOGIN = "SELECT * FROM user WHERE login = ?";
+    public static final String SQL_FIND_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
     public static final String SQL_FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
-    public static final String SQL_UPDATE_USER = "UPDATE user SET login=?, name=?, surname=?, phone_number=?, email=?, role=?, " +
-            "password=?, locale=?"+" WHERE id = ?";
+    public static final String SQL_UPDATE_USER = "UPDATE user SET login=?, name=?, surname=?, phone_number=?, email=?, role=?, password=?, locale=? WHERE id = ?";
     public static final String SQL_DELETE_BY_ID = "DELETE * FROM user WHERE id = ?";
 
+    public UserDao() {
+    }
 
     public List<User> findAll(Connection con) throws SQLException {
-        List<User> list;
-        list = findAll(con, SQL_GET_ALL_USERS);
+        List<User> list = this.findAll(con, this.SQL_GET_ALL_USERS);
         return list;
     }
 
     public User findByLogin(Connection con, String login) throws SQLException {
-        List<User> list = findByField(con, SQL_FIND_BY_LOGIN, login);
+        List<User> list = this.findByField(con, "SELECT * FROM user WHERE login = ?", login);
         if (list.isEmpty()) {
             throw new SQLException("Can't find by login");
+        } else {
+            return (User)list.get(0);
         }
-        return list.get(0);
+    }
+
+    public User findByEmail(Connection con, String email) throws SQLException {
+        List<User> list = this.findByField(con, "SELECT * FROM user WHERE email = ?", email);
+        if (list.isEmpty()) {
+            throw new SQLException("Can't find by email");
+        } else {
+            return (User)list.get(0);
+        }
     }
 
     public User findById(Connection con, int id) throws SQLException {
-        List<User> list = findByField(con, SQL_FIND_BY_ID, id);
+        List<User> list = this.findByField(con, "SELECT * FROM user WHERE id = ?", id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find by id");
+        } else {
+            return (User)list.get(0);
         }
-        return list.get(0);
     }
-
 
     public void add(Connection con, User user) throws DbException {
-        add(con, SQL_ADD_USER, user);
-    }
-    public void update(Connection con, User user, User newUser) throws SQLException {
-        updateByField(con,SQL_UPDATE_USER,newUser,9,user.getId());
+        this.add(con, "INSERT INTO user (login,name,surname,phone_number,email,role,password,locale)VALUES(?,?,?,?,?,?,?,?)", user);
     }
 
+    public void update(Connection con, User user, User newUser) throws SQLException {
+        this.updateByField(con, "UPDATE user SET login=?, name=?, surname=?, phone_number=?, email=?, role=?, password=?, locale=? WHERE id = ?", newUser, 9, user.getId());
+    }
 
     public void delete(Connection con, User user) throws SQLException {
-        deleteByField(con,SQL_DELETE_BY_ID,user.getId());
+        this.deleteByField(con, "DELETE * FROM user WHERE id = ?", user.getId());
     }
-
 
     protected void mapFromEntity(PreparedStatement pstmt, User user) throws SQLException {
         int k = 1;
@@ -73,7 +82,6 @@ public class UserDao extends GenericDAO<User> {
         System.out.println(pstmt.toString());
     }
 
-    @Override
     protected User mapToEntity(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getInt("id"));

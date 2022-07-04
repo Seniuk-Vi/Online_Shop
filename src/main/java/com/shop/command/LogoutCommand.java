@@ -1,30 +1,23 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.command;
 
-import com.shop.db.DbHelper;
-import com.shop.db.dao.ProductDao;
-import com.shop.db.dao.UserDao;
-import com.shop.models.entity.Product;
 import com.shop.models.entity.User;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.util.List;
 
 public class LogoutCommand implements Command {
+    public LogoutCommand() {
+    }
 
-
-    @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String address = "homePage.jsp";
-
-        User user = (User) req.getSession().getAttribute("currentUser");
+        User user = (User)req.getSession().getAttribute("currentUser");
         if (user != null) {
-           req.getSession().removeAttribute("currentUser");
-           req.getSession().removeAttribute("cart");
-           req.getSession().removeAttribute("orders");
-           req.getSession().removeAttribute("products");
-           req.getSession().removeAttribute("errorMessage");
+            req.getSession().invalidate();
         }
 
         return address;

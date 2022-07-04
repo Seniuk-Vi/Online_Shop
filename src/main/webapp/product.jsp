@@ -1,5 +1,4 @@
 <%@include file="/jspf/header.jspf" %>
-
 <html>
 <head>
     <title>Home page</title>
@@ -7,19 +6,15 @@
     <c:if test="${empty products}">
         <c:redirect url="controller?command=showHomePage"></c:redirect>
     </c:if>
-
 </head>
-
 <body class="main">
 <script src="${pageContext.request.contextPath}/js/script.js"></script>
-
 <c:if test="${currentUser.role == 1}">
     <%@include file="/jspf/adminNavbar.jspf" %>
 </c:if>
 <c:if test="${currentUser.role != 1}">
     <%@include file="/jspf/navbar.jspf" %>
 </c:if>
-
 <div class="column">
     <div class="product-card">
         <div class="product-tumb">
@@ -58,9 +53,6 @@
         </div>
     </div>
 </div>
-
-
-
 </body>
 </html>
 

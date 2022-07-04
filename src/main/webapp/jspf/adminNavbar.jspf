@@ -31,7 +31,7 @@
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL =='http://localhost:8080/Online_Shop/user.jsp'}">
-                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <a class="nav_link" href="controller?command=showUsers">Users</a>
                     <a class="nav_link" href="controller?command=showOrders">Orders</a>
@@ -40,7 +40,7 @@
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/orders.jsp'}">
-                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <a class="nav_link" href="controller?command=showUsers">Users</a>
                     <a class="nav_link_hold" href="controller?command=showOrders">Orders</a>
@@ -49,12 +49,39 @@
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/userOrders.jsp'}">
-                    <a class="nav_link" href="">Main</a>
+                    <a class="nav_link" href="/Online_Shop/>Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
                     <a class="nav_link" href="controller?command=showUsers">Users</a>
                     <a class="nav_link" href="controller?command=showOrders">Orders</a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
+                    </c:if>
+                </c:if>
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/displayCart.jsp'}">
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
+                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
+                    <a class="nav_link" href="controller?command=showUsers">Users</a>
+                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <c:if test="${not empty currentUser}">
+                        <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
+                    </c:if>
+                </c:if>
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/addProduct.jsp'}">
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
+                    <a class="nav_link" href="controller?command=showUsers">Users</a>
+                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <c:if test="${not empty currentUser}">
+                        <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
+                    </c:if>
+                </c:if>
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/addCategory.jsp'}">
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
+                    <a class="nav_link" href="controller?command=showUsers">Users</a>
+                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <c:if test="${not empty currentUser}">
+                        <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${empty currentUser}">
@@ -70,7 +97,6 @@
                         <c:if test="${empty cart }">
                             <c:out value="0"/>
                         </c:if>
-
                     </a>
 
 

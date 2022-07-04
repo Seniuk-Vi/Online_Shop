@@ -1,17 +1,30 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.command;
 
-import com.shop.command.admin.*;
-
+import com.shop.command.admin.BlockUserCommand;
+import com.shop.command.admin.DeleteProductCommand;
+import com.shop.command.admin.EditOrderStatusCommand;
+import com.shop.command.admin.EditProductCommand;
+import com.shop.command.admin.EditProductShowCommand;
+import com.shop.command.admin.UnblockUserCommand;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandContainer {
+    private static Map<String, Command> commands = new HashMap();
 
-    private static Map<String, Command> commands;
+    public CommandContainer() {
+    }
+
+    public static Command getCommand(String commandName) {
+        return (Command)commands.get(commandName);
+    }
 
     static {
-        commands = new HashMap<>();
-
         commands.put("login", new LoginCommand());
         commands.put("registration", new RegistrationCommand());
         commands.put("addProduct", new AddProductCommand());
@@ -34,11 +47,5 @@ public class CommandContainer {
         commands.put("showUsers", new ShowUsersCommand());
         commands.put("showOrders", new ShowOrdersCommand());
         commands.put("logout", new LogoutCommand());
-        // commands.put("")
-    }
-
-    public static Command getCommand(String commandName) {
-        return commands.get(commandName);
-
     }
 }

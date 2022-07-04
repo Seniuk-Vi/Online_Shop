@@ -1,43 +1,38 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.shop.command.admin;
 
 import com.shop.command.Command;
 import com.shop.db.DbHelper;
-import com.shop.db.dao.ProductDao;
 import com.shop.db.dao.UserDao;
-import com.shop.models.entity.OrderItem;
-import com.shop.models.entity.Product;
 import com.shop.models.entity.User;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class UnblockUserCommand implements Command {
+    public UnblockUserCommand() {
+    }
 
-
-    @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String address = "error.jsp";
-
-        UserDao userDao= new UserDao();
-        User user;
+        UserDao userDao = new UserDao();
         int userId = Integer.parseInt(req.getParameter("user_id"));
+        Connection con = DbHelper.getInstance().getConnection();
 
-        Connection con;
-        con = DbHelper.getInstance().getConnection();
         try {
-            user = userDao.findById(con,userId);
-            // unblock
+            User user = userDao.findById(con, userId);
             user.setRole(1);
-            userDao.update(con,user,user);
+            userDao.update(con, user, user);
             address = "controller?command=showUsers";
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException var9) {
+            var9.printStackTrace();
         }
+
         return address;
-
-
     }
 }
