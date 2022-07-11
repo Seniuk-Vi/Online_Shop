@@ -38,6 +38,7 @@ public class CommandContainer {
         commands.put("unblockUser", new UnblockUserCommand());
         commands.put("updateUserData", new UpdateUserDataCommand());
         commands.put("showUsers", new ShowUsersCommand());
+        commands.put("showProduct", new ShowProductCommand());
         commands.put("showOrders", new ShowOrdersCommand());
         commands.put("logout", new LogoutCommand());
     }

@@ -21,16 +21,8 @@
         </div>
     </div>
     <p><fmt:message key="index_jsp.link.settings"/> </p>
-    <form action="changeLocale.jsp" method="post">
-        <fmt:message key="settings_jsp.label.set_locale"/>
-        <select name="locale">
-            <c:forEach items="${applicationScope.locales}" var="locale">
-                <c:set var="selected" value="${locale.key==currentLocale ? 'selected':''}"/>
-                <option value="${locale.key}" ${selected}>${locale.value}</option>
-            </c:forEach>
-        </select>
-            <input type="submit" value="<fmt:message key="settings_jsp.form.submit_save_locale"/>">
-    </form>
+    <p><fmt:message key="index_jsp.link.settings"/> </p>
+
 
     ${userLocale}
 

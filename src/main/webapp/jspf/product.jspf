@@ -5,7 +5,12 @@
         </div>
         <div class="product-details">
             <span class="product-catagory">${row.category}</span>
-            <h4><a href="">${row.title}</a></h4>
+            <form method="post" action="controller">
+                <input type="hidden" name="command" value="showProduct"/>
+                <input type="hidden" name="product_id" value="${row.id}"/>
+               <a class="ttl-btn" onclick="this.parentNode.submit();"><h4>${row.title}</h4></a>
+            </form>
+
             <p id="desc">${row.description}</p>
             <div class="product-bottom-details">
                 <div class="product-price">${row.price}</div>
@@ -21,7 +26,7 @@
                         <form method="post" action="controller">
                             <input type="hidden" name="command" value="addToCart"/>
                             <input type="hidden" name="product_id" value="${row.id}"/>
-                            <a onclick="this.parentNode.submit();">buy</a>
+                            <a onclick="this.parentNode.submit();">add to cart</a>
                         </form>
                         <span>|</span>
                         <form method="post" action="controller">

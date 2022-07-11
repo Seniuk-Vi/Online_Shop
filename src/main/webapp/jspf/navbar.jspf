@@ -40,6 +40,13 @@
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/product.jsp'}">
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
+                    <c:if test="${not empty currentUser}">
+                        <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
+                    </c:if>
+                </c:if>
                 <a href="displayCart.jsp" class="nav_link">Cart:
                     <c:if test="${cart.size() > 0}">
                         <c:out value="${cart.size()}"/>
@@ -54,7 +61,15 @@
                     <a class="nav_link" href="login.jsp">Login</a>
                     <a class="nav_link" href="registration.jsp">Sign Up</a>
                 </c:if>
-
+                <form class="nav_link" action="changeLocale.jsp" method="post">
+                    <input type="hidden" name="prevPage" value="${pageContext.request.requestURL}">
+                    <select onchange="this.form.submit()" name="locale">
+                        <c:forEach items="${applicationScope.locales}" var="locale">
+                            <c:set var="selected" value="${locale.key==currentLocale ? 'selected':''}"/>
+                            <option value="${locale.key}" ${selected}>${locale.value}</option>
+                        </c:forEach>
+                    </select>
+                </form>
 
             </nav>
         </div>
