@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddCategoryCommand implements Command {
-    public AddCategoryCommand() {
-    }
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "controller?command=showHomePage";

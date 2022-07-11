@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditProductShowCommand implements Command {
-    public EditProductShowCommand() {
-    }
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "editProduct.jsp";

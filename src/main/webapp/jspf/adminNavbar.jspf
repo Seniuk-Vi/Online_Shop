@@ -84,6 +84,15 @@
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
+                <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/editProduct.jsp'}">
+                    <a class="nav_link" href="/Online_Shop/">Main</a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
+                    <a class="nav_link" href="controller?command=showUsers">Users</a>
+                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <c:if test="${not empty currentUser}">
+                        <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
+                    </c:if>
+                </c:if>
                 <c:if test="${empty currentUser}">
                     <a class="nav_link" href="login.jsp">Login</a>
                     <a class="nav_link" href="registration.jsp">Sign Up</a>

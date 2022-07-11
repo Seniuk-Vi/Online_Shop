@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddToCartCommand implements Command {
-    public AddToCartCommand() {
-    }
-
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().removeAttribute("errorMessageCart");
         String address = "homePage.jsp";

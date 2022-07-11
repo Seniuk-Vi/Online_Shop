@@ -23,8 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 public class AddProductCommand implements Command {
-    public AddProductCommand() {
-    }
 
     public String execute(HttpServletRequest req, HttpServletResponse resp)  {
         req.getSession().removeAttribute("errorMessage");
@@ -38,7 +36,7 @@ public class AddProductCommand implements Command {
         int inStock = Integer.parseInt(req.getParameter("in_stock"));
         String categoryId = req.getParameter("productCategory");
         String condition = req.getParameter("state");
-        Part filePart = null;
+        Part filePart;
         try {
             filePart = req.getPart("image_url");
         } catch (IOException e) {

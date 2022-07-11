@@ -22,8 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditOrderStatusCommand implements Command {
-    public EditOrderStatusCommand() {
-    }
+
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "controller?command=showOrders";

@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteProductCommand implements Command {
-    public DeleteProductCommand() {
-    }
+
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "controller?command=showHomePage";

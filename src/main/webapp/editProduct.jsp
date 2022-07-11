@@ -5,7 +5,12 @@
     <%@include file="/jspf/head.jspf" %>
 </head>
 <body class="main">
-<%@include file="/jspf/navbar.jspf" %>
+<c:if test="${currentUser.role == 1}">
+    <%@include file="/jspf/adminNavbar.jspf" %>
+</c:if>
+<c:if test="${currentUser.role != 1}">
+    <c:redirect url="homePage.jsp"/>
+</c:if>
 <br>
 
 <form action="controller" method="post" id="form" enctype="multipart/form-data">

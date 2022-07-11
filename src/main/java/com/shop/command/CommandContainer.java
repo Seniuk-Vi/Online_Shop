@@ -12,8 +12,6 @@ import java.util.Map;
 public class CommandContainer {
     private static Map<String, Command> commands = new HashMap();
 
-    public CommandContainer() {
-    }
 
     public static Command getCommand(String commandName) {
         return (Command)commands.get(commandName);
