@@ -14,7 +14,10 @@
           <element id="module-output" name="Online_Shop" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+          <element id="library" level="project" name="Maven: javax.servlet.jsp.jstl:jstl-api:1.2" />
+          <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
+          <element id="library" level="project" name="Maven: javax.servlet.jsp:jsp-api:2.1" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: com.coveo:fmt-maven-plugin:2.10" />
           <element id="library" level="project" name="Maven: org.apache.maven:maven-plugin-api:3.3.9" />
           <element id="library" level="project" name="Maven: org.apache.maven:maven-model:3.3.9" />

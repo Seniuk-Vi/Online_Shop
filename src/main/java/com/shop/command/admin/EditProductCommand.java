@@ -68,7 +68,7 @@ public class EditProductCommand implements Command {
         }
         product.setTitle(title);
         product.setDescription(description);
-        product.setPrice(Double.parseDouble(price));
+        product.setPrice(Integer.parseInt(price));
         product.setModelYear(Integer.parseInt(modelYear));
         product.setInStock(Integer.parseInt(inStock));
         product.setCategory(category);

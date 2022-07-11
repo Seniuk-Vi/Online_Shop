@@ -18,7 +18,7 @@
                     <input type="hidden" name="order_id" value="${row.key.id}">
                     <td>${row.key.id}</td>
                     <td>
-                        <select name="status" >
+                        <select name="status">
                             <option selected value="${row.key.status}">${row.key.status}</option>
                             <option value="registered">registered</option>
                             <option value="paid">paid</option>
@@ -26,16 +26,12 @@
                         </select>
                         <input type="submit" name="change status">
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <ctg:emptyColTag iterations="3"/>
                 </form>
             </tr>
             <c:forEach items="${row.value}" var="it">
                 <tr id="order_details">
-                    <td></td>
-                    <td></td>
-
+                    <ctg:emptyColTag iterations="2"/>
                     <td>${it.value.title}</td>
                     <td>${it.key.quantity}</td>
                     <td>${it.value.inStock}</td>

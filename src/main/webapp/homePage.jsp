@@ -6,6 +6,7 @@
 </head>
 <body class="main">
 <div class="container">
+
     <c:if test="${currentUser.role == 1}">
         <%@include file="/jspf/adminNavbar.jspf" %>
         <br>

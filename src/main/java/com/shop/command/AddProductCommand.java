@@ -95,7 +95,7 @@ public class AddProductCommand implements Command {
         } else {
             product.setTitle(title);
             product.setDescription(description);
-            product.setPrice((double)price);
+            product.setPrice(price);
             product.setImageUrl(fileName);
             product.setModelYear(model_year);
             product.setInStock(inStock);

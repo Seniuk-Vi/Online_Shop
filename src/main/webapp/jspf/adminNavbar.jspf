@@ -108,16 +108,24 @@
                 </c:if>
 
 
-                    <a href="displayCart.jsp" class="nav_link">Cart:
-                        <c:if test="${cart.size() > 0}">
-                            <c:out value="${cart.size()}"/>
-                        </c:if>
-                        <c:if test="${empty cart }">
-                            <c:out value="0"/>
-                        </c:if>
-                    </a>
+                <a href="displayCart.jsp" class="nav_link">Cart:
+                    <c:if test="${cart.size() > 0}">
+                        <c:out value="${cart.size()}"/>
+                    </c:if>
+                    <c:if test="${empty cart }">
+                        <c:out value="0"/>
+                    </c:if>
+                </a>
 
-
+                <form class="nav_link" action="changeLocale.jsp" method="post">
+                    <input type="hidden" name="prevPage" value="${pageContext.request.requestURL}">
+                    <select onchange="this.form.submit()" name="locale">
+                        <c:forEach items="${applicationScope.locales}" var="locale">
+                            <c:set var="selected" value="${locale.key==currentLocale ? 'selected':''}"/>
+                            <option value="${locale.key}" ${selected}>${locale.value}</option>
+                        </c:forEach>
+                    </select>
+                </form>
             </nav>
         </div>
     </div>

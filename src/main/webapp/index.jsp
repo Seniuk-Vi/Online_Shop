@@ -21,7 +21,6 @@
         </div>
     </div>
     <p><fmt:message key="index_jsp.link.settings"/> </p>
-    <p><fmt:message key="index_jsp.link.settings"/> </p>
 
 
     ${userLocale}

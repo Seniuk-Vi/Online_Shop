@@ -196,7 +196,7 @@ public class ProductDao extends GenericDAO<Product> {
         product.setId(rs.getInt("id"));
         product.setTitle(rs.getString("title"));
         product.setDescription(rs.getString("description"));
-        product.setPrice((double)rs.getInt("price"));
+        product.setPrice(rs.getInt("price"));
         product.setImageUrl(rs.getString("image_url"));
         product.setModelYear(rs.getInt("model_year"));
         product.setInStock(rs.getInt("in_stock"));

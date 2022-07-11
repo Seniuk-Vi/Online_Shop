@@ -7,7 +7,7 @@ public class Product implements Serializable {
     private int id;
     private String title;
     private String description;
-    private double price;
+    private int price;
     private String imageUrl;
     private int modelYear;
     private int inStock;
@@ -41,11 +41,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return this.price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

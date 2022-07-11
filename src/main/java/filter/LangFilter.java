@@ -40,7 +40,7 @@ public class LangFilter implements Filter {
             //response.setLocale(new Locale(locale));
             req.getSession().setAttribute("currentLocale",locale);
             Config.set( req.getSession(), Config.FMT_LOCALE, new java.util.Locale(locale) );
-            System.out.println("userLocalee ==> "+locale);
+            System.out.println("userLocale ==> "+locale);
         }
         try {
             chain.doFilter(request, response);
