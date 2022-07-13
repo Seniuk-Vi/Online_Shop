@@ -20,5 +20,16 @@
         </attribute>
 
     </tag>
-
+    <tag>
+        <name>ProductList</name>
+        <tag-class>com.shop.tag.ProductListTag</tag-class>
+        <!-- //TagFile 04: Change Body Content as Scriptless. Prev. Line Commented  -->
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>products</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!-- //TagFile 05: Moved the Fragement to Tagfile-->
+    </tag>
 </taglib>
