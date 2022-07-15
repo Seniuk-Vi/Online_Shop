@@ -2,6 +2,8 @@ package com.shop;
 
 import com.shop.db.DbHelper;
 
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,8 +17,8 @@ import javax.servlet.annotation.WebListener;
 public class ContextListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent sce) {
-        String path = sce.getServletContext().getRealPath("WEB-INF/");
-        System.setProperty("log4j.path", path);
+        // initialization log4j
+        ServletContext context = sce.getServletContext();
 
         try {
             DbHelper.getInstance().getConnection().close();
@@ -25,13 +27,12 @@ public class ContextListener implements ServletContextListener {
         }
 
         // obtain file name with locales descriptions
-        ServletContext context = sce.getServletContext();
         String localesFileName = context.getInitParameter("locales");
 
-        // obtain reale path on server
+        // obtain real path on server
         String localesFileRealPath = context.getRealPath(localesFileName);
 
-        // locad descriptions
+        // locales descriptions
         Properties locales = new Properties();
         try {
             locales.load(new FileInputStream(localesFileRealPath));

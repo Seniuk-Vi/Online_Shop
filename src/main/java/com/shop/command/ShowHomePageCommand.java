@@ -1,11 +1,11 @@
 package com.shop.command;
+
 import com.shop.db.DbHelper;
 import com.shop.db.dao.CategoryDao;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Category;
 import com.shop.models.entity.Product;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,15 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowHomePageCommand implements Command {
-    private final int recordsPerPage = 8;
-    Logger logger = LogManager.getLogger(CategoryDao.class);
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "homePage.jsp";
+
         ProductDao productDao = new ProductDao();
         Connection con = DbHelper.getInstance().getConnection();
-        List<Product> table = null;
-        List<Category> categories = null;
+        List<Product> table;
+        List<Category> categories;
         CategoryDao categoryDao = new CategoryDao();
         int maxPrice = (int) productDao.getMaxPrice(con);
         int minPrice = (int) productDao.getMinPrice(con);
@@ -133,6 +132,7 @@ public class ShowHomePageCommand implements Command {
         System.out.println("currentPage ==> " + currentPage);
         int rowsCount = productDao.getRowsCount(con, category, minPriceS, maxPriceS, search);
         System.out.println("rowsCount ==> " + rowsCount);
+        int recordsPerPage = 8;
         int noOfPages = rowsCount / recordsPerPage;
         if (noOfPages * rowsCount % recordsPerPage > 0) {
             System.out.println("numberOfPages ==> " + noOfPages);
