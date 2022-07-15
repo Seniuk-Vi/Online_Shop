@@ -121,22 +121,22 @@ public class RegistrationCommand implements Command {
                     con.close();
                 } catch (SQLException var17) {
                 }
-
                 session = req.getSession(true);
                 session.setAttribute("currentUser", user);
+                session.setAttribute("userLocale", user.getLocale());
+
                 return address;
             }
         }
     }
 
     private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) {
-        Iterator var4 = viewAttributes.entrySet().iterator();
+        Iterator iterator = viewAttributes.entrySet().iterator();
 
-        while(var4.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry)var4.next();
-            request.getSession().setAttribute((String)entry.getKey(), entry.getValue());
+        while(iterator.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
+            request.getSession().setAttribute(entry.getKey(), entry.getValue());
         }
-
         return "registration.jsp";
     }
 }

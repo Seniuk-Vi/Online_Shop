@@ -17,15 +17,15 @@ public class OrderItemDao extends GenericDAO<OrderItem> {
     public String SQL_GET_ALL_ITEM = "SELECT * FROM order_items";
     public static final String SQL_FIND_BY_ORDER_ID = "SELECT * FROM order_items WHERE order_id= ?";
     public static final String SQL_ADD_ITEM = "INSERT INTO order_items (order_id,product_id,quantity) VALUES(?,?,?)";
-    public static final String SQL_UPDATE_ITEM = "UPDATE order_items SETorder_id=?,product_id=?,quantity=?WHERE order_id = ? AND product_id=?";
+    public static final String SQL_UPDATE_ITEM = "UPDATE order_items SET order_id=?,product_id=?,quantity=?WHERE order_id = ? AND product_id=?";
     public static final String SQL_DELETE_ITEM = "DELETE * FROM order_items WHERE order_id = ? AND product_id=?";
 
     public OrderItemDao() {
     }
 
     public List<OrderItem> findAll(Connection con) throws SQLException {
-        this.findAll(con, this.SQL_GET_ALL_ITEM);
-        return null;
+
+        return this.findAll(con, this.SQL_GET_ALL_ITEM);
     }
 
     public List<OrderItem> findByOrderId(Connection con, int id) throws SQLException {
@@ -49,7 +49,6 @@ public class OrderItemDao extends GenericDAO<OrderItem> {
         pstmt.setInt(k++, orderItem.getOrderId());
         pstmt.setInt(k++, orderItem.getProductId());
         pstmt.setInt(k++, orderItem.getQuantity());
-        System.out.println("mapFromEntity category ==> " + pstmt);
     }
 
     protected OrderItem mapToEntity(ResultSet rs) throws SQLException {
@@ -57,7 +56,6 @@ public class OrderItemDao extends GenericDAO<OrderItem> {
         orderItem.setOrderId(rs.getInt("order_id"));
         orderItem.setProductId(rs.getInt("product_id"));
         orderItem.setQuantity(rs.getInt("quantity"));
-        System.out.println("mapToEntity category ==> " + orderItem);
         return orderItem;
     }
 }

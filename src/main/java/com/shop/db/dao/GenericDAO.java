@@ -6,6 +6,7 @@
 package com.shop.db.dao;
 
 import com.shop.db.DbException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,26 +19,23 @@ public abstract class GenericDAO<T> {
     }
 
     protected List<T> findAll(Connection con, String sql) throws SQLException {
-        List<T> list = new ArrayList();
+        List<T> list = new ArrayList<>();
         PreparedStatement pstm = null;
         ResultSet rs = null;
-
         try {
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
-
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(this.mapToEntity(rs));
             }
         } finally {
             this.close(pstm, rs);
         }
-
         return list;
     }
 
     protected List<T> findAllPagination(Connection con, String sql, int limit, int offset) throws SQLException {
-        List<T> list = new ArrayList();
+        List<T> list = new ArrayList<>();
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
@@ -48,7 +46,7 @@ public abstract class GenericDAO<T> {
             System.out.println(pstm);
             rs = pstm.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(this.mapToEntity(rs));
             }
         } finally {
@@ -59,7 +57,7 @@ public abstract class GenericDAO<T> {
     }
 
     protected <V> List<T> findByField(Connection con, String sql, V value) throws SQLException {
-        List<T> list = new ArrayList();
+        List<T> list = new ArrayList<>();
         PreparedStatement pstm = null;
         ResultSet rs = null;
 
@@ -67,25 +65,22 @@ public abstract class GenericDAO<T> {
             pstm = con.prepareStatement(sql);
             switch (value.getClass().getSimpleName()) {
                 case "String":
-                    pstm.setString(1, (String)value);
+                    pstm.setString(1, (String) value);
                     break;
                 case "Integer":
-                    pstm.setInt(1, (Integer)value);
+                    pstm.setInt(1, (Integer) value);
                     break;
                 default:
                     String var10002 = value.getClass().getSimpleName();
                     throw new IllegalArgumentException("Can't find by field ==> " + var10002 + sql);
             }
-
             rs = pstm.executeQuery();
-
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(this.mapToEntity(rs));
             }
         } finally {
             this.close(pstm, rs);
         }
-
         return list;
     }
 
@@ -93,7 +88,6 @@ public abstract class GenericDAO<T> {
         PreparedStatement pstm = null;
         ResultSet rs = null;
         int id = -1;
-
         try {
             pstm = con.prepareStatement(sql, 1);
             this.mapFromEntity(pstm, item);
@@ -101,36 +95,15 @@ public abstract class GenericDAO<T> {
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
-
-            try {
-                ResultSet generatedKeys = pstm.getGeneratedKeys();
-
-                try {
-                    if (generatedKeys.next()) {
-                        id = generatedKeys.getInt(1);
-                    }
-                } catch (Throwable var18) {
-                    if (generatedKeys != null) {
-                        try {
-                            generatedKeys.close();
-                        } catch (Throwable var17) {
-                            var18.addSuppressed(var17);
-                        }
-                    }
-
-                    throw var18;
-                }
-
-                if (generatedKeys != null) {
-                    generatedKeys.close();
-                }
-            } catch (SQLException var19) {
-                System.out.println("Can't get generated keys");
+            ResultSet generatedKeys = pstm.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
             }
-        } catch (SQLException var20) {
-            throw new DbException("Can't add" + item.getClass().getSimpleName().toString(), var20);
+            generatedKeys.close();
+        } catch (SQLException ex) {
+            throw new DbException("Can't add" + item.getClass().getSimpleName(), ex);
         } finally {
-            this.close(pstm, (ResultSet)rs);
+            close(pstm, rs);
         }
 
         return id;
@@ -145,10 +118,10 @@ public abstract class GenericDAO<T> {
             this.mapFromEntity(pstm, item);
             switch (value.getClass().getSimpleName()) {
                 case "String":
-                    pstm.setString(parameterIndex, (String)value);
+                    pstm.setString(parameterIndex, (String) value);
                     break;
                 case "Integer":
-                    pstm.setInt(parameterIndex, (Integer)value);
+                    pstm.setInt(parameterIndex, (Integer) value);
                     break;
                 default:
                     throw new IllegalArgumentException("Can't find by field ==> " + value);
@@ -159,7 +132,7 @@ public abstract class GenericDAO<T> {
                 System.out.println("Not updated");
             }
         } finally {
-            this.close(pstm, (ResultSet)rs);
+            this.close(pstm,rs);
         }
 
     }
@@ -172,10 +145,10 @@ public abstract class GenericDAO<T> {
             pstm = con.prepareStatement(sql);
             switch (value.getClass().getSimpleName()) {
                 case "String":
-                    pstm.setString(1, (String)value);
+                    pstm.setString(1, (String) value);
                     break;
                 case "Integer":
-                    pstm.setInt(1, (Integer)value);
+                    pstm.setInt(1, (Integer) value);
                     break;
                 default:
                     throw new IllegalArgumentException("Can't find by field");
@@ -185,7 +158,7 @@ public abstract class GenericDAO<T> {
                 System.out.println("Not deleted");
             }
         } finally {
-            this.close(pstm, (ResultSet)rs);
+            this.close(pstm, rs);
         }
 
     }
@@ -203,23 +176,23 @@ public abstract class GenericDAO<T> {
                 case "String":
                     i = 0;
 
-                    while(true) {
+                    while (true) {
                         if (i >= values.length) {
                             break label96;
                         }
 
-                        pstm.setString(i + 1, (String)values[i]);
+                        pstm.setString(i + 1, (String) values[i]);
                         ++i;
                     }
                 case "Integer":
                     i = 0;
 
-                    while(true) {
+                    while (true) {
                         if (i >= values.length) {
                             break label96;
                         }
 
-                        pstm.setInt(i + 1, (Integer)values[i]);
+                        pstm.setInt(i + 1, (Integer) values[i]);
                         ++i;
                     }
                 default:
@@ -230,7 +203,7 @@ public abstract class GenericDAO<T> {
                 System.out.println("Not deleted");
             }
         } finally {
-            this.close(pstm, (ResultSet)rs);
+            this.close(pstm,rs);
         }
 
     }
@@ -239,7 +212,7 @@ public abstract class GenericDAO<T> {
         if (pstm != null) {
             try {
                 pstm.close();
-            } catch (SQLException var5) {
+            } catch (SQLException ex) {
                 System.out.println("Cant close!!!");
             }
         }
@@ -247,7 +220,7 @@ public abstract class GenericDAO<T> {
         if (rs != null) {
             try {
                 rs.close();
-            } catch (SQLException var4) {
+            } catch (SQLException ex) {
                 System.out.println("Cant close!!!");
             }
         }

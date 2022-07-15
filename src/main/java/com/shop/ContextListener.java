@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebListener;
 public class ContextListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent sce) {
-        String path = sce.getServletContext().getRealPath("WEB-INF/log4j.log");
+        String path = sce.getServletContext().getRealPath("WEB-INF/");
         System.setProperty("log4j.path", path);
 
         try {

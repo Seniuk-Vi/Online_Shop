@@ -30,62 +30,53 @@ public class ProductDao extends GenericDAO<Product> {
     }
 
     public double getMinPrice(Connection con) {
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
+        PreparedStatement pstm ;
+        ResultSet rs ;
         int min = 0;
-
         try {
             pstm = con.prepareStatement(SQL_GET_MIN_PRICE);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 min = rs.getInt(1);
             }
-
             pstm.close();
             rs.close();
         } catch (SQLException var6) {
             var6.printStackTrace();
         }
-
-        return (double)min;
+        return min;
     }
 
     public double getMaxPrice(Connection con) {
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
+        PreparedStatement pstm ;
+        ResultSet rs ;
         int max = 0;
-
         try {
             pstm = con.prepareStatement(SQL_GET_MAX_PRICE);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 max = rs.getInt(1);
             }
-
             pstm.close();
             rs.close();
         } catch (SQLException var6) {
             var6.printStackTrace();
         }
-
-        return (double)max;
+        return max;
     }
 
     public List<Product> findAll(Connection con) throws SQLException {
-        List<Product> list = this.findAll(con, SQL_GET_ALL_PRODUCTS);
-        return list;
+        return this.findAll(con, SQL_GET_ALL_PRODUCTS);
     }
 
     public List<Product> findAllPagination(Connection con, int limit, int offset) throws SQLException {
-        List<Product> list = this.findAllPagination(con, SQL_GET_PRODUCTS_PAG, limit, offset);
-        return list;
+        return this.findAllPagination(con, SQL_GET_PRODUCTS_PAG, limit, offset);
     }
 
     public int getRowsCount(Connection con, String category, int priceMin, int priceMax, String search) {
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
+        PreparedStatement pstm;
+        ResultSet rs;
         int count = 0;
-
         try {
             pstm = con.prepareStatement(SQL_GET_NUMBER_OF_ROWS);
             String searchT = "%" + search + "%";
@@ -99,7 +90,6 @@ public class ProductDao extends GenericDAO<Product> {
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-
             pstm.close();
             rs.close();
             return count;
@@ -128,7 +118,6 @@ public class ProductDao extends GenericDAO<Product> {
             pstm.setInt(k++, offset);
             System.out.println(pstm);
             rs = pstm.executeQuery();
-
             while(rs.next()) {
                 list.add(this.mapToEntity(rs));
             }
@@ -143,7 +132,6 @@ public class ProductDao extends GenericDAO<Product> {
                     System.out.println("Cant close!!!");
                 }
             }
-
             if (rs != null) {
                 try {
                     rs.close();
@@ -153,7 +141,6 @@ public class ProductDao extends GenericDAO<Product> {
             }
 
         }
-
         return list;
     }
 
@@ -188,7 +175,6 @@ public class ProductDao extends GenericDAO<Product> {
         pstmt.setInt(k++, product.getInStock());
         pstmt.setString(k++, product.getCategory());
         pstmt.setString(k++, product.getCondition());
-        System.out.println("mapFromEntity product ==> " + pstmt);
     }
 
     protected Product mapToEntity(ResultSet rs) throws SQLException {
@@ -202,7 +188,6 @@ public class ProductDao extends GenericDAO<Product> {
         product.setInStock(rs.getInt("in_stock"));
         product.setCategory(rs.getString("category"));
         product.setCondition(rs.getString("state"));
-        System.out.println(product);
         return product;
     }
 }

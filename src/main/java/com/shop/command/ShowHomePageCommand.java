@@ -4,6 +4,8 @@ import com.shop.db.dao.CategoryDao;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Category;
 import com.shop.models.entity.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowHomePageCommand implements Command {
     private final int recordsPerPage = 8;
+    Logger logger = LogManager.getLogger(CategoryDao.class);
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "homePage.jsp";

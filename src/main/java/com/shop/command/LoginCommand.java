@@ -40,6 +40,7 @@ public class LoginCommand implements Command {
                 System.out.println("user ==> " + user);
                 req.getSession().setAttribute("currentUser", user);
                 req.getSession().setAttribute("userLocale", user.getLocale());
+                req.getSession().setAttribute("userLocale", user.getLocale());
                 Map<Product, OrderItem> cart = new HashMap();
                 if (req.getSession().getAttribute("cart") == null) {
                     req.getSession().setAttribute("cart", cart);

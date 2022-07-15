@@ -26,7 +26,7 @@ public class UpdateUserDataCommand implements Command {
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");
         String locale = req.getParameter("locale");
-        Map<String, String> registrationAttributes = new HashMap();
+        Map<String, String> registrationAttributes = new HashMap<>();
         if (!Validation.isLoginValid(login)) {
             registrationAttributes.put("loginMessage", "2-20 length, only characters and digits");
             System.out.println("password don't valid");
@@ -57,15 +57,16 @@ public class UpdateUserDataCommand implements Command {
             return passAttributesToSession(req, resp, registrationAttributes);
         }
         req.getSession().setAttribute("currentUser", user);
+        req.getSession().setAttribute("userLocale", user.getLocale());
         return address;
     }
 
 
     private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) {
-        Iterator iterator = viewAttributes.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> iterator = viewAttributes.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry) iterator.next();
-            request.getSession().setAttribute((String) entry.getKey(), entry.getValue());
+            Map.Entry<String, String> entry = iterator.next();
+            request.getSession().setAttribute( entry.getKey(), entry.getValue());
         }
         return "user.jsp";
     }

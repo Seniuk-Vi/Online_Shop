@@ -48,12 +48,13 @@ public class EditOrderStatusCommand implements Command {
                 con.setAutoCommit(false);
                 Order order = orderDao.findById(con, orderId);
                 order.setStatus(status);
+                System.out.println("Order ==> "+order);
                 if (status.equals("canceled")) {
                     List<OrderItem> orderItemList = orderItemDao.findByOrderId(con, orderId);
-                    Iterator it = orderItemList.iterator();
+                    Iterator<OrderItem> it = orderItemList.iterator();
 
                     while(it.hasNext()) {
-                        OrderItem orderItem = (OrderItem)it.next();
+                        OrderItem orderItem =it.next();
                         Product product = productDao.findById(con, orderItem.getProductId());
                         product.setInStock(product.getInStock() + orderItem.getQuantity());
                         System.out.println("product updated ==> " + product);

@@ -25,8 +25,7 @@ public class OrderDao extends GenericDAO<Order> {
     }
 
     public List<Order> findAll(Connection con) throws SQLException {
-        List<Order> list = this.findAll(con, this.SQL_GET_ALL_ORDERS);
-        return list;
+        return this.findAll(con, this.SQL_GET_ALL_ORDERS);
     }
 
     public Order findById(Connection con, int id) throws SQLException {
@@ -34,12 +33,11 @@ public class OrderDao extends GenericDAO<Order> {
         if (list.isEmpty()) {
             throw new SQLException("Can't find order by id");
         } else {
-            return (Order)list.get(0);
+            return list.get(0);
         }
     }
 
     public List<Order> findByUserId(Connection con, int id) throws SQLException {
-        System.out.println("User id = " + id);
         List<Order> list = this.findByField(con, SQL_FIND_BY_USER_ID, id);
         if (list.isEmpty()) {
             throw new SQLException("Can't find order by user id");
@@ -64,8 +62,7 @@ public class OrderDao extends GenericDAO<Order> {
         int k = 1;
         pstmt.setInt(k++, order.getUserId());
         pstmt.setString(k++, order.getStatus());
-        pstmt.setString(k++, order.getOrderDate().toString());
-        System.out.println(pstmt);
+        pstmt.setString(k++, order.getOrderDate());
     }
 
     protected Order mapToEntity(ResultSet rs) throws SQLException {
@@ -74,7 +71,6 @@ public class OrderDao extends GenericDAO<Order> {
         order.setUserId(rs.getInt("user_id"));
         order.setStatus(rs.getString("status"));
         order.setOrderDate(rs.getString("order_date"));
-        System.out.println(order);
         return order;
     }
 }

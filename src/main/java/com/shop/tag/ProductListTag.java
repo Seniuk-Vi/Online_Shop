@@ -11,19 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductListTag extends SimpleTagSupport {
-    //Sample 01: Define the books as a collection
-    @SuppressWarnings("rawtypes")
-    ArrayList products;
 
-    //FragAT 01: TitlePrice
-    JspFragment print_product;
+    ArrayList<Product> products;
 
-    @SuppressWarnings("rawtypes")
-    public ArrayList getProducts() {
+
+    public ArrayList<Product>  getProducts() {
         return products;
     }
-    @SuppressWarnings("rawtypes")
-    public void setProducts(ArrayList products) {
+    public void setProducts(ArrayList<Product>  products) {
         this.products = products;
     }
 
@@ -31,10 +26,9 @@ public class ProductListTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jc = getJspContext();
-        for(Object obj : products)
+        for(var obj : products)
         {
-            Product product = (Product) obj;
-            jc.setAttribute("OneProduct", product);
+            jc.setAttribute("OneProduct", obj);
             getJspBody().invoke(null);
         }
     }

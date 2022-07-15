@@ -26,8 +26,7 @@ public class UserDao extends GenericDAO<User> {
     }
 
     public List<User> findAll(Connection con) throws SQLException {
-        List<User> list = this.findAll(con, SQL_GET_ALL_USERS);
-        return list;
+        return this.findAll(con, SQL_GET_ALL_USERS);
     }
 
     public User findByLogin(Connection con, String login) throws SQLException {
@@ -44,7 +43,7 @@ public class UserDao extends GenericDAO<User> {
         if (list.isEmpty()) {
             throw new SQLException("Can't find by email");
         } else {
-            return (User)list.get(0);
+            return list.get(0);
         }
     }
 
@@ -53,7 +52,7 @@ public class UserDao extends GenericDAO<User> {
         if (list.isEmpty()) {
             throw new SQLException("Can't find by id");
         } else {
-            return (User)list.get(0);
+            return list.get(0);
         }
     }
 
@@ -79,7 +78,6 @@ public class UserDao extends GenericDAO<User> {
         pstmt.setInt(k++, user.getRole());
         pstmt.setString(k++, user.getPassword());
         pstmt.setString(k++, user.getLocale());
-        System.out.println(pstmt);
     }
 
     protected User mapToEntity(ResultSet rs) throws SQLException {
@@ -93,7 +91,6 @@ public class UserDao extends GenericDAO<User> {
         user.setRole(rs.getInt("role"));
         user.setPassword(rs.getString("password"));
         user.setLocale(rs.getString("locale"));
-        System.out.println(user);
         return user;
     }
 }

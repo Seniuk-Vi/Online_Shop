@@ -7,6 +7,9 @@ package com.shop.db.dao;
 
 import com.shop.db.DbException;
 import com.shop.models.entity.Category;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,9 +22,9 @@ public class CategoryDao extends GenericDAO<Category> {
     public static final String SQL_ADD_CATEGORY = "INSERT INTO category (category) VALUES(?)";
     public static final String SQL_UPDATE_CATEGORY = "UPDATE category SET category=? WHERE category = ?";
     public static final String SQL_DELETE_CATEGORY = "DELETE * FROM category WHERE category = ?";
-
     public List<Category> findAll(Connection con) {
-        List<Category> list = new ArrayList();
+
+        List<Category> list = new ArrayList<>();
         try {
             list = this.findAll(con, this.SQL_GET_ALL_CATEGORIES);
         } catch (SQLException ex) {
@@ -45,13 +48,11 @@ public class CategoryDao extends GenericDAO<Category> {
     protected void mapFromEntity(PreparedStatement pstmt, Category category) throws SQLException {
         int k = 1;
         pstmt.setString(k++, category.getCategory());
-        System.out.println("mapFromEntity category ==> " + pstmt.toString());
     }
 
     protected Category mapToEntity(ResultSet rs) throws SQLException {
         Category category = new Category();
         category.setCategory(rs.getString("category"));
-        System.out.println("mapToEntity category ==> " + category);
         return category;
     }
 }

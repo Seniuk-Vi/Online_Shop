@@ -9,7 +9,7 @@ public class Order implements Serializable {
     private int id;
     private int userId;
     private String status;
-    private Date orderDate;
+    private String orderDate;
 
     public Order() {
     }
@@ -38,22 +38,12 @@ public class Order implements Serializable {
         this.status = status;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return this.orderDate;
     }
 
     public void setOrderDate(String orderDate) {
-        String sDate1 = orderDate;
-        Date date1 = null;
-
-        try {
-            date1 = (new SimpleDateFormat("dd/MM/yyyy")).parse(sDate1);
-        } catch (ParseException var5) {
-            System.out.println("Exception: can't parse String to Date");
-        }
-
-        System.out.println(sDate1 + "\t" + date1);
-        this.orderDate = date1;
+        this.orderDate = orderDate;
     }
 
     public String toString() {
