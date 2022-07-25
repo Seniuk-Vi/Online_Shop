@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.OrderDao;
 import com.shop.db.dao.OrderItemDao;
@@ -8,6 +9,7 @@ import com.shop.models.entity.Order;
 import com.shop.models.entity.OrderItem;
 import com.shop.models.entity.Product;
 import com.shop.models.entity.User;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -21,7 +23,7 @@ public class ShowOrdersCommand implements Command {
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "orders.jsp";
-        User user = (User)req.getSession().getAttribute("currentUser");
+        User user = (User) req.getSession().getAttribute("currentUser");
         if (user != null && user.getRole() == 1) {
             Connection con = DbHelper.getInstance().getConnection();
             OrderDao orderDao = new OrderDao();
@@ -31,7 +33,7 @@ public class ShowOrdersCommand implements Command {
             List<Order> orders;
             try {
                 orders = orderDao.findAll(con);
-            } catch (SQLException ex) {
+            } catch (DbException ex) {
                 System.out.println("Orders are empty");
                 req.getSession().setAttribute("errorMessage", "Orders are empty");
                 return address;
@@ -52,14 +54,17 @@ public class ShowOrdersCommand implements Command {
                         orderItemList = orderItemDao.findByOrderId(con, o.getId());
                         System.out.println("Order items ==> " + orderItemList);
                         orderItemList.forEach((l) -> {
+
+                            Product product = null;
                             try {
-                                Product product = productDao.findById(con, l.getProductId());
-                                maapp.put(l, product);
-                            } catch (SQLException ex) {
-                                throw new RuntimeException(ex);
+                                product = productDao.findById(con, l.getProductId());
+                            } catch (DbException e) {
+                                //todo
                             }
+                            maapp.put(l, product);
+
                         });
-                    } catch (SQLException ex) {
+                    } catch (DbException ex) {
                         DbHelper.getInstance().close(con);
                         throw new RuntimeException(ex);
                     }

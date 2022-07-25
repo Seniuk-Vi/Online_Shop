@@ -1,6 +1,7 @@
 package com.shop.command;
 
 import com.shop.Validation;
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.User;
@@ -49,12 +50,16 @@ public class UpdateUserDataCommand implements Command {
         user.setSurname(surname);
         user.setEmail(email);
         user.setLocale(locale);
-        try (Connection con = DbHelper.getInstance().getConnection()) {
+        Connection con=null;
+        try {
+            con = DbHelper.getInstance().getConnection();
             UserDao userDao = new UserDao();
             userDao.update(con, user, user);
-        } catch (SQLException ex) {
+        } catch (DbException ex) {
             registrationAttributes.put("loginMessage", "this login isn't available");
             return passAttributesToSession(req, resp, registrationAttributes);
+        } finally {
+            DbHelper.getInstance().close(con);
         }
         req.getSession().setAttribute("currentUser", user);
         req.getSession().setAttribute("userLocale", user.getLocale());

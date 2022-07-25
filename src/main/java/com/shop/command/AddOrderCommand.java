@@ -58,10 +58,10 @@ public class AddOrderCommand implements Command {
                     Map.Entry<Product, OrderItem> entry = (Map.Entry)iterator.next();
                     OrderItem orderItem = new OrderItem();
                     orderItem.setOrderId(orderId);
-                    orderItem.setQuantity(((OrderItem)entry.getValue()).getQuantity());
-                    orderItem.setProductId(((Product)entry.getKey()).getId());
-                    Product product = productDao.findById(con, ((Product)entry.getKey()).getId());
-                    product.setInStock(product.getInStock() - ((OrderItem)entry.getValue()).getQuantity());
+                    orderItem.setQuantity((entry.getValue()).getQuantity());
+                    orderItem.setProductId((entry.getKey()).getId());
+                    Product product = productDao.findById(con, (entry.getKey()).getId());
+                    product.setInStock(product.getInStock() - (entry.getValue()).getQuantity());
                     if (product.getInStock() < 0) {
                         String title = product.getTitle();
                         throw new IllegalArgumentException("No available product in stock: " + title + ", In stock = " + product.getInStock() + ((OrderItem)entry.getValue()).getQuantity());
@@ -77,7 +77,7 @@ public class AddOrderCommand implements Command {
                 req.getSession().removeAttribute("cart");
                 req.getSession().setAttribute("cart", cart);
                 address = "homePage.jsp";
-            } catch (Exception ex) {
+            } catch (DbException| SQLException ex) {
                 try {
                     con.rollback();
                     con.close();

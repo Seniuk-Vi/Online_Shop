@@ -39,20 +39,19 @@ public class AddProductCommand implements Command {
         Part filePart;
         try {
             filePart = req.getPart("image_url");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ServletException e) {
+        } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         System.out.println(fileName);
-        InputStream fileContent = null;
+        InputStream fileContent;
         try {
             fileContent = filePart.getInputStream();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String imageAddress = (String)req.getSession().getAttribute("path");
+        String imageAddress = (String) req.getServletContext().getAttribute("path");
+//        String imageAddress = (String)req.getSession().getAttribute("path");
         imageAddress = imageAddress + fileName;
         System.out.println("address ==> " + imageAddress);
         try {

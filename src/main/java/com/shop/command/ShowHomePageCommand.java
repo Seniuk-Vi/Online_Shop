@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.CategoryDao;
 import com.shop.db.dao.ProductDao;
@@ -20,8 +21,8 @@ public class ShowHomePageCommand implements Command {
 
         ProductDao productDao = new ProductDao();
         Connection con = DbHelper.getInstance().getConnection();
-        List<Product> table;
-        List<Category> categories;
+        List<Product> table=null;
+        List<Category> categories = null;
         CategoryDao categoryDao = new CategoryDao();
         int maxPrice = (int) productDao.getMaxPrice(con);
         int minPrice = (int) productDao.getMinPrice(con);
@@ -29,15 +30,18 @@ public class ShowHomePageCommand implements Command {
         req.getSession().setAttribute("priceMin", minPrice);
         try {
             categories = categoryDao.findAll(con);
-            table = this.selection(req, con, maxPrice, minPrice);
-        } finally {
+            table = selection(req, con, maxPrice, minPrice);
+        } catch (DbException ex){
+            // todo
+        }finally {
             try {
                 con.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
-        if (table.isEmpty()) {
+
+        if (table != null&&table.isEmpty()) {
             req.getSession().setAttribute("errorMessage", "No results for you");
         }
         System.out.println(table);
@@ -46,7 +50,7 @@ public class ShowHomePageCommand implements Command {
         return address;
     }
 
-    private List<Product> selection(HttpServletRequest req, Connection con, int maxPrice, int minPrice) {
+    private List<Product> selection(HttpServletRequest req, Connection con, int maxPrice, int minPrice) throws DbException {
         ProductDao productDao = new ProductDao();
         String category = req.getParameter("category");
         String priceMinS = req.getParameter("priceMin");

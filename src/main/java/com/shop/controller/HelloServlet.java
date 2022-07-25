@@ -1,5 +1,6 @@
 package com.shop.controller;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.db.dao.UserDao;
@@ -30,7 +31,7 @@ public class HelloServlet extends HttpServlet {
         List<Product> table = null;
         try {
             table = productDao.findAll(con);
-        } catch (SQLException e) {
+        } catch (DbException e) {
             throw new RuntimeException(e);
         }
         try {

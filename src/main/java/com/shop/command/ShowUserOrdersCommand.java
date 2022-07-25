@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.OrderDao;
 import com.shop.db.dao.OrderItemDao;
@@ -33,7 +34,7 @@ public class ShowUserOrdersCommand implements Command {
 
             try {
                 orders = orderDao.findByUserId(con, user.getId());
-            } catch (SQLException ex) {
+            } catch (DbException ex) {
                 System.out.println("You don't have any orders");
                 req.getSession().setAttribute("errorMessage", "You don't have any orders");
                 return address;
@@ -52,11 +53,11 @@ public class ShowUserOrdersCommand implements Command {
                         try {
                             Product product = productDao.findById(con, l.getProductId());
                             maapp.put(l, product);
-                        } catch (SQLException ex) {
+                        } catch (DbException ex) {
                             throw new RuntimeException(ex);
                         }
                     });
-                } catch (SQLException ex) {
+                } catch (DbException ex) {
                     DbHelper.getInstance().close(con);
                     throw new RuntimeException(ex);
                 }

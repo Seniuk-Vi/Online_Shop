@@ -2,14 +2,20 @@ package com.shop.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.apache.log4j.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class DbHelper {
-    DataSource ds;
+    final static Logger logger = Logger.getLogger(DbHelper.class);
+
     private static DbHelper INSTANCE;
+    private static Context ctx;
+    private static Context  initCtx;
+    private static   DataSource ds;
+
 
     private DbHelper() {
     }
@@ -17,23 +23,26 @@ public class DbHelper {
     public static synchronized DbHelper getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new DbHelper();
+            try {
+                ctx = new InitialContext();
+                initCtx = (Context)ctx.lookup("java:/comp/env");
+                ds = (DataSource)initCtx.lookup("jdbc/shop");
+            } catch (NamingException e) {
+                logger.fatal("Can't initialize INSTANCE ==> "+e.getMessage());
+                throw new RuntimeException("Can't initialize INSTANCE ==> ",e);
+            }
         }
 
         return INSTANCE;
     }
 
     public Connection getConnection() {
-        Connection c = null;
-
+        Connection c ;
         try {
-            Context ctx = new InitialContext();
-            Context initCtx = (Context)ctx.lookup("java:/comp/env");
-            DataSource ds = (DataSource)initCtx.lookup("jdbc/shop");
             c = ds.getConnection();
-        } catch (NamingException ex) {
-            ex.printStackTrace();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            logger.fatal("Can't getConnection",ex);
+            throw new RuntimeException("Can't initialize INSTANCE ==> ",ex);
         }
         return c;
     }
@@ -42,7 +51,6 @@ public class DbHelper {
         try {
             con.close();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
+            logger.info("Can't close Connection",ex);}
     }
 }

@@ -1,6 +1,7 @@
 package com.shop.command.admin;
 
 import com.shop.command.Command;
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.User;
@@ -22,7 +23,7 @@ public class UnblockUserCommand implements Command {
             user.setRole(1);
             userDao.update(con, user, user);
             address = "controller?command=showUsers";
-        } catch (SQLException ex) {
+        } catch (DbException ex) {
             ex.printStackTrace();
         }
 

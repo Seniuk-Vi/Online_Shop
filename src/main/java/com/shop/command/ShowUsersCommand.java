@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.User;
@@ -18,7 +19,7 @@ public class ShowUsersCommand implements Command {
 
         try {
             table = userDao.findAll(con);
-        } catch (SQLException ex) {
+        } catch (DbException ex) {
             System.out.println("Can't show all users");
             req.getSession().setAttribute("errorMessage", "Can't show all users");
             return "error.jsp";

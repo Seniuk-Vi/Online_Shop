@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.enterprise.context.ApplicationScoped;
+import javax.naming.Context;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -19,6 +21,8 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         // initialization log4j
         ServletContext context = sce.getServletContext();
+        context.setAttribute("path",sce.getServletContext().getRealPath("images/"));
+      //  req.getSession().setAttribute("path", sce.getServletContext().getRealPath("images/"));
 
         try {
             DbHelper.getInstance().getConnection().close();
@@ -45,4 +49,5 @@ public class ContextListener implements ServletContextListener {
         locales.list(System.out);
 
     }
+
 }

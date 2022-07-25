@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.OrderItem;
@@ -18,10 +19,10 @@ public class DeleteProductFromCartCommand implements Command {
         Integer product_id = Integer.valueOf(req.getParameter("product_id"));
         ProductDao productDao = new ProductDao();
         Connection con = DbHelper.getInstance().getConnection();
-        Product product = null;
+        Product product ;
         try {
             product = productDao.findById(con, product_id);
-        } catch (SQLException e) {
+        } catch (DbException e) {
             req.getSession().setAttribute("errorMessage","Can't delete this product");
             return address;
         }

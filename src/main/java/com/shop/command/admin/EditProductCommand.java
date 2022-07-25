@@ -7,6 +7,7 @@ package com.shop.command.admin;
 
 import com.shop.Validation;
 import com.shop.command.Command;
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Product;
@@ -63,8 +64,8 @@ public class EditProductCommand implements Command {
         Product product = new Product();
         try {
             product = productDao.findById(con, Integer.parseInt(productId));
-        } catch (SQLException var27) {
-            var27.printStackTrace();
+        } catch (DbException ex) {
+            ex.printStackTrace();
         }
         product.setTitle(title);
         product.setDescription(description);
@@ -76,10 +77,10 @@ public class EditProductCommand implements Command {
         try {
             productDao.update(con, product, product);
             req.getSession().setAttribute("info", "product has changed");
-        } catch (SQLException var25) {
+        } catch (DbException ex) {
             req.getSession().setAttribute("info", "product has not changed");
             System.out.println("Can't update product ==> " + product);
-            var25.printStackTrace();
+            ex.printStackTrace();
         } finally {
             try {
                 con.close();

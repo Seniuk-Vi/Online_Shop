@@ -34,9 +34,7 @@ public class Controller extends HttpServlet {
         Command command;
         command = CommandContainer.getCommand(commandName);
         System.out.println("command ==> " + command);
-        if (commandName.equals("addProduct")) {
-            req.getSession().setAttribute("path", this.getServletContext().getRealPath("images/"));
-        }
+
         try {
             address = command.execute(req, resp);
         } catch (Exception ex) {

@@ -76,20 +76,19 @@ public class RegistrationCommand implements Command {
                 try {
                     if (userDao.findByLogin(con, login) != null) {
                         registrationAttributes.put("loginMessage", "login isn't available");
-                        return this.passAttributesToSession(req, resp, registrationAttributes);
+                        return passAttributesToSession(req, resp, registrationAttributes);
                     }
-                } catch (SQLException var21) {
-                    System.out.println(var21.getMessage());
+                } catch (DbException ex) {
+                    System.out.println(ex.getMessage());
                 }
 
                 try {
                     if (userDao.findByEmail(con, email) != null) {
-                        System.out.println("test2");
                         registrationAttributes.put("emailMessage", "email isn't available");
                         return this.passAttributesToSession(req, resp, registrationAttributes);
                     }
-                } catch (SQLException var20) {
-                    System.out.println(var20.getMessage());
+                } catch (DbException ex) {
+                    System.out.println(ex.getMessage());
                 }
 
                 try {
@@ -112,14 +111,14 @@ public class RegistrationCommand implements Command {
 
                 try {
                     user = userDao.findByLogin(con, login);
-                } catch (SQLException var18) {
+                } catch (DbException ex) {
                     req.getSession().setAttribute("fatalError", "Fatal login error");
                     return "error.jsp";
                 }
 
                 try {
                     con.close();
-                } catch (SQLException var17) {
+                } catch (SQLException ex) {
                 }
                 session = req.getSession(true);
                 session.setAttribute("currentUser", user);

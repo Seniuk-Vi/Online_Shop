@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.OrderItem;
@@ -29,7 +30,7 @@ public class LoginCommand implements Command {
             try {
                 User user = userDao.findByLogin(con, login);
                 if (!user.getPassword().equals(password)) {
-                    throw new SQLException();
+                    throw new DbException("");
                 }
                 if (user.getRole() == 2) {
                     req.getSession().setAttribute("login", login);
@@ -46,7 +47,7 @@ public class LoginCommand implements Command {
                     req.getSession().setAttribute("cart", cart);
                 }
                 return "homePage.jsp";
-            } catch (SQLException ex) {
+            } catch (DbException ex) {
                 req.getSession().setAttribute("login", login);
                 System.out.println("Illegal login or password!");
                 req.getSession().setAttribute("errorMessage", "Illegal login or password!");

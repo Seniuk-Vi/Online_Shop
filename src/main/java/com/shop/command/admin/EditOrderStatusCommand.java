@@ -6,6 +6,7 @@
 package com.shop.command.admin;
 
 import com.shop.command.Command;
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.OrderDao;
 import com.shop.db.dao.OrderItemDao;
@@ -14,6 +15,7 @@ import com.shop.models.entity.Order;
 import com.shop.models.entity.OrderItem;
 import com.shop.models.entity.Product;
 import com.shop.models.entity.User;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -28,7 +30,7 @@ public class EditOrderStatusCommand implements Command {
         String address = "controller?command=showOrders";
         ProductDao productDao = new ProductDao();
         req.getSession().removeAttribute("errorMessage");
-        User admin = (User)req.getSession().getAttribute("currentUser");
+        User admin = (User) req.getSession().getAttribute("currentUser");
         if (admin == null) {
             req.getSession().setAttribute("errorMessage", "You must firstly login");
             return "login.jsp";
@@ -48,13 +50,13 @@ public class EditOrderStatusCommand implements Command {
                 con.setAutoCommit(false);
                 Order order = orderDao.findById(con, orderId);
                 order.setStatus(status);
-                System.out.println("Order ==> "+order);
+                System.out.println("Order ==> " + order);
                 if (status.equals("canceled")) {
                     List<OrderItem> orderItemList = orderItemDao.findByOrderId(con, orderId);
                     Iterator<OrderItem> it = orderItemList.iterator();
 
-                    while(it.hasNext()) {
-                        OrderItem orderItem =it.next();
+                    while (it.hasNext()) {
+                        OrderItem orderItem = it.next();
                         Product product = productDao.findById(con, orderItem.getProductId());
                         product.setInStock(product.getInStock() + orderItem.getQuantity());
                         System.out.println("product updated ==> " + product);
@@ -64,7 +66,7 @@ public class EditOrderStatusCommand implements Command {
 
                 orderDao.update(con, order, order);
                 con.commit();
-            } catch (SQLException ex) {
+            } catch (DbException | SQLException ex) {
                 try {
                     con.rollback();
                 } catch (SQLException exx) {
@@ -79,7 +81,7 @@ public class EditOrderStatusCommand implements Command {
                 try {
                     con.close();
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                  //todo log
                 }
             }
 

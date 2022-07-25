@@ -1,10 +1,12 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.OrderItem;
 import com.shop.models.entity.Product;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +41,7 @@ public class AddToCartCommand implements Command {
             con.close();
             req.getSession().removeAttribute("cart");
             req.getSession().setAttribute("cart", orderItems);
-        } catch (Exception ex) {
+        } catch (DbException | SQLException ex) {
             System.out.println("Can't add to cart ==> " + orderItem);
             address = "/";
             req.getSession().setAttribute("errorMessageCart", "Can't add to cart!!");

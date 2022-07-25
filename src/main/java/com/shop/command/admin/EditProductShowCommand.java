@@ -6,6 +6,7 @@
 package com.shop.command.admin;
 
 import com.shop.command.Command;
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.CategoryDao;
 import com.shop.db.dao.ProductDao;
@@ -31,7 +32,7 @@ public class EditProductShowCommand implements Command {
         try {
             categories = categoryDao.findAll(con);
             product = productDao.findById(con, Integer.parseInt(productId));
-        } catch (SQLException ex) {
+        } catch (DbException ex) {
             ex.printStackTrace();
         }
 

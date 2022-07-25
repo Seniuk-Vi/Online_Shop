@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Product;
@@ -30,7 +31,7 @@ public class ShowProductCommand implements Command {
         try {
             product = productDao.findById(con, Integer.parseInt(productId));
             req.getSession().setAttribute("showProduct", product);
-        } catch (SQLException e) {
+        } catch (DbException e) {
             return returnError(req, errorMessage, errorAddress);
         }
         return address;

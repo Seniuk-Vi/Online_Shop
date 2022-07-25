@@ -6,7 +6,10 @@
 package com.shop.db.dao;
 
 import com.shop.db.DbException;
+import com.shop.models.entity.Category;
 import com.shop.models.entity.Product;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao extends GenericDAO<Product> {
+    final static Logger logger = Logger.getLogger(ProductDao.class);
+
     public String SQL_GET_ALL_PRODUCTS = "SELECT * FROM product";
-    public String SQL_GET_PRODUCTS_PAG = "SELECT * FROM product LIMIT ? OFFSET ?";
     public String SQL_GET_PRODUCTS = "SELECT * FROM product WHERE category like ? AND  title LIKE ? AND price BETWEEN ? AND ? ORDER BY CHANGE CHAANGE LIMIT ? OFFSET ? ";
     public String SQL_GET_NUMBER_OF_ROWS = "SELECT COUNT(*) FROM product WHERE category like ? AND  title LIKE ? AND price BETWEEN ? AND ? ";
     public String SQL_GET_MIN_PRICE = "SELECT min(price) FROM product";
@@ -26,12 +30,9 @@ public class ProductDao extends GenericDAO<Product> {
     public static final String SQL_UPDATE_PRODUCT = "UPDATE product SET title=?, description=?, price=?, image_url=?, model_year=?, in_stock=?,category=?,state=?WHERE id = ?";
     public static final String SQL_DELETE_BY_ID = "DELETE FROM product WHERE id = ?";
 
-    public ProductDao() {
-    }
-
     public double getMinPrice(Connection con) {
-        PreparedStatement pstm ;
-        ResultSet rs ;
+        PreparedStatement pstm;
+        ResultSet rs;
         int min = 0;
         try {
             pstm = con.prepareStatement(SQL_GET_MIN_PRICE);
@@ -39,17 +40,16 @@ public class ProductDao extends GenericDAO<Product> {
             if (rs.next()) {
                 min = rs.getInt(1);
             }
-            pstm.close();
-            rs.close();
-        } catch (SQLException var6) {
-            var6.printStackTrace();
+            close(pstm, rs);
+        } catch (SQLException ex) {
+            logger.info("Can't getMinPrice");
         }
         return min;
     }
 
     public double getMaxPrice(Connection con) {
-        PreparedStatement pstm ;
-        ResultSet rs ;
+        PreparedStatement pstm;
+        ResultSet rs;
         int max = 0;
         try {
             pstm = con.prepareStatement(SQL_GET_MAX_PRICE);
@@ -57,24 +57,26 @@ public class ProductDao extends GenericDAO<Product> {
             if (rs.next()) {
                 max = rs.getInt(1);
             }
-            pstm.close();
-            rs.close();
-        } catch (SQLException var6) {
-            var6.printStackTrace();
+            close(pstm, rs);
+        } catch (SQLException ex) {
+            logger.info("Can't getMinPrice");
         }
         return max;
     }
 
-    public List<Product> findAll(Connection con) throws SQLException {
-        return this.findAll(con, SQL_GET_ALL_PRODUCTS);
+    public List<Product> findAll(Connection con) throws DbException {
+        List<Product> list;
+        try {
+            list = findAll(con, SQL_GET_ALL_PRODUCTS);
+        } catch (DbException e) {
+            logger.error("Can't find all products");
+            throw new DbException("Can't find all products", e);
+        }
+        return list;
     }
 
-    public List<Product> findAllPagination(Connection con, int limit, int offset) throws SQLException {
-        return this.findAllPagination(con, SQL_GET_PRODUCTS_PAG, limit, offset);
-    }
-
-    public int getRowsCount(Connection con, String category, int priceMin, int priceMax, String search) {
-        PreparedStatement pstm;
+    public int getRowsCount(Connection con, String category, int priceMin, int priceMax, String search) throws DbException {
+        PreparedStatement pstm = null;
         ResultSet rs;
         int count = 0;
         try {
@@ -85,24 +87,22 @@ public class ProductDao extends GenericDAO<Product> {
             pstm.setString(k++, searchT);
             pstm.setInt(k++, priceMin);
             pstm.setInt(k++, priceMax);
-            System.out.println(pstm);
             rs = pstm.executeQuery();
             if (rs.next()) {
                 count = rs.getInt(1);
             }
-            pstm.close();
-            rs.close();
-            return count;
-        } catch (SQLException var11) {
-            throw new RuntimeException(var11);
+            close(pstm, rs);
+        } catch (SQLException ex) {
+            logger.error("Can't getRowsCount, SQL ==> " + pstm);
+            throw new DbException("Can't get the page count");
         }
+        return count;
     }
 
-    public List<Product> findAllWithSelect(Connection con, int limit, int offset, String category, int priceMin, int priceMax, String order, String way, String search) {
-        List<Product> list = new ArrayList();
+    public List<Product> findAllWithSelect(Connection con, int limit, int offset, String category, int priceMin, int priceMax, String order, String way, String search) throws DbException {
+        List<Product> list = new ArrayList<>();
         PreparedStatement pstm = null;
         ResultSet rs = null;
-
         try {
             String SQL = SQL_GET_PRODUCTS;
             SQL = SQL.replace("CHANGE", order);
@@ -116,65 +116,50 @@ public class ProductDao extends GenericDAO<Product> {
             pstm.setInt(k++, priceMax);
             pstm.setInt(k++, limit);
             pstm.setInt(k++, offset);
-            System.out.println(pstm);
             rs = pstm.executeQuery();
-            while(rs.next()) {
-                list.add(this.mapToEntity(rs));
+            while (rs.next()) {
+                list.add(mapToEntity(rs));
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            System.out.println("error in getting products");
+            logger.error("Can't findAllWithSelect, SQL ==> " + pstm);
+            throw new DbException("Error when receiving products", ex);
         } finally {
-            if (pstm != null) {
-                try {
-                    pstm.close();
-                } catch (SQLException ex) {
-                    System.out.println("Cant close!!!");
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    System.out.println("Cant close!!!");
-                }
-            }
-
+            close(pstm, rs);
         }
         return list;
     }
 
-    public Product findById(Connection con, int id) throws SQLException {
-        List<Product> list = this.findByField(con, SQL_FIND_BY_ID, id);
+    public Product findById(Connection con, int id) throws DbException {
+        List<Product> list = findByField(con, SQL_FIND_BY_ID, id);
         if (list.isEmpty()) {
-            throw new SQLException("Can't find product by id");
-        } else {
-            return (Product)list.get(0);
+            return null;
         }
+        return list.get(0);
     }
 
     public void add(Connection con, Product product) throws DbException {
-        this.add(con, SQL_ADD_PRODUCT, product);
+        add(con, SQL_ADD_PRODUCT, product);
     }
 
-    public void update(Connection con, Product product, Product newProduct) throws SQLException {
-        this.updateByField(con, SQL_UPDATE_PRODUCT, newProduct, 9, product.getId());
+    public void update(Connection con, Product product, Product newProduct) throws DbException {
+        updateByField(con, SQL_UPDATE_PRODUCT, newProduct, 9, product.getId());
     }
 
-    public void deleteById(Connection con, int product) throws SQLException {
-        this.deleteByField(con, SQL_DELETE_BY_ID, product);
+    public void deleteById(Connection con, int product) throws DbException {
+        deleteByField(con, SQL_DELETE_BY_ID, product);
     }
 
-    protected void mapFromEntity(PreparedStatement pstmt, Product product) throws SQLException {
+    protected void mapFromEntity(PreparedStatement pstm, Product product) throws SQLException {
         int k = 1;
-        pstmt.setString(k++, product.getTitle());
-        pstmt.setString(k++, product.getDescription());
-        pstmt.setDouble(k++, product.getPrice());
-        pstmt.setString(k++, product.getImageUrl());
-        pstmt.setInt(k++, product.getModelYear());
-        pstmt.setInt(k++, product.getInStock());
-        pstmt.setString(k++, product.getCategory());
-        pstmt.setString(k++, product.getCondition());
+        pstm.setString(k++, product.getTitle());
+        pstm.setString(k++, product.getDescription());
+        pstm.setDouble(k++, product.getPrice());
+        pstm.setString(k++, product.getImageUrl());
+        pstm.setInt(k++, product.getModelYear());
+        pstm.setInt(k++, product.getInStock());
+        pstm.setString(k++, product.getCategory());
+        pstm.setString(k++, product.getCondition());
+        logger.info("PreparedStatement ==>" + pstm);
     }
 
     protected Product mapToEntity(ResultSet rs) throws SQLException {
@@ -188,6 +173,7 @@ public class ProductDao extends GenericDAO<Product> {
         product.setInStock(rs.getInt("in_stock"));
         product.setCategory(rs.getString("category"));
         product.setCondition(rs.getString("state"));
+        logger.info("Product ==>" + product);
         return product;
     }
 }
