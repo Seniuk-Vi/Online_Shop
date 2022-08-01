@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <taglib
         xmlns="http://java.sun.com/xml/ns/j2ee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
-        version="2.0"
->
+        version="2.0">
+
     <tlib-version>1.0</tlib-version>
     <short-name>ctg</short-name>
     <uri>Online_Shop/EmptyColTag</uri>
-    
     <tag>
         <name>emptyColTag</name>
         <tag-class>com.shop.tag.EmptyColTag</tag-class>
@@ -18,18 +16,15 @@
             <name>iterations</name>
             <required>true</required>
         </attribute>
-
     </tag>
     <tag>
         <name>ProductList</name>
         <tag-class>com.shop.tag.ProductListTag</tag-class>
-        <!-- //TagFile 04: Change Body Content as Scriptless. Prev. Line Commented  -->
         <body-content>scriptless</body-content>
         <attribute>
             <name>products</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
-        <!-- //TagFile 05: Moved the Fragement to Tagfile-->
     </tag>
 </taglib>

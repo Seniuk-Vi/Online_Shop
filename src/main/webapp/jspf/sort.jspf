@@ -31,8 +31,5 @@
         <span>Search: </span>
         <input type="search" name="search" placeholder="search" value="${search}">
         <input type="submit" value="Ok">
-
     </form>
-
-
 </div>

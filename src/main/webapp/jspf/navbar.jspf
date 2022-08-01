@@ -2,7 +2,6 @@
     <div class="container">
         <div class="header_inner">
             <a class="logo" href="/Online_Shop/">Shop</a>
-
             <nav>
                 <c:if test="${pageContext.request.requestURL== 'http://localhost:8080/Online_Shop/'}">
                     <a class="nav_link_hold" href="/Online_Shop/">Main</a>
@@ -32,7 +31,6 @@
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
-
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/userOrders.jsp'}">
                     <a class="nav_link" href="/Online_Shop/">Main</a>
                     <a class="nav_link" href="controller?command=showHomePage">Products</a>
@@ -55,8 +53,6 @@
                         <c:out value="0"/>
                     </c:if>
                 </a>
-
-
                 <c:if test="${empty currentUser}">
                     <a class="nav_link" href="login.jsp">Login</a>
                     <a class="nav_link" href="registration.jsp">Sign Up</a>
@@ -70,7 +66,6 @@
                         </c:forEach>
                     </select>
                 </form>
-
             </nav>
         </div>
     </div>

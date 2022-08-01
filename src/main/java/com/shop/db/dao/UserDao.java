@@ -53,10 +53,10 @@ public class UserDao extends GenericDAO<User> {
      */
     public User findByEmail(Connection con, String email) throws DbException {
         List<User> list = this.findByField(con, SQL_FIND_BY_EMAIL, email);
-        if (list.isEmpty()) {
-            throw new DbException("Can't find by email");
-        } else {
+        if (!list.isEmpty()) {
             return list.get(0);
+        } else {
+            return null;
         }
     }
     /**
@@ -67,10 +67,11 @@ public class UserDao extends GenericDAO<User> {
      */
     public User findById(Connection con, int id) throws DbException {
         List<User> list = this.findByField(con, SQL_FIND_BY_ID, id);
-        if (list.isEmpty()) {
+        if (!list.isEmpty()) {
+            return list.get(0);
+        } else {
             return null;
         }
-            return list.get(0);
 
     }
 
@@ -86,16 +87,18 @@ public class UserDao extends GenericDAO<User> {
         deleteByField(con, SQL_DELETE_BY_ID, user.getId());
     }
 
-    protected void mapFromEntity(PreparedStatement pstmt, User user) throws SQLException {
+    protected void mapFromEntity(PreparedStatement pstm, User user) throws SQLException {
         int k = 1;
-        pstmt.setString(k++, user.getLogin());
-        pstmt.setString(k++, user.getName());
-        pstmt.setString(k++, user.getSurname());
-        pstmt.setInt(k++, user.getPhoneNumber());
-        pstmt.setString(k++, user.getEmail());
-        pstmt.setInt(k++, user.getRole());
-        pstmt.setString(k++, user.getPassword());
-        pstmt.setString(k++, user.getLocale());
+        pstm.setString(k++, user.getLogin());
+        pstm.setString(k++, user.getName());
+        pstm.setString(k++, user.getSurname());
+        pstm.setInt(k++, user.getPhoneNumber());
+        pstm.setString(k++, user.getEmail());
+        pstm.setInt(k++, user.getRole());
+        pstm.setString(k++, user.getPassword());
+        pstm.setString(k++, user.getLocale());
+        logger.info("PreparedStatement ==>"+pstm);
+
     }
 
     protected User mapToEntity(ResultSet rs) throws SQLException {
@@ -109,6 +112,7 @@ public class UserDao extends GenericDAO<User> {
         user.setRole(rs.getInt("role"));
         user.setPassword(rs.getString("password"));
         user.setLocale(rs.getString("locale"));
+        logger.info("Order ==>"+user);
         return user;
     }
 }

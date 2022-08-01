@@ -12,12 +12,8 @@
     <a href="addCategory.jsp">add category</a>
 </c:if>
 <div class="row">
-<%--    <c:forEach items="${products}" var="row">--%>
-<%--        <%@include file="/jspf/product.jspf" %>--%>
-<%--    </c:forEach>--%>
     <ctg:ProductList products="${products}">
         <tg:ProductTag  row="${OneProduct}"></tg:ProductTag>
     </ctg:ProductList>
-
 </div>
 <c:remove var="errorMessage"></c:remove>

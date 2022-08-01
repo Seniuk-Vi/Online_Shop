@@ -106,8 +106,6 @@
                     <a class="nav_link" href="login.jsp">Login</a>
                     <a class="nav_link" href="registration.jsp">Sign Up</a>
                 </c:if>
-
-
                 <a href="displayCart.jsp" class="nav_link">Cart:
                     <c:if test="${cart.size() > 0}">
                         <c:out value="${cart.size()}"/>
@@ -116,7 +114,6 @@
                         <c:out value="0"/>
                     </c:if>
                 </a>
-
                 <form class="nav_link" action="changeLocale.jsp" method="post">
                     <input type="hidden" name="prevPage" value="${pageContext.request.requestURL}">
                     <select onchange="this.form.submit()" name="locale">

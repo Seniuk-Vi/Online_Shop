@@ -3,9 +3,7 @@
 <head>
     <title>User</title>
     <%@include file="/jspf/head.jspf" %>
-
 </head>
-
 <body class="main">
 <div class="container">
     <c:if test="${currentUser.role == 1}">
@@ -29,7 +27,6 @@
         </select><span>${localeMessage}</span>
         <input type="submit" value="change user data"><br>
     </form>
-
     <a href="controller?command=showUserOrders">Your Orders</a><br>
     <a href="controller?command=logout">Logout</a>
     ${errorMessage}

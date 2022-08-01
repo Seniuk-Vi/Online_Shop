@@ -15,7 +15,7 @@ public class Validation {
     }
 
     public static boolean isPasswordCorrect(String password) {
-        return password == null ? false : password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,25}$");
+        return password != null && password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,25}$");
     }
 
     public static boolean isEmailValid(String email) {
@@ -39,7 +39,7 @@ public class Validation {
     }
 
     public static boolean isPhoneValid(String phoneNumber) {
-        return phoneNumber == null ? false : phoneNumber.matches("^[0-9]{8,10}$");
+        return phoneNumber != null && phoneNumber.matches("^[0-9]{8,10}$");
     }
 
     public static boolean isTitleValid(String name) {

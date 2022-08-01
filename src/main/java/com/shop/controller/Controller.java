@@ -17,17 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 public class Controller extends HttpServlet {
 
     final static Logger logger = Logger.getLogger(Controller.class);
+    final static String error = "Error from jsp";
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doPost(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("MyServlet's doGet() called");
-        logger.error("MyServlet's doGet() called");
-        logger.fatal("MyServlet's doGet() called");
-        logger.info("MyServlet's doGet() called");
-        logger.info("MyServlet's doGet() called");
-        logger.info("MyServlet's doGet() called");
         String address = "error.jsp";
         String commandName = req.getParameter("command");
         Command command;
@@ -35,6 +30,7 @@ public class Controller extends HttpServlet {
         try {
             address = command.execute(req, resp);
         } catch (Exception ex) {
+            logger.error(error,ex);
             req.getSession().setAttribute("errorMessage", ex.getMessage());
         }
         resp.sendRedirect(address);

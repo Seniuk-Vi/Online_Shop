@@ -108,9 +108,7 @@ public class AddProductCommand implements Command {
             req.getSession().setAttribute("errorMessage", "Can't add product!!");
             address = "addProduct.jsp";
         }
-
         return address;
-
     }
 
     private String passAttributesToSession(HttpServletRequest request, HttpServletResponse response, Map<String, String> viewAttributes) {

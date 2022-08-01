@@ -6,7 +6,6 @@
 </head>
 <body class="main">
 <div class="container">
-
     <c:if test="${currentUser.role == 1}">
         <%@include file="/jspf/adminNavbar.jspf" %>
         <br>
@@ -17,7 +16,6 @@
     <c:if test="${currentUser.role != 1}">
         <%@include file="/jspf/navbar.jspf" %>
         <br>
-
         <%@include file="/jspf/sort.jspf" %>
         <br>
         <%@include file="/jspf/products.jspf" %>
@@ -38,7 +36,6 @@
                     </form>
                 </li>
             </c:if>
-
             <c:forEach begin="1" end="${noOfPages}" var="i">
                 <c:choose>
                     <c:when test="${currentPage eq i}">

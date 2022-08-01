@@ -1,5 +1,4 @@
 <%@include file="/jspf/header.jspf" %>
-
 <html>
 <head>
     <title>Main</title>
@@ -21,10 +20,7 @@
         </div>
     </div>
     <p><fmt:message key="index_jsp.link.settings"/> </p>
-
-
     ${userLocale}
-
 </div>
 </div>
 </body>

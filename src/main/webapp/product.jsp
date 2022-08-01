@@ -4,13 +4,13 @@
     <title>${showProduct.title}</title>
     <%@include file="/jspf/head.jspf" %>
     <c:if test="${empty products}">
-        <c:redirect url="controller?command=showHomePage"></c:redirect>
+        <c:redirect url="controller?command=showHomePage"/>
     </c:if>
 </head>
 <body class="main">
 <div class="container">
     <c:if test="${empty showProduct}">
-        <c:redirect url="controller?command=showHomePage"></c:redirect>
+        <c:redirect url="controller?command=showHomePage"/>
     </c:if>
     <script src="${pageContext.request.contextPath}/js/script.js"></script>
     <c:if test="${currentUser.role == 1}">
@@ -20,15 +20,10 @@
         <%@include file="/jspf/navbar.jspf" %>
     </c:if>
     <div class="containerP">
-        <!-- Left Column / Headphones Image -->
         <div class="left-column">
             <img data-image="black" src="${pageContext.request.contextPath}/images/${showProduct.imageUrl}" alt="">
         </div>
-
-        <!-- Right Column -->
         <div class="right-column">
-
-            <!-- Product Description -->
             <div class="product-description">
                 <span>${showProduct.category}</span>
                 <h1>${showProduct.title}</h1>
@@ -38,7 +33,6 @@
                 <span>In stock: ${showProduct.inStock}</span>
                 <p>${showProduct.description}</p>
             </div>
-            <!-- Product Pricing -->
             <div class="product-price">
                 <span>${showProduct.price}</span>
                 <form method="post" action="controller">
@@ -48,8 +42,6 @@
                 </form>
             </div>
         </div>
-
-
     </div>
 </div>
 </body>

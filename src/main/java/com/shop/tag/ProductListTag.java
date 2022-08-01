@@ -11,18 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductListTag extends SimpleTagSupport {
-
     ArrayList<Product> products;
-
-
     public ArrayList<Product>  getProducts() {
         return products;
     }
     public void setProducts(ArrayList<Product>  products) {
         this.products = products;
     }
-
-
     @Override
     public void doTag() throws JspException, IOException {
         JspContext jc = getJspContext();

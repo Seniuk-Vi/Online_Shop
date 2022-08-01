@@ -53,9 +53,7 @@ public class AddOrderCommand implements Command {
                 if (orderId == -1) {
                     throw new DbException();
                 }
-
                 order.setId(orderId);
-                System.out.println(orderItems);
                 Iterator<Map.Entry<Product, OrderItem>> iterator = orderItems.entrySet().iterator();
 
                 while(iterator.hasNext()) {
@@ -71,9 +69,7 @@ public class AddOrderCommand implements Command {
                         req.getSession().setAttribute("info","No available product in stock: " + title + ", In stock = " + product.getInStock() + entry.getValue().getQuantity());
                         return address;
                     }
-
                     productDao.update(con, product, product);
-                    System.out.println("trying add orderItem ==> " + orderItem);
                     orderItemDao.add(con, orderItem);
                 }
                 Map<Product, OrderItem> cart = new HashMap();

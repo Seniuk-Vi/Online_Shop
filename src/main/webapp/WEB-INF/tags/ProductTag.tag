@@ -6,7 +6,6 @@
         required="true"
         rtexprvalue="true"
 %>
-
 <div class="column">
     <div class="product-card">
         <div class="product-tumb">
@@ -19,7 +18,6 @@
                 <input type="hidden" name="product_id" value="${row.id}"/>
                 <a class="ttl-btn" onclick="this.parentNode.submit();"><h4>${row.title}</h4></a>
             </form>
-
             <p id="desc">${row.description}</p>
             <div class="product-bottom-details">
                 <div class="product-price">${row.price}</div>
@@ -38,7 +36,6 @@
                             <a onclick="this.parentNode.submit();">edit</a>
                         </form>
                     </c:if>
-
                 </div>
             </div>
         </div>

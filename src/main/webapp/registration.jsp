@@ -1,18 +1,13 @@
 <%@include file="/jspf/header.jspf" %>
-
 <html>
 <head>
     <title>Sign up</title>
     <%@include file="/jspf/head.jspf" %>
-
 </head>
-
 <body class="main">
 <div class="container">
-
     <script src="${pageContext.request.contextPath}/js/script.js"></script>
     <%@include file="/jspf/navbar.jspf" %>
-
     <form action="controller" method="post">
         <input type="hidden" name="command" value="registration">
         <br>

@@ -12,7 +12,6 @@
     <c:redirect url="homePage.jsp"/>
 </c:if>
 <br>
-
 <form action="controller" method="post" id="form" enctype="multipart/form-data">
     <input type="hidden" name = "command" value="editProduct" ><br>
     <input type="hidden" name = "product_id" value="${product.id}" ><br>
@@ -37,12 +36,10 @@
     <input type="number" name="state" min="1" max="10" placeholder="state(1-10)" value="${product.condition}" required><span>${stateMessage}</span><br>
     <input type="submit" value="change"><br>
 </form>
-
 <form action="controller" method="post">
     <input type="hidden" name="command" value="deleteProduct">
     <input type="hidden" name="product_id" value="${product.id}">
     <input type="submit" value="Delete product">
-
 </form>
 ${errorMessage}
 ${info}

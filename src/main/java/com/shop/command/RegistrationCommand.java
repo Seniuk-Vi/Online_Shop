@@ -84,7 +84,8 @@ public class RegistrationCommand implements Command {
                 return passAttributesToSession(req, resp, registrationAttributes);
             }
         } catch (DbException ex) {
-            req.getSession().setAttribute("fatalError",error505);
+            logger.error("login check failed");
+            req.getSession().setAttribute("fatalError", error505);
             return errorPage;
         }
 
@@ -94,10 +95,11 @@ public class RegistrationCommand implements Command {
                 return this.passAttributesToSession(req, resp, registrationAttributes);
             }
         } catch (DbException ex) {
-            req.getSession().setAttribute("fatalError",error505);
+            logger.error("email check failed");
+            req.getSession().setAttribute("fatalError", error505);
             return errorPage;
         }
-        logger.info("Trying to add user, Login ==> "+login+", Email ==> "+email);
+        logger.info("Trying to add user, Login ==> " + login + ", Email ==> " + email);
         try {
             User newUser = new User();
             newUser.setLogin(login);
@@ -109,7 +111,7 @@ public class RegistrationCommand implements Command {
             newUser.setLocale(locale);
             newUser.setRole(0);
             userDao.add(con, newUser);
-            logger.info("User was added ==> "+newUser);
+            logger.info("User was added ==> " + newUser);
         } catch (DbException ex) {
             registrationAttributes.put("LoginError", error);
             return passAttributesToSession(req, resp, registrationAttributes);
@@ -123,11 +125,7 @@ public class RegistrationCommand implements Command {
             return errorPage;
         }
 
-        try {
-            con.close();
-        } catch (SQLException ex) {
-            logger.error("Can't close con",ex);
-        }
+        DbHelper.getInstance().close(con);
         session = req.getSession();
         session.setAttribute("currentUser", user);
         session.setAttribute("userLocale", user.getLocale());
