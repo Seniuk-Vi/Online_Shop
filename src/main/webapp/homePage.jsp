@@ -1,7 +1,7 @@
 <%@include file="/jspf/header.jspf" %>
 <html>
 <head>
-    <title>Home page</title>
+    <title>Home</title>
     <%@include file="/jspf/head.jspf" %>
 </head>
 <body class="main">

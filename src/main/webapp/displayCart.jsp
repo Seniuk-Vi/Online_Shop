@@ -2,7 +2,7 @@
 
 <html >
 <head>
-  <title>Home page</title>
+  <title>Cart</title>
   <%@include file="/jspf/head.jspf" %>
 
 </head>

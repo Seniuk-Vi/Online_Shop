@@ -1,5 +1,6 @@
-package com.shop.command;
+package com.shop.command.admin;
 
+import com.shop.command.Command;
 import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.OrderDao;
@@ -8,73 +9,75 @@ import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Order;
 import com.shop.models.entity.OrderItem;
 import com.shop.models.entity.Product;
-import com.shop.models.entity.User;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowUserOrdersCommand implements Command {
-    final static Logger logger = Logger.getLogger(ShowUserOrdersCommand.class);
-    final String error = "Trying to enter orders page without signing in";
+public class ShowOrdersCommand implements Command {
+    final static Logger logger = Logger.getLogger(ShowOrdersCommand.class);
+    private final String error = "No orders yet";
     private final String itemError = "Can't get order items";
     private final String productError = "Can't get product";
-    final String message = "You don't have any orders";
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        String address = "user.jsp";
-        User user = (User) req.getSession().getAttribute("currentUser");
-        if (user == null) {
-            logger.error(error);
-            req.getSession().setAttribute("errorMessage", "You aren't logged in");
-            return "login.jsp";
-        }
+        String address = "orders.jsp";
         Connection con = DbHelper.getInstance().getConnection();
         OrderDao orderDao = new OrderDao();
         OrderItemDao orderItemDao = new OrderItemDao();
         ProductDao productDao = new ProductDao();
         List<Order> orders;
+        // get all orders
         try {
-            orders = orderDao.findByUserId(con, user.getId());
+            orders = orderDao.findAll(con);
         } catch (DbException ex) {
-            req.getSession().setAttribute("errorMessage", message);
+            logger.error("Can't show orders");
+            req.getSession().setAttribute("errorMessage", "Orders are empty");
             return address;
         }
-        Map<Order, Map<OrderItem, Product>> orderItems = new HashMap<>();
+        if (orders.isEmpty()) {
+            logger.error("Orders are empty");
+            req.getSession().setAttribute("errorMessage", "Orders are empty");
+            return address;
+        }
+        Map<Order, Map<OrderItem, Product>> orderItems = new TreeMap<>();
         orders.forEach((o) -> {
             List<OrderItem> orderItemList = new ArrayList<>();
+            // get order items
             try {
                 orderItemList = orderItemDao.findByOrderId(con, o.getId());
             } catch (DbException ex) {
-                logger.error(itemError);
+              logger.error(itemError,ex);
             }
+            // get products for order items
             Map<OrderItem, Product> map = new HashMap<>();
             orderItemList.forEach((l) -> {
+                Product product = null;
                 try {
-                    Product product = productDao.findById(con, l.getProductId());
+                    product = productDao.findById(con, l.getProductId());
+                } catch (DbException e) {
+                    logger.error(productError,e);
+                }
+                if(product!=null){
                     map.put(l, product);
-                } catch (DbException ex) {
-                    logger.error(productError);
                 }
             });
-            if (!map.isEmpty()) {
+            // check if not empty
+            if(!map.isEmpty()){
                 orderItems.put(o, map);
             }
         });
         DbHelper.getInstance().close(con);
-        if (orderItems.isEmpty()) {
-            req.getSession().setAttribute("errorMessage", message);
-        } else {
+        if(orderItems.isEmpty()){
+            req.getSession().setAttribute("errorMessage",error);
+        }else {
             req.getSession().setAttribute("orders", orderItems);
         }
-        req.getSession().setAttribute("orders", orderItems);
-        address = "userOrders.jsp";
+        address = "orders.jsp";
         return address;
+
 
     }
 }

@@ -9,7 +9,6 @@
 
 <body class="main">
 <div class="container">
-
     <c:if test="${empty orders}">
         <c:if test="${errorMessage != 'No orders yet'}">
             <c:redirect url="controller?command=showUserOrders"></c:redirect>

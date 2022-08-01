@@ -5,6 +5,7 @@ import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.UserDao;
 import com.shop.models.entity.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,47 +17,48 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UpdateUserDataCommand implements Command {
+    final static Logger logger = Logger.getLogger(UpdateUserDataCommand.class);
+    final String error = "this login or email isn't available";
+    final String info = "No user yet";
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "user.jsp";
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("currentUser");
-        System.out.println("session user ==> " + user);
+        // getting user input params
         String login = req.getParameter("login");
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");
         String locale = req.getParameter("locale");
         Map<String, String> registrationAttributes = new HashMap<>();
+        // validate user input params
         if (!Validation.isLoginValid(login)) {
             registrationAttributes.put("loginMessage", "2-20 length, only characters and digits");
-            System.out.println("password don't valid");
-            return this.passAttributesToSession(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         } else if (!Validation.isNameValid(name)) {
             registrationAttributes.put("nameMessage", "2-10 length, only characters");
-            System.out.println("name is required");
-            return this.passAttributesToSession(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         } else if (!Validation.isSurnameValid(surname)) {
             registrationAttributes.put("surnameMessage", "2-10 length, only characters");
-            System.out.println("surname must contain only characters (2-10)");
-            return this.passAttributesToSession(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         } else if (!Validation.isEmailValid(email)) {
             registrationAttributes.put("emailMessage", "email don't valid");
-            System.out.println("email don't valid");
-            return this.passAttributesToSession(req, resp, registrationAttributes);
+            return passAttributesToSession(req, resp, registrationAttributes);
         }
         user.setLogin(login);
         user.setName(name);
         user.setSurname(surname);
         user.setEmail(email);
         user.setLocale(locale);
-        Connection con=null;
+        Connection con = null;
         try {
             con = DbHelper.getInstance().getConnection();
             UserDao userDao = new UserDao();
             userDao.update(con, user, user);
         } catch (DbException ex) {
-            registrationAttributes.put("loginMessage", "this login isn't available");
+            registrationAttributes.put("loginMessage", error);
+            logger.error(error,ex);
             return passAttributesToSession(req, resp, registrationAttributes);
         } finally {
             DbHelper.getInstance().close(con);
@@ -71,7 +73,7 @@ public class UpdateUserDataCommand implements Command {
         Iterator<Map.Entry<String, String>> iterator = viewAttributes.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            request.getSession().setAttribute( entry.getKey(), entry.getValue());
+            request.getSession().setAttribute(entry.getKey(), entry.getValue());
         }
         return "user.jsp";
     }

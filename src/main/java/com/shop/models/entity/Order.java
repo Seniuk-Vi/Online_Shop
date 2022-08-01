@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Order implements Serializable {
+public class Order implements Serializable , Comparable<Order>{
     private int id;
     private int userId;
     private String status;
@@ -46,7 +46,17 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     public String toString() {
         return "Order{id=" + this.id + ", userId=" + this.userId + ", status='" + this.status + "', orderDate=" + this.orderDate + "}";
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        return (this.id - o.getId());
     }
 }

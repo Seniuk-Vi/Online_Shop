@@ -5,6 +5,8 @@ import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.OrderItem;
 import com.shop.models.entity.Product;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -13,41 +15,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddToCartCommand implements Command {
+    final static Logger logger = Logger.getLogger(AddProductCommand.class);
+    private final String error = "Can't add to cart";
+    private final String info = "This product is already in your cart";
+
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.getSession().removeAttribute("errorMessageCart");
-        String address = "homePage.jsp";
+        String address = "controller?command=showHomePage";
         OrderItem orderItem = new OrderItem();
         ProductDao productDao = new ProductDao();
         Connection con = DbHelper.getInstance().getConnection();
         int productId = Integer.parseInt(req.getParameter("product_id"));
         orderItem.setProductId(productId);
         orderItem.setQuantity(1);
-        System.out.println("OrderItem ==> " + orderItem);
-        Map<Product, OrderItem> orderItems = null;
-
+        Map<Product, OrderItem> orderItems;
         try {
-            orderItems = (Map)req.getSession().getAttribute("cart");
+            orderItems = (Map<Product, OrderItem>) req.getSession().getAttribute("cart");
             if (orderItems == null) {
                 orderItems = new HashMap();
             }
-
             Product product = productDao.findById(con, productId);
-            if (((Map)orderItems).get(product) == null) {
-                ((Map)orderItems).put(product, orderItem);
+            if (orderItems.get(product) == null) {
+                orderItems.put(product, orderItem);
             } else {
-                req.getSession().setAttribute("errorMessageCart", "This product is already in your cart");
+                logger.info(info);
+                req.getSession().setAttribute("errorMessageCart", info);
             }
-
-            con.close();
             req.getSession().removeAttribute("cart");
             req.getSession().setAttribute("cart", orderItems);
-        } catch (DbException | SQLException ex) {
-            System.out.println("Can't add to cart ==> " + orderItem);
-            address = "/";
-            req.getSession().setAttribute("errorMessageCart", "Can't add to cart!!");
+        } catch (DbException ex) {
+            req.getSession().setAttribute("errorMessageCart", error);
+        }finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                logger.error("Can't close Connection");
+            }
         }
-
-        System.out.println("orderItems ==> " + orderItems.toString());
         return address;
     }
 }

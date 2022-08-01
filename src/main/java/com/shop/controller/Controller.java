@@ -30,17 +30,13 @@ public class Controller extends HttpServlet {
         logger.info("MyServlet's doGet() called");
         String address = "error.jsp";
         String commandName = req.getParameter("command");
-        System.out.println("commandName ==> " + commandName);
         Command command;
         command = CommandContainer.getCommand(commandName);
-        System.out.println("command ==> " + command);
-
         try {
             address = command.execute(req, resp);
         } catch (Exception ex) {
             req.getSession().setAttribute("errorMessage", ex.getMessage());
         }
-        System.out.println("address ==> " + address);
         resp.sendRedirect(address);
     }
 }

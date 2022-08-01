@@ -1,7 +1,7 @@
 <%@include file="/jspf/header.jspf" %>
 <html>
 <head>
-    <title>Home page</title>
+    <title>${showProduct.title}</title>
     <%@include file="/jspf/head.jspf" %>
     <c:if test="${empty products}">
         <c:redirect url="controller?command=showHomePage"></c:redirect>

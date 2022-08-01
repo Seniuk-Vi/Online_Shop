@@ -1,11 +1,7 @@
 package com.shop.command;
 
-import com.shop.command.admin.BlockUserCommand;
-import com.shop.command.admin.DeleteProductCommand;
-import com.shop.command.admin.EditOrderStatusCommand;
-import com.shop.command.admin.EditProductCommand;
-import com.shop.command.admin.EditProductShowCommand;
-import com.shop.command.admin.UnblockUserCommand;
+import com.shop.command.admin.*;
+
 import java.util.HashMap;
 import java.util.Map;
 

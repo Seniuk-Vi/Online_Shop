@@ -29,7 +29,7 @@ public class DbHelper {
                 ds = (DataSource)initCtx.lookup("jdbc/shop");
             } catch (NamingException e) {
                 logger.fatal("Can't initialize INSTANCE ==> "+e.getMessage());
-                throw new RuntimeException("Can't initialize INSTANCE ==> ",e);
+                throw new ConException("Can't initialize INSTANCE ==> ",e);
             }
         }
 
@@ -42,15 +42,17 @@ public class DbHelper {
             c = ds.getConnection();
         } catch (SQLException ex) {
             logger.fatal("Can't getConnection",ex);
-            throw new RuntimeException("Can't initialize INSTANCE ==> ",ex);
+            throw new ConException("Can't initialize INSTANCE ==> ",ex);
         }
         return c;
     }
 
     public void close(Connection con) {
-        try {
-            con.close();
-        } catch (SQLException ex) {
-            logger.info("Can't close Connection",ex);}
+        if(con!=null){
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                logger.info("Can't close Connection",ex);}
+        }
     }
 }

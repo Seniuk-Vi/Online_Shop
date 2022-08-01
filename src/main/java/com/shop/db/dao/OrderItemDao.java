@@ -33,8 +33,7 @@ public class OrderItemDao extends GenericDAO<OrderItem> {
     public List<OrderItem> findByOrderId(Connection con, int id) throws DbException {
         List<OrderItem> list = findByField(con, SQL_FIND_BY_ORDER_ID, id);
         if (list.isEmpty()) {
-            logger.error("No order with this id ==>" + id);
-            throw new DbException("No order with this id ==>" + id);
+            logger.error("No order item with this id ==>" + id);
         }
         return list;
     }

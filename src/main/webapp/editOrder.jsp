@@ -1,8 +1,8 @@
 <%@include file="/jspf/header.jspf" %>
 
-<html lang="en">
+<html>
 <head>
-    <title>Home page</title>
+    <title>Order</title>
     <%@include file="/jspf/head.jspf" %>
 
 </head>

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Login</title>
+    <title>Sign up</title>
     <%@include file="/jspf/head.jspf" %>
 
 </head>

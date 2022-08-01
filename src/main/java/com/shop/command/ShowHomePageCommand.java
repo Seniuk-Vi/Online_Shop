@@ -6,6 +6,7 @@ import com.shop.db.dao.CategoryDao;
 import com.shop.db.dao.ProductDao;
 import com.shop.models.entity.Category;
 import com.shop.models.entity.Product;
+import org.apache.log4j.Logger;
 
 
 import java.sql.Connection;
@@ -15,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowHomePageCommand implements Command {
-
+    final static Logger logger = Logger.getLogger(ShowHomePageCommand.class);
+    private final String error = "Can't display store";
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String address = "homePage.jsp";
 
@@ -32,19 +34,19 @@ public class ShowHomePageCommand implements Command {
             categories = categoryDao.findAll(con);
             table = selection(req, con, maxPrice, minPrice);
         } catch (DbException ex){
-            // todo
+           req.getSession().setAttribute("fatalError",error505);
+           req.getSession().setAttribute("fatalErrorMessage",error);
         }finally {
             try {
                 con.close();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                logger.error("Can't close connection",ex);
             }
         }
 
         if (table != null&&table.isEmpty()) {
             req.getSession().setAttribute("errorMessage", "No results for you");
         }
-        System.out.println(table);
         req.getSession().setAttribute("categories", categories);
         req.getSession().setAttribute("products", table);
         return address;
@@ -96,11 +98,6 @@ public class ShowHomePageCommand implements Command {
         if (order.equals("null")) {
             order = "price(asc)";
         }
-        System.out.println("category ==> " + category);
-        System.out.println("minPriceS ==> " + minPriceS);
-        System.out.println("maxPriceS ==> " + maxPriceS);
-        System.out.println("order ==> " + order);
-        System.out.println("category ==> " + category);
         String way = "ASC";
         String sort;
         switch (order) {
@@ -133,16 +130,12 @@ public class ShowHomePageCommand implements Command {
         if (page != null) {
             currentPage = Integer.valueOf(page);
         }
-        System.out.println("currentPage ==> " + currentPage);
         int rowsCount = productDao.getRowsCount(con, category, minPriceS, maxPriceS, search);
-        System.out.println("rowsCount ==> " + rowsCount);
         int recordsPerPage = 8;
         int noOfPages = rowsCount / recordsPerPage;
         if (noOfPages * rowsCount % recordsPerPage > 0) {
-            System.out.println("numberOfPages ==> " + noOfPages);
             ++noOfPages;
         }
-        System.out.println("numberOfPages ==> " + noOfPages);
         if (currentPage == null) {
             currentPage = 1;
         }

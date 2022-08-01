@@ -1,7 +1,7 @@
 <%@include file="/jspf/header.jspf" %>
 <html>
 <head>
-  <title>Home page</title>
+  <title>Orders</title>
   <%@include file="/jspf/head.jspf" %>
 </head>
 <body class="main">
@@ -14,7 +14,6 @@
       ${errorMessage}
     </c:if>
   </c:if>
-  <script src="${pageContext.request.contextPath}/js/script.js"></script>
 
   <c:if test="${currentUser.role == 1}">
     <%@include file="/jspf/adminNavbar.jspf" %>
@@ -27,6 +26,8 @@
   <%@include file="/jspf/allOrders.jspf" %>
   <br>
   <c:remove var="errorMessage"></c:remove>
+  <script src="${pageContext.request.contextPath}/js/script.js"></script>
+
 </div>
 </body>
 </html>
