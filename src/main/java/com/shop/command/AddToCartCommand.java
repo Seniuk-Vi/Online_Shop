@@ -1,5 +1,6 @@
 package com.shop.command;
 
+import com.shop.command.admin.AddProductCommand;
 import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;

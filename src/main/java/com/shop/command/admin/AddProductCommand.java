@@ -1,7 +1,8 @@
 
-package com.shop.command;
+package com.shop.command.admin;
 
 import com.shop.Validation;
+import com.shop.command.Command;
 import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.ProductDao;
@@ -10,13 +11,11 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +67,7 @@ public class AddProductCommand implements Command {
         }
         // validate params
         if (!Validation.isTitleValid(title)) {
-            registrationAttributes.put("titleMessage", "2-10 length, title only letters");
+            registrationAttributes.put("titleMessage", "2-30 length");
             return passAttributesToSession(req, resp, registrationAttributes);
         }
         if (!Validation.isDescValid(description)) {

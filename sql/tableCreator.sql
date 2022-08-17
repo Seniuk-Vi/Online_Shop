@@ -1,5 +1,5 @@
 CREATE SCHEMA `shop` ;
-
+use shop;
 create table if not exists category
 (
     category varchar(45) not null

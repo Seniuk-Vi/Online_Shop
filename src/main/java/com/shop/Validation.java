@@ -43,7 +43,7 @@ public class Validation {
     }
 
     public static boolean isTitleValid(String name) {
-        return name != null && name.matches("[a-zA-Za-ö-w-я]{2,10}$");
+        return name != null && name.length()>1&&name.length()<31;
     }
 
     public static boolean isPriceValid(int price) {

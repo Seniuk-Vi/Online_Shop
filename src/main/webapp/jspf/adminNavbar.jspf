@@ -1,112 +1,112 @@
 <header class="header">
     <div class="container">
         <div class="header_inner">
-            <div class="logo">Shop</div>
+            <div class="logo"><fmt:message key="index_jsp.link.shop"/></div>
             <nav>
                 <c:if test="${pageContext.request.requestURL== 'http://localhost:8080/Online_Shop/'}">
-                    <a class="nav_link_hold" href="/Online_Shop/">Main</a>
-                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link_hold" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL== 'http://localhost:8080/Online_Shop/homePage.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL== 'http://localhost:8080/Online_Shop/showUsers.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link_hold" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link_hold" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL =='http://localhost:8080/Online_Shop/user.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/orders.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link_hold" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link_hold" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/userOrders.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link_hold" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/displayCart.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/addProduct.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/addCategory.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/editProduct.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${pageContext.request.requestURL=='http://localhost:8080/Online_Shop/product.jsp'}">
-                    <a class="nav_link" href="/Online_Shop/">Main</a>
-                    <a class="nav_link_hold" href="controller?command=showHomePage">Products</a>
-                    <a class="nav_link" href="controller?command=showUsers">Users</a>
-                    <a class="nav_link" href="controller?command=showOrders">Orders</a>
+                    <a class="nav_link" href="/Online_Shop/"><fmt:message key="index_jsp.link.main"/></a>
+                    <a class="nav_link_hold" href="controller?command=showHomePage"><fmt:message key="index_jsp.link.products"/></a>
+                    <a class="nav_link" href="controller?command=showUsers"><fmt:message key="index_jsp.link.users"/></a>
+                    <a class="nav_link" href="controller?command=showOrders"><fmt:message key="index_jsp.link.orders"/></a>
                     <c:if test="${not empty currentUser}">
                         <a class="nav_link" href="controller?command=showUser">${currentUser.name}</a>
                     </c:if>
                 </c:if>
                 <c:if test="${empty currentUser}">
-                    <a class="nav_link" href="login.jsp">Login</a>
-                    <a class="nav_link" href="registration.jsp">Sign Up</a>
+                    <a class="nav_link" href="login.jsp"><fmt:message key="index_jsp.link.login"/></a>
+                    <a class="nav_link" href="registration.jsp"><fmt:message key="index_jsp.link.signup"/></a>
                 </c:if>
-                <a href="displayCart.jsp" class="nav_link">Cart:
+                <a href="displayCart.jsp" class="nav_link"><fmt:message key="index_jsp.link.cart"/>:
                     <c:if test="${cart.size() > 0}">
                         <c:out value="${cart.size()}"/>
                     </c:if>

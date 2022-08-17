@@ -16,10 +16,15 @@
     </c:if>
     <form action="controller" method="post">
         <input type="hidden" name = "command" value="updateUserData"><br>
+        <p><fmt:message key="index_jsp.user.login"/></p>
         <input name="login" placeholder="login" value="${currentUser.login}"><span>${loginMessage}</span><br>
+        <p><fmt:message key="index_jsp.user.name"/></p>
         <input name="name" placeholder="name" value="${currentUser.name}"><span>${nameMessage}</span><br>
+        <p><fmt:message key="index_jsp.user.surname"/></p>
         <input name="surname" placeholder="surname" value="${currentUser.surname}"><span>${surnameMessage}</span><br>
+        <p><fmt:message key="index_jsp.user.email"/></p>
         <input  name="email" placeholder="email" value="${currentUser.email}"><span>${emailMessage}</span><br>
+        <p><fmt:message key="index_jsp.user.locale"/></p>
         <select name="locale" >
             <option selected value="${currentUser.locale}">${currentUser.locale}</option>
             <option value="en">en</option>

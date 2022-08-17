@@ -12,10 +12,7 @@ import com.shop.models.entity.User;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,7 +42,7 @@ public class ShowUserOrdersCommand implements Command {
             req.getSession().setAttribute("errorMessage", message);
             return address;
         }
-        Map<Order, Map<OrderItem, Product>> orderItems = new HashMap<>();
+        Map<Order, Map<OrderItem, Product>> orderItems = new TreeMap<>();
         orders.forEach((o) -> {
             List<OrderItem> orderItemList = new ArrayList<>();
             try {

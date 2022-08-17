@@ -19,7 +19,6 @@
             <a class="intro_btn" href="controller?command=showHomePage"><span class="flip">go</span></a>
         </div>
     </div>
-    <p><fmt:message key="index_jsp.link.settings"/> </p>
     ${userLocale}
 </div>
 </div>

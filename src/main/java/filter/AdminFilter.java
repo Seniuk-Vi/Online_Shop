@@ -21,6 +21,7 @@ import java.util.List;
 public class AdminFilter implements Filter {
     final static Logger logger = Logger.getLogger(AdminFilter.class);
     final String message = "Current path ==> ";
+    final String errorMessage = "Page not found";
     public static final String ADD_PRODUCT_PATH = "/addProduct.jsp";
     public static final String ADD_CATEGORY_PATH = "/addCategory.jsp";
     public static final String UPDATE_PRODUCT_PATH = "/editProduct.jsp";
@@ -39,6 +40,7 @@ public class AdminFilter implements Filter {
             User user = (User) req.getSession().getAttribute("currentUser");
             if (user == null || user.getRole() != 1) {
                 try {
+                    req.getSession().setAttribute("errorMessage", errorMessage);
                     request.getRequestDispatcher(errorPage).forward(request, response);
                 } catch (ServletException | IOException e) {
                     throw new RuntimeException(e);

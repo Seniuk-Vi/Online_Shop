@@ -1,7 +1,7 @@
-package com.shop.command;
+package com.shop.command.admin;
 
 import com.shop.Validation;
-import com.shop.command.admin.UnblockUserCommand;
+import com.shop.command.Command;
 import com.shop.db.DbException;
 import com.shop.db.DbHelper;
 import com.shop.db.dao.CategoryDao;
