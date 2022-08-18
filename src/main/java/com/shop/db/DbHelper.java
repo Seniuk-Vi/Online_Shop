@@ -2,7 +2,9 @@ package com.shop.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.apache.log4j.Logger;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,8 +15,8 @@ public class DbHelper {
 
     private static DbHelper INSTANCE;
     private static Context ctx;
-    private static Context  initCtx;
-    private static   DataSource ds;
+    private static Context initCtx;
+    private static DataSource ds;
 
 
     private DbHelper() {
@@ -25,11 +27,11 @@ public class DbHelper {
             INSTANCE = new DbHelper();
             try {
                 ctx = new InitialContext();
-                initCtx = (Context)ctx.lookup("java:/comp/env");
-                ds = (DataSource)initCtx.lookup("jdbc/shop");
+                initCtx = (Context) ctx.lookup("java:/comp/env");
+                ds = (DataSource) initCtx.lookup("jdbc/shop");
             } catch (NamingException e) {
-                logger.fatal("Can't initialize INSTANCE ==> "+e.getMessage());
-                throw new ConException("Can't initialize INSTANCE ==> ",e);
+                logger.fatal("Can't initialize INSTANCE ==> " + e.getMessage());
+                throw new ConException("Can't initialize INSTANCE ==> ", e);
             }
         }
 
@@ -37,22 +39,23 @@ public class DbHelper {
     }
 
     public Connection getConnection() {
-        Connection c ;
+        Connection c;
         try {
             c = ds.getConnection();
         } catch (SQLException ex) {
-            logger.fatal("Can't getConnection",ex);
-            throw new ConException("Can't initialize INSTANCE ==> ",ex);
+            logger.fatal("Can't getConnection", ex);
+            throw new ConException("Can't initialize INSTANCE ==> ", ex);
         }
         return c;
     }
 
     public void close(Connection con) {
-        if(con!=null){
+        if (con != null) {
             try {
                 con.close();
             } catch (SQLException ex) {
-                logger.info("Can't close Connection",ex);}
+                logger.info("Can't close Connection", ex);
+            }
         }
     }
 }
