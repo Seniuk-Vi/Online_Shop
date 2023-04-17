@@ -1,6 +1,20 @@
 # Online_Shop
 Technologies: Java, Servlets, MYSQL
 
+During training, I created a Servlets web project with MVC structure:
+* Connected MySQL DB with JDBC API, also added connection pool to it
+* Implemented Internationalization (en, uk)
+* Used Command, Singleton Design Pattern
+* Used Apache Tomcat as a servlet container
+* Worked with JSP, used tags from JSTL and created my own tags (custom tag library, tag file)
+* Implemented PRG
+* Userd filters, sessions, listeners
+* Authentication and authorization, delineation of access rights of system users to program components are implemented
+* Used log4j logging utility
+* Added validation to all field and covered some code with tests
+* Implemented pagination
+* Added custom exceptions to pass normal error messages to client
+
 Інтернет магазин
 
 Магазин має каталог Товарів, для якого необхідно реалізувати можливість:
